@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shestays.she_stays_proj.mapper.UserMapper">
+    <resultMap id ="UserInfoMap" type="com.shestays.she_stays_proj.entity.User">
+        <result column="user_id" property="userId"/>
+        <result column="user_name" property="userName"/>
+        <result column="password" property="password"/>
+        <result column="user_no" property="userNo"/>
+        <result column="email" property="email"/>
+        <result column="phone" property="phone"/>
+        <result column="house_id" property="houseId"/>
+        <result column="avatar_url" property="avatarUrl"/>
+        <result column="wechat_id" property="wechatId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="is_delete" property="isDelete"/>
+        <result column="nation_id" property="nationId"/>
+        <result column="city_id" property="cityId"/>
+        <result column="bd_year" property="bdYear"/>
+        <result column="bd_month" property="bdMonth"/>
+        <result column="bd_day" property="bdDay"/>
+        <result column="gender_dict_code" property="genderDictCode"/>
+        <result column="genderDictVal" property="genderDictVal"/>
+        <result column="personal_profile" property="personalProfile"/>
+        <association property="roles" column="user_id" select="getRoles" autoMapping="true">
+
+        </association>
+    </resultMap>
+
+    <resultMap id ="getRoles" type="com.shestays.she_stays_proj.entity.Role">
+        <result column="role_id" property="roleId"/>
+        <result column="role_dict_code" property="roleDictCode"/>
+        <result column="role_desc" property="roleDesc"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="is_delete" property="isDelete"/>
+    </resultMap>
+
+    <select id="getUserInfoByWechatId" resultMap="UserInfoMap" parameterType="java.lang.String">
+    SELECT user.*,(select dict_nm from ss_dict_data where dict_type='dict_gender' and dict_code=user.gender_dict_code) as genderDictVal
+    FROM SheStays.ss_user user 
+    where wechat_id= #{wechatId}
+    </select>
+
+    <select id="getRoles" resultMap="getRoles">
+        select * from SheStays.ss_role where role_id in (
+            select role_id from ss_permission where user_id=#{user_id}
+        )
+    </select>
+
+</mapper>

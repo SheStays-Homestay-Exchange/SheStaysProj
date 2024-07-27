@@ -1,0 +1,56 @@
+server:
+  port: 9090
+  #forward-headers-strategy: true
+  undertow:
+    io-threads: 2
+    worker-threads: 36
+    buffer-size: 1024
+    directBuffers: true
+  servlet:
+    session:
+      timeout: 86400
+
+spring:
+  application:
+    name: she_stays_proj
+    transaction:
+    rollback-on-commit-failure: true
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    #MySql配置
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://122.51.248.243:3306/SheStays
+    username: root
+    password: NewRoot!23$
+  thymeleaf:
+    mode: HTML5
+    cache: false
+    prefix: classpath:/templates/
+    encoding: UTF-8
+    suffix: .html
+    check-template-location: false
+  servlet:
+    multipart:
+      max-file-size: 2000MB
+      max-request-size: 2000MB
+  devtools:
+    restart:
+      enabled: true
+      additional-paths: src/main/java
+
+mybatis-plus:
+  mapper-locations: classpath:mapper/*Mapper.xml
+  type-aliases-package: com.shestays.she_stays_proj.entity
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: true
+
+logging:
+  file: 
+    name: logs/log.log
+  level:
+    root: info
+  
+jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+
