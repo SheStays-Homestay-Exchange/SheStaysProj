@@ -1,18 +1,19 @@
-package com.shestays.she_stays_proj.entity;
+package com.shestays.she_stays_proj.vo;
+
+import java.util.List;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.shestays.she_stays_proj.common.BaseEntity;
+import com.shestays.she_stays_proj.entity.Role;
 
 import lombok.Data;
 
 /**
- * 用户
+ * 用户vo实体
  */
 @Data
-@TableName("ss_user")
-public class User extends BaseEntity {
+public class UserVo extends BaseEntity {
     /**
      * 用户主键
      */
@@ -45,16 +46,24 @@ public class User extends BaseEntity {
     /**
      * 微信id
      */
-    private String wechatId;
+    private Integer wechatId;
 
     /**
      * 所在国家id
      */
     private Integer nationId;
     /**
+     * 国家名称
+     */
+    private String nationName;
+    /**
      * 所在城市
      */
     private Integer cityId;
+    /**
+     * 城市名称
+     */
+    private String cityName;
     /**
      * 出生年
      */
@@ -72,8 +81,15 @@ public class User extends BaseEntity {
      */
     private String genderDictCode;
     /**
+     * 性别字典名
+     */
+    private String genderDictVal;
+    /**
      * 个人简介
      */
     private String personalProfile;
-
+    /**
+     * 用户角色
+     */
+    private List<Role> roles;
 }

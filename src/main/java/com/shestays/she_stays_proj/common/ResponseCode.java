@@ -18,6 +18,10 @@ public enum ResponseCode {
      */
     ,NO_PERMISSIONS("401", "未授权")
     /**
+     * 请求参数异常
+     */
+    ,GET_PARAM_ERROR("402", "请求参数异常")
+    /**
      * 网关错误
      */
     ,BAD_GETWAY("502", "网关错误");

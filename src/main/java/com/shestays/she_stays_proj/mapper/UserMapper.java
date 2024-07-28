@@ -1,11 +1,10 @@
 package com.shestays.she_stays_proj.mapper;
 
-import java.util.List;
-
 import org.springframework.stereotype.Repository;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.shestays.she_stays_proj.entity.User;
+import com.shestays.she_stays_proj.vo.UserVo;
 
 @Repository
 public interface UserMapper extends BaseMapper<User> {
@@ -16,5 +15,14 @@ public interface UserMapper extends BaseMapper<User> {
      * @param wechatId
      * @return
      */
-    User getUserInfoByWechatId(String wechatId);
+    UserVo getUserInfoByWechatId(String wechatId);
+
+    /**
+     * 修改用户信息
+     * 
+     * @param user 用户信息实体
+     * @return 更新成功标识
+     */
+    int editUserData(User user);
+
 }

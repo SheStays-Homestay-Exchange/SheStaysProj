@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.shestays.she_stays_proj.mapper.UserMapper">
-    <resultMap id ="UserInfoMap" type="com.shestays.she_stays_proj.entity.User">
+    <resultMap id ="UserInfoMap" type="com.shestays.she_stays_proj.vo.UserVo">
         <result column="user_id" property="userId"/>
         <result column="user_name" property="userName"/>
         <result column="password" property="password"/>
         <result column="user_no" property="userNo"/>
         <result column="email" property="email"/>
         <result column="phone" property="phone"/>
-        <result column="house_id" property="houseId"/>
         <result column="avatar_url" property="avatarUrl"/>
         <result column="wechat_id" property="wechatId"/>
         <result column="create_time" property="createTime"/>
         <result column="update_time" property="updateTime"/>
         <result column="is_delete" property="isDelete"/>
         <result column="nation_id" property="nationId"/>
+        <result column="nationName" property="nationName"/>
         <result column="city_id" property="cityId"/>
+        <result column="cityName" property="cityName"/>
         <result column="bd_year" property="bdYear"/>
         <result column="bd_month" property="bdMonth"/>
         <result column="bd_day" property="bdDay"/>
@@ -37,7 +38,9 @@
     </resultMap>
 
     <select id="getUserInfoByWechatId" resultMap="UserInfoMap" parameterType="java.lang.String">
-    SELECT user.*,(select dict_nm from ss_dict_data where dict_type='dict_gender' and dict_code=user.gender_dict_code) as genderDictVal
+    SELECT user.*,(select dict_nm from ss_dict_data where dict_type='dict_gender' and dict_code=user.gender_dict_code) as genderDictVal,
+    (select nation_name from `SheStays`.`ss_nation` where  nation_id = user.nation_id) as nationName,
+    (select city_name from `SheStays`.`ss_city` where city_id= user.city_id) as cityName
     FROM SheStays.ss_user user 
     where wechat_id= #{wechatId}
     </select>
@@ -47,5 +50,25 @@
             select role_id from ss_permission where user_id=#{user_id}
         )
     </select>
+
+    <update id="editUserData" parameterType="com.shestays.she_stays_proj.entity.User">
+        UPDATE `SheStays`.`ss_user`
+        SET
+        `user_name` = #{userName},
+        `email` = #{email},
+        `phone` = #{phone},
+        `wechat_id` = #{wechatId},
+        `update_time` = now(),
+        `nation_id` = #{nationId},
+        `city_id` = #{cityId},
+        `bd_year` = #{bdYear},
+        `bd_month` = #{bdMonth},
+        `bd_day` = #{bdDay},
+        `gender_dict_code` = #{genderDictCode},
+        `personal_profile` = #{personalProfile}
+        WHERE `user_id` = #{userId}
+    </update>
+
+
 
 </mapper>

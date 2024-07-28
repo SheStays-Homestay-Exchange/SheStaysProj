@@ -2,8 +2,6 @@ package com.shestays.she_stays_proj.common;
 
 import java.io.Serializable;
 
-import com.alibaba.fastjson.JSONObject;
-
 import lombok.Data;
 
 /**

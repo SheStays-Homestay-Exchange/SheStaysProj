@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.alibaba.fastjson.JSONObject;
 import com.shestays.she_stays_proj.entity.User;
 import com.shestays.she_stays_proj.service.UserService;
+import com.shestays.she_stays_proj.vo.UserVo;
 
 @SpringBootTest
 public class UserServiceTest {
@@ -22,7 +23,7 @@ public class UserServiceTest {
     void getUserInfoByWechatIdTest() {
 
         String wechatId = "111";
-        User user = userService.getUserInfoByWechatId(wechatId);
+        UserVo user = userService.getUserInfoByWechatId(wechatId);
         JSONObject obj = new JSONObject();
         obj.put("data", user);
         log.info("user:::::" + obj.toJSONString());
