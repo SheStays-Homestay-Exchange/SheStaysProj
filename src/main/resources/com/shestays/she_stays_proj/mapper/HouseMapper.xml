@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shestays.she_stays_proj.mapper.HouseMapper">
+    <resultMap id="houseMap" type="com.shestays.she_stays_proj.vo.HouseVo">
+        <result column="house_id" property="houseId"/>
+        <result column="house_title" property="houseTitle"/>
+        <result column="home_page_img_url" property="homePageImgUrl"/>
+        <result column="house_amount" property="houseAmount"/>
+        <result column="describle" property="describle"/>
+        <result column="status_id" property="statusId"/>
+        <result column="start_time" property="startTime"/>
+        <result column="end_time" property="endTime"/>
+        <result column="country_id" property="countryId"/>
+        <result column="countryName" property="countryName"/>
+        <result column="city_id" property="cityId"/>
+        <result column="cityName" property="cityName"/>
+        <result column="region_id" property="regionId"/>
+        <result column="regionName" property="regionName"/>
+        <result column="detail_address" property="detailAddress"/>
+        <result column="unpass_reason" property="unpassReason"/>
+        <result column="user_id" property="userId"/>
+        <result column="continent_id" property="continentId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="is_delete" property="isDelete"/>
+    </resultMap>
+    <select id="getHouse" resultMap="houseMap" parameterType="java.lang.Integer">
+        SELECT house.*,nation.nation_name as countryName,region.region_name as regionName ,
+        city.city_name as cityName FROM SheStays.ss_house house
+        left join ss_nation nation on house.country_id = nation_id
+        left join ss_region region on region.region_id = house.region_id
+        left join ss_city city on city.city_id = house.city_id  
+        left join ss_status ss on ss.status_id = house.status_id
+        where is_delete = 0 and is_visible =1 and ss.status_code = '3'
+        limit #{pageIndex},50
+    </select>
+
+    <select id="getCount">
+        SELECT count(*) FROM SheStays.ss_house 
+    </select>
+
+    <select id="getHouseByRegion" resultMap="houseMap" parameterType="java.lang.String">
+        select * from (
+            SELECT house.*,nation.nation_name as countryName,region.region_name as regionName ,
+            city.city_name as cityName FROM SheStays.ss_house house
+            left join ss_nation nation on house.country_id = nation_id
+            left join ss_region region on region.region_id = house.region_id
+            left join ss_city city on city.city_id = house.city_id  
+            left join ss_status ss on ss.status_id = house.status_id
+        where is_delete = 0  and ss.status_code = 'online' ) temp where  
+        1=1
+        <if test="region != null and region!=''">
+        and countryName like CONCAT('%',#{region},'%') OR  cityName  like CONCAT('%',#{region},'%')
+        </if>
+        
+    </select>
+</mapper>   

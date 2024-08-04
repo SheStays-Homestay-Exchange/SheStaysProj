@@ -46,25 +46,41 @@ public class HouseVo extends BaseEntity {
     /**
      * 所在国家
      */
-    private Integer countId;
+    private Integer countryId;
+    /**
+     * 国家名称
+     */
+    private String countryName;
     /**
      * 所在城市
      */
     private Integer cityId;
     /**
+     * 城市名称
+     */
+    private String cityName;
+    /**
      * 所在区
      */
-    private Integer areaId;
+    private Integer regionId;
+    /**
+     * 所在区名称
+     */
+    private String regionName;
     /**
      * 详细地址
      */
-    private String detailArea;
+    private String detailAddress;
     /**
      * 审核不通过原因
      */
-    private Integer unpassReason;
+    private String unpassReason;
     /**
      * 用户id
      */
     private Integer userId;
+    /**
+     * 大洲id
+     */
+    private Integer continentId;
 }

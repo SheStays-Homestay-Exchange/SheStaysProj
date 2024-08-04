@@ -48,7 +48,7 @@ public class House extends BaseEntity {
     /**
      * 所在国家
      */
-    private Integer countId;
+    private Integer countryId;
     /**
      * 所在城市
      */
@@ -56,7 +56,7 @@ public class House extends BaseEntity {
     /**
      * 所在区
      */
-    private Integer areaId;
+    private Integer regionId;
     /**
      * 详细地址
      */

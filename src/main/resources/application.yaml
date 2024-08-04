@@ -50,6 +50,7 @@ logging:
     name: logs/log.log
   level:
     root: info
+    com.shestays.she_stays_proj.*.mapper: trace
   
 jackson:
     date-format: yyyy-MM-dd HH:mm:ss
