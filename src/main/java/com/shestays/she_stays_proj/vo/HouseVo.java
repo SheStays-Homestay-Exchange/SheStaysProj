@@ -36,6 +36,14 @@ public class HouseVo extends BaseEntity {
      */
     private Integer statusId;
     /**
+     * 审核状态
+     */
+    private String statusValue;
+    /**
+     * 审核状态code
+     */
+    private String statusCode;
+    /**
      * 开放开始时间
      */
     private Date startTime;
