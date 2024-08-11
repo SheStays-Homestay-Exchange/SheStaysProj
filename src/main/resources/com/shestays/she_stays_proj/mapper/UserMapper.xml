@@ -53,20 +53,47 @@
 
     <update id="editUserData" parameterType="com.shestays.she_stays_proj.entity.User">
         UPDATE `SheStays`.`ss_user`
-        SET
-        `user_name` = #{userName},
-        `email` = #{email},
-        `phone` = #{phone},
-        `wechat_id` = #{wechatId},
-        `update_time` = now(),
-        `nation_id` = #{nationId},
-        `city_id` = #{cityId},
-        `bd_year` = #{bdYear},
-        `bd_month` = #{bdMonth},
-        `bd_day` = #{bdDay},
-        `gender_dict_code` = #{genderDictCode},
-        `personal_profile` = #{personalProfile}
-        WHERE `user_id` = #{userId}
+        <set>
+            <if test="userName != null">
+                `user_name` = #{userName},
+            </if>
+            <if test="email != null">
+                `email` = #{email},
+            </if>
+            <if test="phone != null">
+                `phone` = #{phone},
+            </if>
+            <if test="wechatId != null">
+                `wechat_id` = #{wechatId},
+            </if>
+            <if test="nationId != null">
+                `nation_id` = #{nationId},
+            </if>
+            <if test="cityId != null">
+                `city_id` = #{cityId},
+            </if>
+            <if test="bdYear != null">
+                `bd_year` = #{bdYear},
+            </if>
+            <if test="bdMonth != null">
+                `bd_month` = #{bdMonth},
+            </if>
+            <if test="bdDay != null">
+                `bd_day` = #{bdDay},
+            </if>
+            <if test="genderDictCode != null">
+                `gender_dict_code` = #{genderDictCode},
+            </if>
+            <if test="personalProfile != null">
+                `personal_profile` = #{personalProfile},
+            </if>
+             `update_time` = now()
+              WHERE `user_id` = #{userId}
+        </set>
+        
+        
+        
+       
     </update>
 
 

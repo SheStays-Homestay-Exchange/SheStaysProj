@@ -113,7 +113,7 @@ public class HouseController {
     public ResponsePojo getUnderViewHouse() {
         ResponsePojo restPojo = new ResponsePojo();
         try {
-            List<HouseVo> rest = server.getUnderViewHouse(Constants.STATUS_UPLOADING);
+            List<HouseVo> rest = server.getUnderViewHouse(Constants.STATUS_UNDERVIEW);
             restPojo.setMsg(ResponseMsg.MSG_SUCCESS);
             restPojo.setCode(ResponseCode.SUCCESS.value);
             restPojo.setData(rest);

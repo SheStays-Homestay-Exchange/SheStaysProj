@@ -3,6 +3,7 @@ package com.shestays.she_stays_proj.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,7 +31,7 @@ public class UserController {
      * @param wechatId 微信id
      * @return 用户信息json数据
      */
-    @PostMapping("getUserInfoByWechatId")
+    @GetMapping("getUserInfoByWechatId")
     @ResponseJSONP
     public ResponsePojo getUserInfoByWechatId(String wechatId) {
         ResponsePojo responseBody = new ResponsePojo();
@@ -61,7 +62,7 @@ public class UserController {
 
     @PostMapping("editUserData")
     @ResponseJSONP
-    public ResponsePojo editUserData(@RequestBody UserVo userData) {
+    public ResponsePojo editUserData(UserVo userData) {
         ResponsePojo responseBody = new ResponsePojo();
         log.info("request-param-editUserData:" + JSONObject.toJSONString(userData));
         try {
