@@ -55,5 +55,6 @@ logging:
 jackson:
     date-format: yyyy-MM-dd HH:mm:ss
 
-file-path:  /Users/lienna/Downloads/   
+file-path:  /root/housePictures/  
+file-access-path: http://122.51.248.243:8000/
 

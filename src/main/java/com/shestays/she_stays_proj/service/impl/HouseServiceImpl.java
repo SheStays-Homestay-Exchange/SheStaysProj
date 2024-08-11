@@ -36,6 +36,8 @@ public class HouseServiceImpl implements HouseService {
     private HouseImgService houseImgService;
     @Value("${file-path}")
     private String userFilePath;
+    @Value("${file-access-path}")
+    private String fileAccessPath;
 
     @Override
     public PageVo getHouse(Integer pageIndex) {
@@ -106,6 +108,7 @@ public class HouseServiceImpl implements HouseService {
 
     private void uploadImgs(Integer houseId, MultipartFile[] files) throws Exception {
         String filePath = userFilePath + houseId + "/";
+
         // 判断文件是否存在
         File dest = new File(filePath);
         if (!dest.exists()) {
@@ -129,11 +132,12 @@ public class HouseServiceImpl implements HouseService {
                         fileName = UUID.randomUUID() + suffixName;
                         String filePathNew = filePath + fileName;
                         file.transferTo(new File(filePathNew));
-
+                        // 设置访问路径
+                        String accessPath = fileAccessPath + houseId + "/" + fileName;
                         // 新增房源图片信息
                         HouseImg houseImg = new HouseImg();
                         houseImg.setHouseId(houseId);
-                        houseImg.setImgUrl(filePathNew);
+                        houseImg.setImgUrl(accessPath);
                         Integer imgId = houseImgService.addHouseImg(houseImg);
                     } else {
                         throw new BusinessException(ResponseCode.GET_PARAM_ERROR.value,

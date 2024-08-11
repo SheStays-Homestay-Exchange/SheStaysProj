@@ -45,12 +45,12 @@
         left join ss_region region on region.region_id = house.region_id
         left join ss_city city on city.city_id = house.city_id  
         left join ss_status ss on ss.status_code = house.status_code
-        where is_delete = 0 and is_visible =1 and ss.status_code = 'online'
+        where is_delete = 0  and ss.status_code = 'online' order by house.create_time desc
         limit #{pageIndex},50
     </select>
 
     <select id="getCount">
-        SELECT count(*) FROM SheStays.ss_house 
+        SELECT count(*) FROM SheStays.ss_house where is_delete = 0 and status_code = 'online' 
     </select>
 
     <select id="getHouseByRegion" resultMap="houseMap" parameterType="java.lang.String">
