@@ -46,7 +46,7 @@ public class UserVo extends BaseEntity {
     /**
      * 微信id
      */
-    private Integer wechatId;
+    private String wechatId;
 
     /**
      * 所在国家id

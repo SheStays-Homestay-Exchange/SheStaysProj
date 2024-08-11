@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
+import com.shestays.she_stays_proj.entity.House;
 import com.shestays.she_stays_proj.vo.HouseVo;
 
 @Repository
@@ -80,4 +81,20 @@ public interface HouseMapper {
      * @return
      */
     List<HouseVo> getHouseByUserId(Integer userId);
+
+    /**
+     * 新增房源信息
+     * 
+     * @param house 房源信息
+     * @return 房源id
+     */
+    Integer addHouse(House house);
+
+    /**
+     * 获取房源id
+     * 
+     * @param userId
+     * @return
+     */
+    Integer getHouseId(Integer userId);
 }

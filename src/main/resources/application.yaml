@@ -55,3 +55,5 @@ logging:
 jackson:
     date-format: yyyy-MM-dd HH:mm:ss
 
+file-path:  /Users/lienna/Downloads/   
+

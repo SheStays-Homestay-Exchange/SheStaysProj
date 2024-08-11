@@ -7,7 +7,7 @@
         <result column="home_page_img_url" property="homePageImgUrl"/>
         <result column="house_amount" property="houseAmount"/>
         <result column="describle" property="describle"/>
-        <result column="status_id" property="statusId"/>
+        <result column="status_code" property="statusCode"/>
         <result column="statusValue" property="statusValue"/>
         <result column="start_time" property="startTime"/>
         <result column="end_time" property="endTime"/>
@@ -24,7 +24,19 @@
         <result column="create_time" property="createTime"/>
         <result column="update_time" property="updateTime"/>
         <result column="is_delete" property="isDelete"/>
+        <association property = "houseImgs" column="house_id" select="getHouseImgs" autoMapping="true">
+
+        </association>
     </resultMap>
+    <resultMap id="getHouseImgsMap" type = "com.shestays.she_stays_proj.vo.HouseImgVo">
+        <result column="house_img_id" property="houseImgId"/>
+        <result column="img_url" property="imgUrl"/>
+    </resultMap>
+
+    <select id = "getHouseImgs" resultMap="getHouseImgsMap" parameterType="java.lang.Integer">
+        select * from ss_house_img where house_id = #{house_id}
+    </select>
+
     <!-- 查询房源 -->
     <select id="getHouse" resultMap="houseMap" parameterType="java.lang.Integer">
         SELECT house.*,nation.nation_name as countryName,region.region_name as regionName ,
@@ -32,7 +44,7 @@
         left join ss_nation nation on house.country_id = nation_id
         left join ss_region region on region.region_id = house.region_id
         left join ss_city city on city.city_id = house.city_id  
-        left join ss_status ss on ss.status_id = house.status_id
+        left join ss_status ss on ss.status_code = house.status_code
         where is_delete = 0 and is_visible =1 and ss.status_code = 'online'
         limit #{pageIndex},50
     </select>
@@ -48,7 +60,7 @@
             left join ss_nation nation on house.country_id = nation_id
             left join ss_region region on region.region_id = house.region_id
             left join ss_city city on city.city_id = house.city_id  
-            left join ss_status ss on ss.status_id = house.status_id
+            left join ss_status ss on ss.status_code = house.status_code
         where is_delete = 0  and ss.status_code = 'online' ) temp where 1=1
         <if test="region != null and region!=''">
         and countryName like CONCAT('%',#{region},'%') OR  cityName  like CONCAT('%',#{region},'%')
@@ -61,7 +73,7 @@
         left join ss_nation nation on house.country_id = nation_id
         left join ss_region region on region.region_id = house.region_id
         left join ss_city city on city.city_id = house.city_id  
-        left join ss_status ss on ss.status_id = house.status_id
+        left join ss_status ss on ss.status_code = house.status_code
         where is_delete = 0  and ss.status_code = 'online' and house.house_id = #{houseId}
     </select>
 
@@ -72,17 +84,17 @@
         left join ss_nation nation on house.country_id = nation_id
         left join ss_region region on region.region_id = house.region_id
         left join ss_city city on city.city_id = house.city_id  
-        left join ss_status ss on ss.status_id = house.status_id
+        left join ss_status ss on ss.status_code = house.status_code
         where is_delete = 0  and ss.status_code = #{statusCode} 
     </select>
     <!-- 房源审核通过 -->
     <update id= "housePassed">
-        update ss_house set status_id = (select status_id from ss_status where status_code=#{statusCode}),is_visible = 1 where house_id = #{houseId}
+        update ss_house set status_code = #{statusCode},is_visible = 1 where house_id = #{houseId}
     </update>
 
     <!-- 房源审核不通过 -->
     <update id="houseNoPassed">
-        update ss_house set status_id = (select status_id from ss_status where status_code=#{statusCode}),is_visible = 1,
+        update ss_house set status_code = #{statusCode},is_visible = 0,
         unpass_reason = #{unpassReason}
         where house_id = #{houseId}
     </update>
@@ -98,7 +110,23 @@
         left join ss_nation nation on house.country_id = nation_id
         left join ss_region region on region.region_id = house.region_id
         left join ss_city city on city.city_id = house.city_id  
-        left join ss_status ss on ss.status_id = house.status_id
+        left join ss_status ss on ss.status_code = house.status_code
         where is_delete = 0  and ss.status_code = 'online' and house.user_id = #{userId}
+    </select>
+
+    <!-- 新增房源 -->
+    <insert id="addHouse" parameterType="com.shestays.she_stays_proj.entity.House">
+        INSERT INTO `SheStays`.`ss_house`(`user_id`,`house_title`,`describe`,`house_amount`,
+        `status_code`,`start_time`,`end_time`,`country_id`,`region_id`,`city_id`,`detail_address`,
+        `is_visible`,`create_time`,`update_time`,`is_delete`)
+        VALUES
+        (#{userId},#{houseTitle},#{describle},#{houseAmount},
+        #{statusCode},#{startTime},#{endTime},#{countryId},#{regionId},#{cityId},#{detailArea},
+        0,now(),now(),0)
+        
+    </insert>
+
+    <select id="getHouseId" parameterType="java.lang.Integer">
+        select Max(house_id) from `SheStays`.`ss_house` where user_id = #{userId}
     </select>
 </mapper>   

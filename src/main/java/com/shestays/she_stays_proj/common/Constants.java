@@ -2,7 +2,7 @@ package com.shestays.she_stays_proj.common;
 
 public class Constants {
     /**
-     * 上传中
+     * 待审核
      */
     public static final String STATUS_UPLOADING = "pending_view";
     /**
@@ -17,5 +17,9 @@ public class Constants {
      * 未通过
      */
     public static final String STATUS_NOPASS = "not_approved";
+    /**
+     * 最大条数
+     */
+    public final static Integer pageSize = 50;
 
 }

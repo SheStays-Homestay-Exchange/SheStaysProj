@@ -1,18 +1,14 @@
-package com.shestays.she_stays_proj.entity;
+package com.shestays.she_stays_proj.vo;
 
 import java.util.Date;
-
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.shestays.she_stays_proj.common.BaseEntity;
 
 import lombok.Data;
 
 /**
- * 房源实体类
+ * 房源上传实体
  */
 @Data
-@TableName("ss_house")
-public class House extends BaseEntity {
+public class HouseUploadVo {
     /**
      * 房源id
      */
@@ -36,6 +32,14 @@ public class House extends BaseEntity {
     /**
      * 审核状态code
      */
+    private Integer statusId;
+    /**
+     * 审核状态
+     */
+    private String statusValue;
+    /**
+     * 审核状态code
+     */
     private String statusCode;
     /**
      * 开放开始时间
@@ -50,23 +54,40 @@ public class House extends BaseEntity {
      */
     private Integer countryId;
     /**
+     * 国家名称
+     */
+    private String countryName;
+    /**
      * 所在城市
      */
     private Integer cityId;
+    /**
+     * 城市名称
+     */
+    private String cityName;
     /**
      * 所在区
      */
     private Integer regionId;
     /**
+     * 所在区名称
+     */
+    private String regionName;
+    /**
      * 详细地址
      */
-    private String detailArea;
+    private String detailAddress;
     /**
      * 审核不通过原因
      */
-    private Integer unpassReason;
+    private String unpassReason;
     /**
      * 用户id
      */
     private Integer userId;
+    /**
+     * 大洲id
+     */
+    private Integer continentId;
+
 }

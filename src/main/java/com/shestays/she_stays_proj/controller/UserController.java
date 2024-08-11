@@ -64,7 +64,7 @@ public class UserController {
         ResponsePojo responseBody = new ResponsePojo();
         log.info("request-param-editUserData:" + JSONObject.toJSONString(userData));
         try {
-            if (userData.getUserId().isEmpty()) {
+            if (userData.getUserId() == 0) {
                 responseBody.setMsg(ResponseMsg.MSG_DEL_ERROR);
                 responseBody.setCode(ResponseCode.GET_PARAM_ERROR.value);
                 log.error("userId  is null");

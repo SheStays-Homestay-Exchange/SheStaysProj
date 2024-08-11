@@ -2,8 +2,6 @@ package com.shestays.she_stays_proj.vo;
 
 import java.util.List;
 
-import com.shestays.she_stays_proj.entity.House;
-
 import lombok.Data;
 
 @Data
@@ -17,5 +15,5 @@ public class PageVo {
      */
     private Integer pageCount;
 
-    private List<House> data;
+    private List<HouseVo> data;
 }

@@ -8,4 +8,12 @@ public class ResponseMsg {
     public static final String MSG_SYSTEM_ERROR = "系统异常";
     public static final String MSG_DEL_ERROR = "删除失败，请联系管理员";
     public static final String MSG_GET_PARAM_NULL_ERROR = "请求参数不能为空";
+    public static final String MSG_USER_ID_NULL = "用户id不允许为空";
+    public static final String MSG_HOUSE_AMOUT_NULL = "可接待访客数不可为空";
+    public static final String MSG_START_TIME_NULL = "开始时间不可为空";
+    public static final String MSG_END_TIME_NULL = "结束时间不可为空";
+    public static final String MSG_NATION_NULL = "国家不能为空";
+    public static final String MSG_CITY_NULL = "城市不能为空";
+    public static final String MSG_FILE_TOO_BIG = "图片大小不能超过100KB";
+    public static final String MSG_FILE_TYPE_ERROR = "图片格式有误，请检查格式后再重新上传。";
 }

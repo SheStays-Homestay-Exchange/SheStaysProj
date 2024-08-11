@@ -1,6 +1,7 @@
 package com.shestays.she_stays_proj.vo;
 
 import java.util.Date;
+import java.util.List;
 
 import com.shestays.she_stays_proj.common.BaseEntity;
 
@@ -34,15 +35,11 @@ public class HouseVo extends BaseEntity {
     /**
      * 审核状态code
      */
-    private Integer statusId;
+    private Integer statusCode;
     /**
      * 审核状态
      */
     private String statusValue;
-    /**
-     * 审核状态code
-     */
-    private String statusCode;
     /**
      * 开放开始时间
      */
@@ -91,4 +88,8 @@ public class HouseVo extends BaseEntity {
      * 大洲id
      */
     private Integer continentId;
+    /**
+     * 房源图片url
+     */
+    private List<HouseImgVo> houseImgs;
 }

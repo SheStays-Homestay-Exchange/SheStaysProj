@@ -1,7 +1,13 @@
 package com.shestays.she_stays_proj.service;
 
+import java.io.IOException;
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
+import com.shestays.she_stays_proj.common.BusinessException;
+import com.shestays.she_stays_proj.common.ResponsePojo;
+import com.shestays.she_stays_proj.entity.House;
 import com.shestays.she_stays_proj.vo.HouseVo;
 import com.shestays.she_stays_proj.vo.PageVo;
 
@@ -60,4 +66,13 @@ public interface HouseService {
      * @return
      */
     List<HouseVo> getHouseByUserId(Integer userId);
+
+    /**
+     * 新增房源
+     * 
+     * @param house 房源信息
+     * @return 房源id
+     */
+    Integer addHouse(House house, MultipartFile[] files) throws Exception;
+
 }
