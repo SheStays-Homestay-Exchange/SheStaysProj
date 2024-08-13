@@ -5,8 +5,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONObject;
@@ -99,6 +97,39 @@ public class UserController {
             return responseBody;
         }
 
+    }
+
+    /**
+     * 用户授权
+     * 
+     * @param userData
+     * @return
+     */
+    @PostMapping("userAuthor")
+    @ResponseJSONP
+    public ResponsePojo userAuthor(UserVo userData) {
+        ResponsePojo responsePojo = new ResponsePojo();
+
+        try {
+            if (null != userData.getXiaohongshuId() && !userData.getXiaohongshuId().isEmpty()) {
+                // 小红书用户
+                int rest = userService.editUserDataByxiaohongshu(userData.getWechatId(), userData.getXiaohongshuId());
+                if (rest == 1) {
+                    responsePojo.setMsg(ResponseMsg.MSG_SUCCESS);
+                    responsePojo.setCode(ResponseCode.SUCCESS.value);
+                    log.info("user author is successful");
+                }
+            } else {
+                // 非小红书用户
+
+            }
+        } catch (Exception e) {
+            responsePojo.setMsg(ResponseMsg.MSG_SYSTEM_ERROR);
+            responsePojo.setCode(ResponseCode.ERROR.value);
+            log.error("userAuthor-editUserData:" + e.getMessage());
+            return responsePojo;
+        }
+        return responsePojo;
     }
 
 }

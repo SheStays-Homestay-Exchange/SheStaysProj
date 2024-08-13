@@ -92,4 +92,9 @@ public class HouseVo extends BaseEntity {
      * 房源图片url
      */
     private List<HouseImgVo> houseImgs;
+
+    /**
+     * 洲名
+     */
+    private String continentName;
 }

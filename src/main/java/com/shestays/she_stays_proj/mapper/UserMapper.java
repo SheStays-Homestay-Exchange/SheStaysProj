@@ -25,4 +25,13 @@ public interface UserMapper extends BaseMapper<User> {
      */
     int editUserData(User user);
 
+    /**
+     * 用户授权，初期用户小红书id不为空
+     * 
+     * @param wechatId      微信id
+     * @param xiaohongshuId 小红书id
+     * @return
+     */
+    int editUserDataByxiaohongshu(String wechatId, String xiaohongshuId);
+
 }

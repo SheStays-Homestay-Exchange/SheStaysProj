@@ -23,7 +23,9 @@
         <result column="gender_dict_code" property="genderDictCode"/>
         <result column="genderDictVal" property="genderDictVal"/>
         <result column="personal_profile" property="personalProfile"/>
-        <association property="roles" column="user_id" select="getRoles" autoMapping="true">
+        <result column="xiaohongshu_username" property="xiaohongshuUsername"/>
+        <result column="xiaohongshu_id" property="xiaohongshuId"/>
+        <association property="roles" column="role_id" select="getRoles" autoMapping="true">
 
         </association>
     </resultMap>
@@ -46,9 +48,7 @@
     </select>
 
     <select id="getRoles" resultMap="getRoles">
-        select * from SheStays.ss_role where role_id in (
-            select role_id from ss_permission where user_id=#{user_id}
-        )
+        select * from SheStays.ss_role where role_id = #{role_id}
     </select>
 
     <update id="editUserData" parameterType="com.shestays.she_stays_proj.entity.User">
@@ -91,11 +91,11 @@
               WHERE `user_id` = #{userId}
         </set>
         
-        
-        
-       
     </update>
 
-
+    <update id="editUserDataByxiaohongshu" parameterType="java.lang.String">
+        UPDATE `SheStays`.`ss_user`
+        SET `wechat_id` = #{wechatId} WHERE `xiaohongshu_id` = #{xiaohongshuId}
+    </update>
 
 </mapper>

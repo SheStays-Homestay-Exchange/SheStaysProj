@@ -46,6 +46,11 @@ public class House extends BaseEntity {
      */
     private Date endTime;
     /**
+     * 大洲id
+     */
+    private Integer continentId;
+
+    /**
      * 所在国家
      */
     private Integer countryId;
@@ -69,4 +74,21 @@ public class House extends BaseEntity {
      * 用户id
      */
     private Integer userId;
+    /**
+     * 国家名称
+     */
+    private String countryName;
+    /**
+     * 城市名称
+     */
+    private String cityName;
+    /**
+     * 所在区名称
+     */
+    private String regionName;
+    /**
+     * 洲名
+     */
+    private String continentName;
+
 }

@@ -16,4 +16,5 @@ public class ResponseMsg {
     public static final String MSG_CITY_NULL = "城市不能为空";
     public static final String MSG_FILE_TOO_BIG = "图片大小不能超过100KB";
     public static final String MSG_FILE_TYPE_ERROR = "图片格式有误，请检查格式后再重新上传。";
+    public static final String MSG_USER_AUTHOR_ERROR = "授权失败，请联系管理员。";
 }

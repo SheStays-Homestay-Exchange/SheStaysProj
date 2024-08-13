@@ -58,3 +58,7 @@ jackson:
 file-path:  /root/housePictures/  
 file-access-path: http://122.51.248.243:8000/
 
+
+weixin:
+  appid: 'wx6b445bb062f6b30a'
+  secret: '29fca0ec5afc272d1743847a3d017c6d'

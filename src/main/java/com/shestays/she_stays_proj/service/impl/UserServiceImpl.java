@@ -24,4 +24,9 @@ public class UserServiceImpl implements UserService {
 
         return dao.editUserData(user);
     }
+
+    @Override
+    public int editUserDataByxiaohongshu(String wechatId, String xiaohongshuId) {
+        return dao.editUserDataByxiaohongshu(wechatId, xiaohongshuId);
+    }
 }

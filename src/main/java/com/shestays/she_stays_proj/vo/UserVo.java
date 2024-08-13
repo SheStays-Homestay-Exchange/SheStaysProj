@@ -92,4 +92,13 @@ public class UserVo extends BaseEntity {
      * 用户角色
      */
     private List<Role> roles;
+    /**
+     * 小红书用户吗
+     */
+    private String xiaohongshuUsername;
+    /**
+     * 小红书id
+     */
+    private String xiaohongshuId;
+
 }

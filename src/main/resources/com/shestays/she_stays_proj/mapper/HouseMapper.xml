@@ -12,15 +12,16 @@
         <result column="start_time" property="startTime"/>
         <result column="end_time" property="endTime"/>
         <result column="country_id" property="countryId"/>
-        <result column="countryName" property="countryName"/>
+        <result column="country_name" property="countryName"/>
         <result column="city_id" property="cityId"/>
-        <result column="cityName" property="cityName"/>
+        <result column="city_name" property="cityName"/>
         <result column="region_id" property="regionId"/>
-        <result column="regionName" property="regionName"/>
+        <result column="region_name" property="regionName"/>
         <result column="detail_address" property="detailAddress"/>
         <result column="unpass_reason" property="unpassReason"/>
         <result column="user_id" property="userId"/>
         <result column="continent_id" property="continentId"/>
+         <result column="continent_name"property ="continentName"/>
         <result column="create_time" property="createTime"/>
         <result column="update_time" property="updateTime"/>
         <result column="is_delete" property="isDelete"/>
@@ -39,11 +40,7 @@
 
     <!-- 查询房源 -->
     <select id="getHouse" resultMap="houseMap" parameterType="java.lang.Integer">
-        SELECT house.*,nation.nation_name as countryName,region.region_name as regionName ,
-        city.city_name as cityName,ss.status_value as statusValue FROM SheStays.ss_house house
-        left join ss_nation nation on house.country_id = nation_id
-        left join ss_region region on region.region_id = house.region_id
-        left join ss_city city on city.city_id = house.city_id  
+        SELECT house.*,ss.status_value as statusValue FROM SheStays.ss_house house
         left join ss_status ss on ss.status_code = house.status_code
         where is_delete = 0  and ss.status_code = 'online' order by house.create_time desc
         limit #{pageIndex},50
@@ -55,11 +52,7 @@
 
     <select id="getHouseByRegion" resultMap="houseMap" parameterType="java.lang.String">
         select * from (
-            SELECT house.*,nation.nation_name as countryName,region.region_name as regionName ,
-            city.city_name as cityName,ss.status_value as statusValue FROM SheStays.ss_house house
-            left join ss_nation nation on house.country_id = nation_id
-            left join ss_region region on region.region_id = house.region_id
-            left join ss_city city on city.city_id = house.city_id  
+            SELECT house.*,ss.status_value as statusValue FROM SheStays.ss_house house
             left join ss_status ss on ss.status_code = house.status_code
         where is_delete = 0  and ss.status_code = 'online' ) temp where 1=1
         <if test="region != null and region!=''">
@@ -68,22 +61,14 @@
     </select>
     <!-- 根据房源id查询房源详情 -->
     <select id = "getHouseById" resultMap="houseMap" parameterType = "java.lang.Integer">
-        SELECT house.*,nation.nation_name as countryName,region.region_name as regionName ,
-        city.city_name as cityName,ss.status_value as statusValue FROM SheStays.ss_house house
-        left join ss_nation nation on house.country_id = nation_id
-        left join ss_region region on region.region_id = house.region_id
-        left join ss_city city on city.city_id = house.city_id  
+        SELECT house.*,ss.status_value as statusValue FROM SheStays.ss_house house
         left join ss_status ss on ss.status_code = house.status_code
         where is_delete = 0  and ss.status_code = 'online' and house.house_id = #{houseId}
     </select>
 
     <!-- 查询待审核房源 -->
     <select id="getUnderViewHouse" resultMap="houseMap" parameterType="java.lang.String">
-        SELECT house.*,nation.nation_name as countryName,region.region_name as regionName ,
-        city.city_name as cityName,ss.status_value as statusValue FROM SheStays.ss_house house
-        left join ss_nation nation on house.country_id = nation_id
-        left join ss_region region on region.region_id = house.region_id
-        left join ss_city city on city.city_id = house.city_id  
+        SELECT house.*,ss.status_value as statusValue FROM SheStays.ss_house house
         left join ss_status ss on ss.status_code = house.status_code
         where is_delete = 0  and ss.status_code = #{statusCode} 
     </select>
@@ -105,11 +90,7 @@
     </update>
     <!-- 根据用户id查询房源信息 -->
     <select id= "getHouseByUserId" resultMap="houseMap" parameterType = "java.lang.Integer">
-        SELECT house.*,nation.nation_name as countryName,region.region_name as regionName ,
-        city.city_name as cityName,ss.status_value as statusValue FROM SheStays.ss_house house
-        left join ss_nation nation on house.country_id = nation_id
-        left join ss_region region on region.region_id = house.region_id
-        left join ss_city city on city.city_id = house.city_id  
+        SELECT house.*,ss.status_value as statusValue FROM SheStays.ss_house house
         left join ss_status ss on ss.status_code = house.status_code
         where is_delete = 0  and ss.status_code = 'online' and house.user_id = #{userId}
     </select>
@@ -118,11 +99,12 @@
     <insert id="addHouse" parameterType="com.shestays.she_stays_proj.entity.House">
         INSERT INTO `SheStays`.`ss_house`(`user_id`,`house_title`,`describe`,`house_amount`,
         `status_code`,`start_time`,`end_time`,`country_id`,`region_id`,`city_id`,`detail_address`,
-        `is_visible`,`create_time`,`update_time`,`is_delete`)
+        `is_visible`,`create_time`,`update_time`,`is_delete`,`continent_name`,`country_name`,`region_name`,`city_name`,`continent_id`)
         VALUES
         (#{userId},#{houseTitle},#{describle},#{houseAmount},
         #{statusCode},#{startTime},#{endTime},#{countryId},#{regionId},#{cityId},#{detailArea},
-        0,now(),now(),0)
+        0,now(),now(),0,
+        #{continentName},#{countryName},#{regionName},#{cityName},#{continentId})
         
     </insert>
 
