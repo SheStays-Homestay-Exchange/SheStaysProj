@@ -17,9 +17,9 @@ public class UserServiceImpl implements UserService {
     private UserMapper dao;
 
     @Override
-    public UserVo getUserInfoByWechatId(String wechatId) {
+    public UserVo getUserInfoByWechatId(String openId) {
 
-        return dao.getUserInfoByWechatId(wechatId);
+        return dao.getUserInfoByWechatId(openId);
     }
 
     @Override

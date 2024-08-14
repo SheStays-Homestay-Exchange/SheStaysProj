@@ -8,10 +8,10 @@ public interface UserService {
     /**
      * 根据微信id查询用户信息
      * 
-     * @param wechatId 微信id
+     * @param openId 微信唯一标识
      * @return 用户vo实体
      */
-    UserVo getUserInfoByWechatId(String wechatId);
+    UserVo getUserInfoByWechatId(String openId);
 
     /**
      * 编辑用户信息

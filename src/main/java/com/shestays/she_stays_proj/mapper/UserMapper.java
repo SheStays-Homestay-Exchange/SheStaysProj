@@ -12,10 +12,10 @@ public interface UserMapper extends BaseMapper<User> {
     /**
      * 根据微信id查询用户信息
      * 
-     * @param wechatId
+     * @param openId
      * @return
      */
-    UserVo getUserInfoByWechatId(String wechatId);
+    UserVo getUserInfoByWechatId(String openId);
 
     /**
      * 修改用户信息

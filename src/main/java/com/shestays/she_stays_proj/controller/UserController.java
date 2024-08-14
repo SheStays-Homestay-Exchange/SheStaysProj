@@ -31,22 +31,22 @@ public class UserController {
     /**
      * 根据微信号查询用户信息
      * 
-     * @param wechatId 微信id
+     * @param openId 微信唯一标识
      * @return 用户信息json数据
      */
     @GetMapping("getUserInfoByWechatId")
     @ResponseJSONP
-    public ResponsePojo getUserInfoByWechatId(String wechatId) {
+    public ResponsePojo getUserInfoByWechatId(String openId) {
         ResponsePojo responseBody = new ResponsePojo();
         try {
-            if (wechatId.isBlank()) {
+            if (null == openId || openId.isBlank()) {
                 responseBody.setMsg(ResponseMsg.MSG_GET_PARAM_NULL_ERROR);
                 responseBody.setCode(ResponseCode.GET_PARAM_ERROR.value);
                 return responseBody;
             }
 
-            log.info("request-param-getUserInfoByWechatId:" + wechatId);
-            UserVo user = userService.getUserInfoByWechatId(wechatId);
+            log.info("request-param-getUserInfoByWechatId:" + openId);
+            UserVo user = userService.getUserInfoByWechatId(openId);
 
             responseBody.setMsg(ResponseMsg.MSG_SUCCESS);
             responseBody.setCode(ResponseCode.SUCCESS.value);

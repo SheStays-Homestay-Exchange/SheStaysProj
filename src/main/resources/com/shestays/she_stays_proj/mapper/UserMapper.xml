@@ -42,11 +42,9 @@
     </resultMap>
 
     <select id="getUserInfoByWechatId" resultMap="UserInfoMap" parameterType="java.lang.String">
-    SELECT user.*,(select dict_nm from ss_dict_data where dict_type='dict_gender' and dict_code=user.gender_dict_code) as genderDictVal,
-    (select nation_name from `SheStays`.`ss_nation` where  nation_id = user.nation_id) as nationName,
-    (select city_name from `SheStays`.`ss_city` where city_id= user.city_id) as cityName
+    SELECT user.*,(select dict_nm from ss_dict_data where dict_type='dict_gender' and dict_code=user.gender_dict_code) as genderDictVal
     FROM SheStays.ss_user user 
-    where wechat_id= #{wechatId}
+    where open_id= #{openId}
     </select>
 
     <select id="getRoles" resultMap="getRoles">
