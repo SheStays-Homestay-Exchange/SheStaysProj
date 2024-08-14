@@ -21,7 +21,7 @@
         <result column="unpass_reason" property="unpassReason"/>
         <result column="user_id" property="userId"/>
         <result column="continent_id" property="continentId"/>
-         <result column="continent_name"property ="continentName"/>
+        <result column="continent_name" property ="continentName"/>
         <result column="create_time" property="createTime"/>
         <result column="update_time" property="updateTime"/>
         <result column="is_delete" property="isDelete"/>
@@ -56,7 +56,7 @@
             left join ss_status ss on ss.status_code = house.status_code
         where is_delete = 0  and ss.status_code = 'online' ) temp where 1=1
         <if test="region != null and region!=''">
-        and countryName like CONCAT('%',#{region},'%') OR  cityName  like CONCAT('%',#{region},'%')
+        and house.country_name like CONCAT('%',#{region},'%') OR  house.city_name  like CONCAT('%',#{region},'%')
         </if>
     </select>
     <!-- 根据房源id查询房源详情 -->

@@ -28,10 +28,38 @@ public interface UserMapper extends BaseMapper<User> {
     /**
      * 用户授权，初期用户小红书id不为空
      * 
-     * @param wechatId      微信id
-     * @param xiaohongshuId 小红书id
+     * @param openId      微信唯一标识
+     * @param phoneNumber 电话号码
+     * @param countryCode 城市编号
+     * @param xhsId       小红书id
      * @return
      */
-    int editUserDataByxiaohongshu(String wechatId, String xiaohongshuId);
+    int editUserDataByxhsId(User user);
+
+    /**
+     * 根据小红书id查询用户信息
+     * 
+     * @param xhsId
+     * @return
+     */
+    UserVo getUserByXhsId(String xhsId);
+
+    /**
+     * 根据openid获取用户信息
+     * 
+     * @param openId
+     * @return
+     */
+    UserVo getUserByopenId(String openId);
+
+    /**
+     * 新增用户
+     * 
+     * @param openId      微信唯一标识
+     * @param phoneNumber 电话号码
+     * @param countryCode 城市编号
+     * @return
+     */
+    int addUserInfo(User user);
 
 }

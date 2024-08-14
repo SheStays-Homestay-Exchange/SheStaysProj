@@ -3,6 +3,9 @@ package com.shestays.she_stays_proj.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.shestays.she_stays_proj.common.BusinessException;
+import com.shestays.she_stays_proj.common.ResponseCode;
+import com.shestays.she_stays_proj.common.ResponseMsg;
 import com.shestays.she_stays_proj.entity.User;
 import com.shestays.she_stays_proj.mapper.UserMapper;
 import com.shestays.she_stays_proj.service.UserService;
@@ -26,7 +29,28 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public int editUserDataByxiaohongshu(String wechatId, String xiaohongshuId) {
-        return dao.editUserDataByxiaohongshu(wechatId, xiaohongshuId);
+    public int addorEditUserInfo(User user) {
+
+        if (null != user.getXiaohongshuId()) {
+            UserVo getUserInfo = dao.getUserByXhsId(user.getXiaohongshuId());
+            // 更新用户信息
+            if (null != getUserInfo.getUserId()) {
+                user.setUserId(getUserInfo.getUserId());
+                return dao.editUserDataByxhsId(user);
+            }
+
+        } else {
+            UserVo getUserInfo = dao.getUserByopenId(user.getOpenId());
+            // 更新用户信息
+            if (null != getUserInfo.getUserId()) {
+                user.setUserId(getUserInfo.getUserId());
+                return dao.editUserDataByxhsId(user);
+            } else {
+                // 新增用户信息
+                return dao.addUserInfo(user);
+            }
+
+        }
+        throw new BusinessException(ResponseCode.PERMISSION_ERROR.value, ResponseMsg.MSG_USER_AUTHOR_ERROR);
     }
 }

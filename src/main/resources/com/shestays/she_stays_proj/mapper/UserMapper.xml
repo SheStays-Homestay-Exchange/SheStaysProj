@@ -25,6 +25,8 @@
         <result column="personal_profile" property="personalProfile"/>
         <result column="xiaohongshu_username" property="xiaohongshuUsername"/>
         <result column="xiaohongshu_id" property="xiaohongshuId"/>
+        <result column="country_code" property ="countryCode"/>
+        <result column="open_id" property ="openId"/>
         <association property="roles" column="role_id" select="getRoles" autoMapping="true">
 
         </association>
@@ -92,10 +94,23 @@
         </set>
         
     </update>
-
-    <update id="editUserDataByxiaohongshu" parameterType="java.lang.String">
+    
+    <update id="editUserDataByxhsId" parameterType="com.shestays.she_stays_proj.entity.User">
         UPDATE `SheStays`.`ss_user`
-        SET `wechat_id` = #{wechatId} WHERE `xiaohongshu_id` = #{xiaohongshuId}
+        SET `wechat_id` = #{wechatId},`open_id` = #{openId},`phone` = #{phone},`country_code` = #{countryCode}
+         WHERE `user_id` = #{userId}
     </update>
+    <!-- 根据小红书id查询用户信息 -->
+    <select id="getUserByXhsId" parameterType="java.lang.String" resultMap="UserInfoMap">
+        select * from ss_user where xiaohongshu_id = #{xhsId}
+    </select>
+    <select id= "getUserByopenId" parameterType="java.lang.String" resultMap="UserInfoMap">
+        select * from ss_user where open_id = #{openId}
+    </select>
 
+    <!-- 新增用户信息 -->
+    <insert id="addUserInfo" parameterType="com.shestays.she_stays_proj.entity.User">
+        insert into ss_user(user_no,role_id,phone,country_code,open_id,create_time,update_time,is_delete) 
+        values(concat('U',user_id),(select role_id from  ss_role where role_dict_code = 'user'),#{phone},#{countryCode},#{openId},now(),now(),'0');
+    </insert>
 </mapper>

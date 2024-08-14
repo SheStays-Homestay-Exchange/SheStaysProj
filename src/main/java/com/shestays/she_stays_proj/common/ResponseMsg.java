@@ -5,7 +5,7 @@ package com.shestays.she_stays_proj.common;
  */
 public class ResponseMsg {
     public static final String MSG_SUCCESS = "请求成功";
-    public static final String MSG_SYSTEM_ERROR = "系统异常";
+    public static final String MSG_SYSTEM_ERROR = "系统异常,请联系管理员";
     public static final String MSG_DEL_ERROR = "删除失败，请联系管理员";
     public static final String MSG_GET_PARAM_NULL_ERROR = "请求参数不能为空";
     public static final String MSG_USER_ID_NULL = "用户id不允许为空";
@@ -17,4 +17,5 @@ public class ResponseMsg {
     public static final String MSG_FILE_TOO_BIG = "图片大小不能超过100KB";
     public static final String MSG_FILE_TYPE_ERROR = "图片格式有误，请检查格式后再重新上传。";
     public static final String MSG_USER_AUTHOR_ERROR = "授权失败，请联系管理员。";
+
 }

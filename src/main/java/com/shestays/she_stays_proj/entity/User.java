@@ -75,5 +75,21 @@ public class User extends BaseEntity {
      * 个人简介
      */
     private String personalProfile;
+    /**
+     * 微信open_id
+     */
+    private String openId;
+    /**
+     * 国家编号
+     */
+    private String countryCode;
+    /**
+     * 小红书名
+     */
+    private String xiaohongshuUsername;
+    /**
+     * 小红书id
+     */
+    private String xiaohongshuId;
 
 }

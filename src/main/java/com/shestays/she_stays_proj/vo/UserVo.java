@@ -101,4 +101,13 @@ public class UserVo extends BaseEntity {
      */
     private String xiaohongshuId;
 
+    /**
+     * 微信open_id
+     */
+    private String openId;
+    /**
+     * 国家编号
+     */
+    private String countryCode;
+
 }

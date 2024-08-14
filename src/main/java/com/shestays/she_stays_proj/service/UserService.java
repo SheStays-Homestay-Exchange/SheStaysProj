@@ -21,9 +21,8 @@ public interface UserService {
     /**
      * 用户授权，初期用户小红书id不为空
      * 
-     * @param wechatId      微信id
-     * @param xiaohongshuId 小红书id
+     * @param user
      * @return
      */
-    int editUserDataByxiaohongshu(String wechatId, String xiaohongshuId);
+    int addorEditUserInfo(User user);
 }

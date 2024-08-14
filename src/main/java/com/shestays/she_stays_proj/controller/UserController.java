@@ -5,16 +5,19 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.alibaba.fastjson.support.spring.annotation.ResponseJSONP;
+import com.shestays.she_stays_proj.common.BusinessException;
 import com.shestays.she_stays_proj.common.ResponseCode;
 import com.shestays.she_stays_proj.common.ResponseMsg;
 import com.shestays.she_stays_proj.common.ResponsePojo;
 import com.shestays.she_stays_proj.entity.User;
 import com.shestays.she_stays_proj.service.UserService;
+import com.shestays.she_stays_proj.service.WeixinService;
 import com.shestays.she_stays_proj.vo.UserVo;
 
 @RestController
@@ -22,6 +25,8 @@ public class UserController {
     Logger log = LoggerFactory.getLogger(UserController.class);
     @Autowired
     private UserService userService;
+    @Autowired
+    private WeixinService weixinService;
 
     /**
      * 根据微信号查询用户信息
@@ -61,14 +66,14 @@ public class UserController {
     @PostMapping("editUserData")
     @ResponseJSONP
     public ResponsePojo editUserData(UserVo userData) {
-        ResponsePojo responseBody = new ResponsePojo();
+        ResponsePojo responsePojo = new ResponsePojo();
         log.info("request-param-editUserData:" + JSONObject.toJSONString(userData));
         try {
             if (userData.getUserId() == 0) {
-                responseBody.setMsg(ResponseMsg.MSG_DEL_ERROR);
-                responseBody.setCode(ResponseCode.GET_PARAM_ERROR.value);
+                responsePojo.setMsg(ResponseMsg.MSG_DEL_ERROR);
+                responsePojo.setCode(ResponseCode.GET_PARAM_ERROR.value);
                 log.error("userId  is null");
-                return responseBody;
+                return responsePojo;
             }
             User user = new User();
             user.setUserId(userData.getUserId());
@@ -85,16 +90,16 @@ public class UserController {
             int rest = userService.editUserData(user);
             log.info("getRest-editUserData:" + rest);
             if (rest == 1) {
-                responseBody.setMsg(ResponseMsg.MSG_SUCCESS);
-                responseBody.setCode(ResponseCode.SUCCESS.value);
+                responsePojo.setMsg(ResponseMsg.MSG_SUCCESS);
+                responsePojo.setCode(ResponseCode.SUCCESS.value);
                 log.info("user edit is successful");
             }
-            return responseBody;
+            return responsePojo;
         } catch (Exception e) {
-            responseBody.setMsg(ResponseMsg.MSG_SYSTEM_ERROR);
-            responseBody.setCode(ResponseCode.ERROR.value);
+            responsePojo.setMsg(ResponseMsg.MSG_SYSTEM_ERROR);
+            responsePojo.setCode(ResponseCode.ERROR.value);
             log.error("errorMsg-editUserData:" + e.getMessage());
-            return responseBody;
+            return responsePojo;
         }
 
     }
@@ -107,22 +112,25 @@ public class UserController {
      */
     @PostMapping("userAuthor")
     @ResponseJSONP
-    public ResponsePojo userAuthor(UserVo userData) {
+    public ResponsePojo userAuthor(@RequestParam("code") String code,
+            @RequestParam("encryptedData") String encryptedData,
+            @RequestParam("iv") String iv, String xhsId) {
         ResponsePojo responsePojo = new ResponsePojo();
 
         try {
-            if (null != userData.getXiaohongshuId() && !userData.getXiaohongshuId().isEmpty()) {
-                // 小红书用户
-                int rest = userService.editUserDataByxiaohongshu(userData.getWechatId(), userData.getXiaohongshuId());
-                if (rest == 1) {
-                    responsePojo.setMsg(ResponseMsg.MSG_SUCCESS);
-                    responsePojo.setCode(ResponseCode.SUCCESS.value);
-                    log.info("user author is successful");
-                }
-            } else {
-                // 非小红书用户
-
+            User user = weixinService.getWXUserInfo(encryptedData, code, iv);
+            user.setXiaohongshuId(xhsId);
+            int rest = userService.addorEditUserInfo(user);
+            if (rest == 1) {
+                responsePojo.setMsg(ResponseMsg.MSG_SUCCESS);
+                responsePojo.setCode(ResponseCode.SUCCESS.value);
+                log.info("user edit is successful");
             }
+        } catch (BusinessException be) {
+            responsePojo.setMsg(ResponseMsg.MSG_SYSTEM_ERROR);
+            responsePojo.setCode(ResponseCode.ERROR.value);
+            log.error("userAuthor-editUserData:" + be.getMessage());
+            return responsePojo;
         } catch (Exception e) {
             responsePojo.setMsg(ResponseMsg.MSG_SYSTEM_ERROR);
             responsePojo.setCode(ResponseCode.ERROR.value);
