@@ -29,14 +29,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public int addorEditUserInfo(User user) {
+    public String addorEditUserInfo(User user) {
 
         if (null != user.getXiaohongshuId()) {
             UserVo getUserInfo = dao.getUserByXhsId(user.getXiaohongshuId());
             // 更新用户信息
             if (null != getUserInfo.getUserId()) {
                 user.setUserId(getUserInfo.getUserId());
-                return dao.editUserDataByxhsId(user);
+                dao.editUserDataByxhsId(user);
+                return user.getOpenId();
             }
 
         } else {
@@ -44,10 +45,12 @@ public class UserServiceImpl implements UserService {
             // 更新用户信息
             if (null != getUserInfo.getUserId()) {
                 user.setUserId(getUserInfo.getUserId());
-                return dao.editUserDataByxhsId(user);
+                dao.editUserDataByxhsId(user);
+                return user.getOpenId();
             } else {
                 // 新增用户信息
-                return dao.addUserInfo(user);
+                dao.addUserInfo(user);
+                return user.getOpenId();
             }
 
         }

@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONObject;
@@ -18,6 +18,7 @@ import com.shestays.she_stays_proj.common.ResponsePojo;
 import com.shestays.she_stays_proj.entity.User;
 import com.shestays.she_stays_proj.service.UserService;
 import com.shestays.she_stays_proj.service.WeixinService;
+import com.shestays.she_stays_proj.vo.UserReqVo;
 import com.shestays.she_stays_proj.vo.UserVo;
 
 @RestController
@@ -34,7 +35,7 @@ public class UserController {
      * @param openId 微信唯一标识
      * @return 用户信息json数据
      */
-    @GetMapping("getUserInfoByWechatId")
+    @GetMapping("getUserInfoByOpenId")
     @ResponseJSONP
     public ResponsePojo getUserInfoByWechatId(String openId) {
         ResponsePojo responseBody = new ResponsePojo();
@@ -112,20 +113,23 @@ public class UserController {
      */
     @PostMapping("userAuthor")
     @ResponseJSONP
-    public ResponsePojo userAuthor(@RequestParam("code") String code,
-            @RequestParam("encryptedData") String encryptedData,
-            @RequestParam("iv") String iv, String xhsId) {
+    public ResponsePojo userAuthor(@RequestBody UserReqVo reqParam) {
         ResponsePojo responsePojo = new ResponsePojo();
-
+        String code = reqParam.getCode();
+        String encryptedData = reqParam.getEncryptedData();
+        String iv = reqParam.getIv();
+        String xhsId = reqParam.getXhsId();
+        log.info("userAuthor-param:" + JSONObject.toJSONString(reqParam, SerializerFeature.WriteMapNullValue));
         try {
             User user = weixinService.getWXUserInfo(encryptedData, code, iv);
             user.setXiaohongshuId(xhsId);
-            int rest = userService.addorEditUserInfo(user);
-            if (rest == 1) {
-                responsePojo.setMsg(ResponseMsg.MSG_SUCCESS);
-                responsePojo.setCode(ResponseCode.SUCCESS.value);
-                log.info("user edit is successful");
-            }
+            String openId = userService.addorEditUserInfo(user);
+            UserVo getUserVo = userService.getUserInfoByWechatId(openId);
+            responsePojo.setMsg(ResponseMsg.MSG_SUCCESS);
+            responsePojo.setCode(ResponseCode.SUCCESS.value);
+            responsePojo.setData(getUserVo);
+            log.info("getRest-userAuthor:"
+                    + JSONObject.toJSONString(responsePojo, SerializerFeature.WriteMapNullValue));
         } catch (BusinessException be) {
             responsePojo.setMsg(ResponseMsg.MSG_SYSTEM_ERROR);
             responsePojo.setCode(ResponseCode.ERROR.value);

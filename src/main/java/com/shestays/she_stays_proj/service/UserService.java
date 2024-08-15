@@ -22,7 +22,7 @@ public interface UserService {
      * 用户授权，初期用户小红书id不为空
      * 
      * @param user
-     * @return
+     * @return openid
      */
-    int addorEditUserInfo(User user);
+    String addorEditUserInfo(User user);
 }
