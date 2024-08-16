@@ -34,7 +34,7 @@ public class UserServiceImpl implements UserService {
         if (null != user.getXiaohongshuId()) {
             UserVo getUserInfo = dao.getUserByXhsId(user.getXiaohongshuId());
             // 更新用户信息
-            if (null != getUserInfo.getUserId()) {
+            if (null != getUserInfo && null != getUserInfo.getUserId()) {
                 user.setUserId(getUserInfo.getUserId());
                 dao.editUserDataByxhsId(user);
                 return user.getOpenId();
@@ -43,7 +43,7 @@ public class UserServiceImpl implements UserService {
         } else {
             UserVo getUserInfo = dao.getUserByopenId(user.getOpenId());
             // 更新用户信息
-            if (null != getUserInfo.getUserId()) {
+            if (null != getUserInfo && null != getUserInfo.getUserId()) {
                 user.setUserId(getUserInfo.getUserId());
                 dao.editUserDataByxhsId(user);
                 return user.getOpenId();

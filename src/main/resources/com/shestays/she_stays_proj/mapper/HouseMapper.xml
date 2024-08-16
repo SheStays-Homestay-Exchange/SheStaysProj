@@ -51,10 +51,9 @@
     </select>
 
     <select id="getHouseByRegion" resultMap="houseMap" parameterType="java.lang.String">
-        select * from (
-            SELECT house.*,ss.status_value as statusValue FROM SheStays.ss_house house
+        SELECT house.*,ss.status_value as statusValue FROM SheStays.ss_house house
             left join ss_status ss on ss.status_code = house.status_code
-        where is_delete = 0  and ss.status_code = 'online' ) temp where 1=1
+        where is_delete = 0  and ss.status_code = 'online' 
         <if test="region != null and region!=''">
         and house.country_name like CONCAT('%',#{region},'%') OR  house.city_name  like CONCAT('%',#{region},'%')
         </if>
@@ -110,5 +109,11 @@
 
     <select id="getHouseId" parameterType="java.lang.Integer">
         select Max(house_id) from `SheStays`.`ss_house` where user_id = #{userId}
+    </select>
+    <!-- 推荐目的地 -->
+    <select id="getRecommendCountryName" resultType="java.util.HashMap">
+        select * from (
+        select country_name as countryName,count(1) as num from  ss_house group by country_name having country_name != ''
+        )temp order by num desc,countryName asc limit 3
     </select>
 </mapper>   

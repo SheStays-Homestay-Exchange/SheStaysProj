@@ -1,6 +1,7 @@
 package com.shestays.she_stays_proj.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.alibaba.fastjson.support.spring.annotation.ResponseJSONP;
 import com.shestays.she_stays_proj.common.BusinessException;
 import com.shestays.she_stays_proj.common.Constants;
 import com.shestays.she_stays_proj.common.ResponseCode;
@@ -272,6 +274,30 @@ public class HouseController {
             restPojo.setMsg(ResponseMsg.MSG_SYSTEM_ERROR);
             restPojo.setCode(ResponseCode.ERROR.value);
             log.error("errorMsg-uploadHouse:" + e.getMessage());
+        }
+        return restPojo;
+    }
+
+    /**
+     * 推荐目的地
+     * 
+     * @return
+     */
+    @GetMapping("getRecommendCountryName")
+    @ResponseJSONP
+    public ResponsePojo getRecommendCountryName() {
+        ResponsePojo restPojo = new ResponsePojo();
+        try {
+            List<Map<String, String>> restData = server.getRecommendCountryName();
+            restPojo.setMsg(ResponseMsg.MSG_SUCCESS);
+            restPojo.setCode(ResponseCode.SUCCESS.value);
+            restPojo.setData(restData);
+            log.info("getRest-getRecommendCountryName:"
+                    + JSONObject.toJSONString(restPojo, SerializerFeature.WriteMapNullValue));
+        } catch (Exception e) {
+            restPojo.setMsg(ResponseMsg.MSG_SYSTEM_ERROR);
+            restPojo.setCode(ResponseCode.ERROR.value);
+            log.error("errorMsg-getRecommendCountryName:" + e.getMessage());
         }
         return restPojo;
     }

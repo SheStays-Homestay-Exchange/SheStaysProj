@@ -2,6 +2,7 @@ package com.shestays.she_stays_proj.service;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -74,5 +75,12 @@ public interface HouseService {
      * @return 房源id
      */
     Integer addHouse(House house, MultipartFile[] files) throws Exception;
+
+    /**
+     * 搜索目的地
+     * 
+     * @return
+     */
+    List<Map<String, String>> getRecommendCountryName();
 
 }

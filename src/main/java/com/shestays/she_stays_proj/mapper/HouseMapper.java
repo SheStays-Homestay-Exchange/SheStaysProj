@@ -1,6 +1,7 @@
 package com.shestays.she_stays_proj.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
@@ -97,4 +98,11 @@ public interface HouseMapper {
      * @return
      */
     Integer getHouseId(Integer userId);
+
+    /**
+     * 搜索目的地
+     * 
+     * @return
+     */
+    List<Map<String, String>> getRecommendCountryName();
 }

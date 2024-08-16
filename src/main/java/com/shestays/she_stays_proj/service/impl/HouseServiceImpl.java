@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.slf4j.Logger;
@@ -150,4 +151,13 @@ public class HouseServiceImpl implements HouseService {
         }
     }
 
+    @Override
+    public List<Map<String, String>> getRecommendCountryName() {
+        try {
+            dao.getRecommendCountryName();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return dao.getRecommendCountryName();
+    }
 }
