@@ -105,4 +105,5 @@ public interface HouseMapper {
      * @return
      */
     List<Map<String, String>> getRecommendCountryName();
+
 }

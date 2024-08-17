@@ -7,4 +7,17 @@
         VALUES
         (#{houseId},#{imgUrl},now(),now(),0)
     </insert>
+
+    <resultMap id="houseImgMap" type = "com.shestays.she_stays_proj.entity.HouseImg">
+        <result column="house_img_id" property="houseImgId"/>
+        <result column="house_id" property="houseId"/>
+        <result column="img_url" property="imgUrl"/>
+    </resultMap>
+    <select id= "getHouseImgById" parameterType = "java.lang.Integer" resultMap="houseImgMap">
+        select * from ss_house_img where house_img_id = #{imgId};
+    </select>
+
+    <delete id = "deleteHouseImg" parameterType = "java.lang.Integer" >
+       delete  from ss_house_img where house_img_id = #{imgId};
+    </delete>
 </mapper>

@@ -91,5 +91,9 @@ public class User extends BaseEntity {
      * 小红书id
      */
     private String xiaohongshuId;
+    /**
+     * 区域id
+     */
+    private Integer region_id;
 
 }

@@ -1,12 +1,22 @@
 package com.shestays.she_stays_proj.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
+import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
@@ -28,6 +38,11 @@ public class UserController {
     private UserService userService;
     @Autowired
     private WeixinService weixinService;
+
+    @Value("${file-path}")
+    private String userFilePath;
+    @Value("${file-access-path}")
+    private String fileAccessPath;
 
     /**
      * 根据微信号查询用户信息
@@ -64,19 +79,28 @@ public class UserController {
 
     }
 
+    /**
+     * 编辑个人信息
+     * 
+     * @param userData
+     * @return
+     */
     @PostMapping("editUserData")
     @ResponseJSONP
-    public ResponsePojo editUserData(UserVo userData) {
+    public ResponsePojo editUserData(UserVo userData, @RequestParam("avatar") MultipartFile avatar) {
         ResponsePojo responsePojo = new ResponsePojo();
         log.info("request-param-editUserData:" + JSONObject.toJSONString(userData));
         try {
-            if (userData.getUserId() == 0) {
+            if (null == userData.getUserId() || userData.getUserId() == 0) {
                 responsePojo.setMsg(ResponseMsg.MSG_DEL_ERROR);
                 responsePojo.setCode(ResponseCode.GET_PARAM_ERROR.value);
                 log.error("userId  is null");
                 return responsePojo;
             }
+            // 上传头像
+            String avatarUrl = uploadAvatar(avatar, userData.getUserId());
             User user = new User();
+            user.setAvatarUrl(avatarUrl);
             user.setUserId(userData.getUserId());
             user.setUserName(userData.getUserName());
             user.setGenderDictCode(userData.getGenderDictCode());
@@ -85,6 +109,7 @@ public class UserController {
             user.setBdDay(userData.getBdDay());
             user.setNationId(userData.getNationId());
             user.setCityId(userData.getCityId());
+            user.setRegion_id(userData.getRegionId());
             user.setPhone(userData.getPhone());
             user.setWechatId(userData.getWechatId());
             user.setPersonalProfile(userData.getPersonalProfile());
@@ -102,7 +127,48 @@ public class UserController {
             log.error("errorMsg-editUserData:" + e.getMessage());
             return responsePojo;
         }
+    }
 
+    /**
+     * 上传头像
+     */
+    private String uploadAvatar(MultipartFile file, Integer userId) throws IOException {
+        String urlPath = "avatar_" + userId;
+        String filePath = userFilePath + urlPath + "/";
+        // 判断文件是否存在
+        File dest = new File(filePath);
+        FileUtils.deleteDirectory(dest);
+        if (!dest.exists()) {
+            dest.mkdirs();
+        }
+        List<String> fileTypes = new ArrayList<String>();
+        fileTypes.add("image/jpeg");
+        fileTypes.add("image/png");
+        fileTypes.add("image/jpg");
+        try {
+            if (file.getSize() / 10000 > 100) {
+                throw new BusinessException(ResponseCode.GET_PARAM_ERROR.value, ResponseMsg.MSG_FILE_TOO_BIG);
+            } else {
+                String fileType = file.getContentType();
+                if (fileTypes.contains(fileType)) {
+                    // 获取文件名
+                    String fileName = file.getOriginalFilename();
+                    String suffixName = fileName.substring(fileName.lastIndexOf("."));
+                    // 重新生成文件名
+                    fileName = UUID.randomUUID() + suffixName;
+                    String filePathNew = filePath + fileName;
+                    file.transferTo(new File(filePathNew));
+                    // 设置访问路径
+                    String accessPath = fileAccessPath + urlPath + "/" + fileName;
+                    return accessPath;
+                } else {
+                    throw new BusinessException(ResponseCode.GET_PARAM_ERROR.value,
+                            ResponseMsg.MSG_FILE_TYPE_ERROR);
+                }
+            }
+        } catch (IOException e) {
+            throw e;
+        }
     }
 
     /**

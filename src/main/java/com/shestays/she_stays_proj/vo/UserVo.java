@@ -109,5 +109,12 @@ public class UserVo extends BaseEntity {
      * 国家编号
      */
     private String countryCode;
-
+    /**
+     * 区域id
+     */
+    private Integer regionId;
+    /**
+     * 区域名
+     */
+    private String regionName;
 }

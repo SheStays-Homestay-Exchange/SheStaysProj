@@ -97,4 +97,12 @@ public class HouseVo extends BaseEntity {
      * 洲名
      */
     private String continentName;
+    /**
+     * 房主小红书id
+     */
+    private String xiaohongshuId;
+    /**
+     * 小红书名
+     */
+    private String xiaohongshuUsername;
 }

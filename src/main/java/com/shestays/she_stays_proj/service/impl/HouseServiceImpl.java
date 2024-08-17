@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.shestays.she_stays_proj.common.BusinessException;
 import com.shestays.she_stays_proj.common.Constants;
+import com.shestays.she_stays_proj.common.FileUtils;
 import com.shestays.she_stays_proj.common.ResponseCode;
 import com.shestays.she_stays_proj.common.ResponseMsg;
 import com.shestays.she_stays_proj.entity.House;
@@ -35,8 +36,8 @@ public class HouseServiceImpl implements HouseService {
 
     @Autowired
     private HouseImgService houseImgService;
-    @Value("${file-path}")
-    private String userFilePath;
+    // @Value("${file-path}")
+    private String userFilePath = "/Users/lienna/Downloads/";
     @Value("${file-access-path}")
     private String fileAccessPath;
 
@@ -84,6 +85,10 @@ public class HouseServiceImpl implements HouseService {
 
     @Override
     public Integer houseDel(Integer houseId) {
+        // 删除图片信息
+        String filePath = userFilePath + houseId + "/";
+        File dest = new File(filePath);
+        FileUtils.deleteDirectory(dest);
         return dao.houseDel(houseId);
     }
 
@@ -121,7 +126,7 @@ public class HouseServiceImpl implements HouseService {
         fileTypes.add("image/jpg");
         try {
             for (MultipartFile file : files) {
-                if (file.getSize() / 1000 > 100) {
+                if (file.getSize() / 10000 > 100) {
                     throw new BusinessException(ResponseCode.GET_PARAM_ERROR.value, ResponseMsg.MSG_FILE_TOO_BIG);
                 } else {
                     String fileType = file.getContentType();
@@ -160,4 +165,5 @@ public class HouseServiceImpl implements HouseService {
         }
         return dao.getRecommendCountryName();
     }
+
 }

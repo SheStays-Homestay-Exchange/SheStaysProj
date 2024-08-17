@@ -17,4 +17,8 @@ public class HouseImgServiceImpl implements HouseImgService {
         return dao.addHouseImg(houseImg);
     }
 
+    @Override
+    public int houseImgDel(Integer imgId) {
+        return dao.deleteHouseImg(imgId);
+    }
 }

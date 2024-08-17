@@ -13,4 +13,20 @@ public interface HouseImgMapper {
      * @return 图片信息id
      */
     Integer addHouseImg(HouseImg houseImg);
+
+    /**
+     * 根据id获取图片信息
+     * 
+     * @param imgId 图片id
+     * @return
+     */
+    HouseImg getHouseImgById(Integer imgId);
+
+    /**
+     * 删除房源图片信息
+     * 
+     * @param imgId
+     * @return
+     */
+    int deleteHouseImg(Integer imgId);
 }

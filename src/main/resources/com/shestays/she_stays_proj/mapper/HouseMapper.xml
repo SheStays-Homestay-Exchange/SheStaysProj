@@ -40,9 +40,11 @@
 
     <!-- 查询房源 -->
     <select id="getHouse" resultMap="houseMap" parameterType="java.lang.Integer">
-        SELECT house.*,ss.status_value as statusValue FROM SheStays.ss_house house
+        SELECT house.*,ss.status_value as statusValue,user.xiaohongshu_id as xiaohongshuId,user.xiaohongshu_username as xiaohongshuUsername
+        FROM SheStays.ss_house house
         left join ss_status ss on ss.status_code = house.status_code
-        where is_delete = 0  and ss.status_code = 'online' order by house.create_time desc
+        left join ss_user  user on house.user_id = user.user_id
+        where house.is_delete = 0  and ss.status_code = 'online' order by house.create_time desc
         limit #{pageIndex},50
     </select>
 

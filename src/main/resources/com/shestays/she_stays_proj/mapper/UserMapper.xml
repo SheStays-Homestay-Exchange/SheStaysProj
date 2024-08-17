@@ -17,6 +17,8 @@
         <result column="nationName" property="nationName"/>
         <result column="city_id" property="cityId"/>
         <result column="cityName" property="cityName"/>
+         <result column="region_id" property="regionId"/>
+        <result column="regionName" property="regionName"/>
         <result column="bd_year" property="bdYear"/>
         <result column="bd_month" property="bdMonth"/>
         <result column="bd_day" property="bdDay"/>
@@ -42,8 +44,12 @@
     </resultMap>
 
     <select id="getUserInfoByWechatId" resultMap="UserInfoMap" parameterType="java.lang.String">
-    SELECT user.*,(select dict_nm from ss_dict_data where dict_type='dict_gender' and dict_code=user.gender_dict_code) as genderDictVal
+     SELECT user.*,(select dict_nm from ss_dict_data where dict_type='dict_gender' and dict_code=user.gender_dict_code) as genderDictVal,
+    nation.nation_name as nationName,region.region_name as regionName,city.city_name as cityName
     FROM SheStays.ss_user user 
+    left join ss_nation nation on user.nation_id = nation.nation_id
+    left join ss_region region on user.region_id = region.region_id
+    left join ss_city city on user.city_id = city.city_id
     where open_id= #{openId}
     </select>
 
@@ -68,6 +74,9 @@
             </if>
             <if test="nationId != null">
                 `nation_id` = #{nationId},
+            </if>
+             <if test="regionId != null">
+                `region_id` = #{regionId},
             </if>
             <if test="cityId != null">
                 `city_id` = #{cityId},

@@ -242,6 +242,8 @@ public class HouseController {
             // 城市id为空判断
             msg = ResponseMsg.MSG_CITY_NULL;
             checkFlag = false;
+        } else if (null == houseVo.getContinentId()) {
+            houseVo.setContinentId(999);
         }
         if (!checkFlag) {
             restPojo.setCode(ResponseCode.GET_PARAM_ERROR.value);
@@ -259,6 +261,7 @@ public class HouseController {
             house.setStatusCode(Constants.STATUS_UPLOADING); // 上传状态
             house.setStartTime(houseVo.getStartTime()); // 开放开始时间
             house.setEndTime(houseVo.getEndTime()); // 开放结束时间
+            house.setContinentId(houseVo.getContinentId()); // 所在州
             house.setCountryId(houseVo.getCountryId()); // 所在国家
             house.setCityId(houseVo.getCityId()); // 所在城市
             house.setRegionId(houseVo.getRegionId()); // 所在区

@@ -10,4 +10,12 @@ public interface HouseImgService {
      * @return 图片信息id
      */
     Integer addHouseImg(HouseImg houseImg);
+
+    /**
+     * 删除房源图片信息
+     * 
+     * @param imgId 图片id
+     * @return
+     */
+    int houseImgDel(Integer imgId);
 }
