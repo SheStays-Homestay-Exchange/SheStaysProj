@@ -62,9 +62,12 @@
     </select>
     <!-- 根据房源id查询房源详情 -->
     <select id = "getHouseById" resultMap="houseMap" parameterType = "java.lang.Integer">
-        SELECT house.*,ss.status_value as statusValue FROM SheStays.ss_house house
+         SELECT house.*,ss.status_value as statusValue,user.`open_id` as openId,user.`phone` as phone,user.`avatar_url` as avatarUrl,
+        user.`xiaohongshu_username` as xiaohongshuUsername,user.`xiaohongshu_id` as xiaohongshuId
+        FROM SheStays.ss_house house
         left join ss_status ss on ss.status_code = house.status_code
-        where is_delete = 0  and ss.status_code = 'online' and house.house_id = #{houseId}
+        left join ss_user user on house.user_id = user.user_id
+        where house.is_delete = 0  and ss.status_code = 'online' and house.house_id = #{houseId}
     </select>
 
     <!-- 查询待审核房源 -->

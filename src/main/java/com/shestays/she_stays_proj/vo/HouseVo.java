@@ -105,4 +105,16 @@ public class HouseVo extends BaseEntity {
      * 小红书名
      */
     private String xiaohongshuUsername;
+    /**
+     * 用户微信唯一标识
+     */
+    private String openId;
+    /**
+     * 房主手机号
+     */
+    private String phone;
+    /**
+     * 房主头像url
+     */
+    private String avatarUrl;
 }
