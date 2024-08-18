@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shestays.she_stays_proj.mapper.BuriedPointMapper">
+    <insert id="saveBuriedPoint" parameterType="com.shestays.she_stays_proj.entity.BuriedPoint">
+        INSERT INTO `SheStays`.`ss_buried_point`
+            (`buried_id`,
+            `key`,
+            `spend_time`,
+            `location`,
+            `equipment`,
+            `operation_type`,
+            `house_id`,
+            `search_keywords`,
+            `duration`,
+            `remark`)
+            VALUES
+            (
+            #{buriedId},
+            #{key},
+            #{spendTime},
+            #{location},
+            #{equipment},
+            #{operationType},
+            #{houseId},
+            #{searchKeywords},
+            #{duration},
+            #{remark}
+            );
+    </insert>
+</mapper>

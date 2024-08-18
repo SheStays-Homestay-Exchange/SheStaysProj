@@ -103,7 +103,9 @@ public class HouseServiceImpl implements HouseService {
         Integer houseId = dao.addHouse(house);
         try {
             houseId = dao.getHouseId(house.getUserId());
-            uploadImgs(houseId, files);
+            if (null != files) {
+                uploadImgs(houseId, files);
+            }
             return houseId;
         } catch (BusinessException e) {
             throw e;

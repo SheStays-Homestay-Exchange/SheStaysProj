@@ -87,7 +87,7 @@ public class UserController {
      */
     @PostMapping("editUserData")
     @ResponseJSONP
-    public ResponsePojo editUserData(UserVo userData, @RequestParam("avatar") MultipartFile avatar) {
+    public ResponsePojo editUserData(@RequestBody UserVo userData, MultipartFile avatar) {
         ResponsePojo responsePojo = new ResponsePojo();
         log.info("request-param-editUserData:" + JSONObject.toJSONString(userData));
         try {
