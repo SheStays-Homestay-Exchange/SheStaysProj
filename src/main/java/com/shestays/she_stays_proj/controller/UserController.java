@@ -97,10 +97,14 @@ public class UserController {
                 log.error("userId  is null");
                 return responsePojo;
             }
-            // 上传头像
-            String avatarUrl = uploadAvatar(avatar, userData.getUserId());
+
             User user = new User();
-            user.setAvatarUrl(avatarUrl);
+            // 上传头像
+            if (null != avatar) {
+                String avatarUrl = uploadAvatar(avatar, userData.getUserId());
+                user.setAvatarUrl(avatarUrl);
+            }
+
             user.setUserId(userData.getUserId());
             user.setUserName(userData.getUserName());
             user.setGenderDictCode(userData.getGenderDictCode());
