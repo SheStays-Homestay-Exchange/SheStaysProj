@@ -2,6 +2,7 @@ package com.shestays.she_stays_proj.vo;
 
 import java.util.Date;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Data;
@@ -55,6 +56,7 @@ public class HouseUploadVo {
      * 开放开始时间
      */
     @JsonProperty("startTime")
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date startTime;
     /**
      * 开放结束时间

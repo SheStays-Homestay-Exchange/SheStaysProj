@@ -94,6 +94,6 @@ public class User extends BaseEntity {
     /**
      * 区域id
      */
-    private Integer region_id;
+    private Integer regionId;
 
 }

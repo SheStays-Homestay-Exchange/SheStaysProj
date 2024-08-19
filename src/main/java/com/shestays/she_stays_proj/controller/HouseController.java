@@ -218,37 +218,40 @@ public class HouseController {
                 + JSONObject.toJSONString(houseVo, SerializerFeature.WriteMapNullValue));
         String msg = "";
         Boolean checkFlag = true;
-        if (null == houseVo.getUserId()) {
-            // 用户id为空判断
-            msg = ResponseMsg.MSG_USER_ID_NULL;
-            checkFlag = false;
-        } else if (null == houseVo.getHouseAmount()) {
-            // 可接待客房数为空判断
-            msg = ResponseMsg.MSG_HOUSE_AMOUT_NULL;
-            checkFlag = false;
-        } else if (null == houseVo.getStartTime()) {
-            // 开始时间为空判断
-            msg = ResponseMsg.MSG_START_TIME_NULL;
-            checkFlag = false;
-        } else if (null == houseVo.getEndTime()) {
-            // 结束时间为空判断
-            msg = ResponseMsg.MSG_END_TIME_NULL;
-            checkFlag = false;
-        } else if (null == houseVo.getCountryId()) {
-            // 国家id为空判断
-            msg = ResponseMsg.MSG_NATION_NULL;
-            checkFlag = false;
-        } else if (null == houseVo.getCityId()) {
-            // 城市id为空判断
-            msg = ResponseMsg.MSG_CITY_NULL;
-            checkFlag = false;
-        } else if (null == houseVo.getContinentId()) {
-            houseVo.setContinentId(999);
-        }
-        if (!checkFlag) {
-            restPojo.setCode(ResponseCode.GET_PARAM_ERROR.value);
-            restPojo.setMsg(msg);
-            return restPojo;
+        if (null == houseVo.getHouseId()) {
+
+            if (null == houseVo.getUserId()) {
+                // 用户id为空判断
+                msg = ResponseMsg.MSG_USER_ID_NULL;
+                checkFlag = false;
+            } else if (null == houseVo.getHouseAmount()) {
+                // 可接待客房数为空判断
+                msg = ResponseMsg.MSG_HOUSE_AMOUT_NULL;
+                checkFlag = false;
+            } else if (null == houseVo.getStartTime()) {
+                // 开始时间为空判断
+                msg = ResponseMsg.MSG_START_TIME_NULL;
+                checkFlag = false;
+            } else if (null == houseVo.getEndTime()) {
+                // 结束时间为空判断
+                msg = ResponseMsg.MSG_END_TIME_NULL;
+                checkFlag = false;
+            } else if (null == houseVo.getCountryId()) {
+                // 国家id为空判断
+                msg = ResponseMsg.MSG_NATION_NULL;
+                checkFlag = false;
+            } else if (null == houseVo.getCityId()) {
+                // 城市id为空判断
+                msg = ResponseMsg.MSG_CITY_NULL;
+                checkFlag = false;
+            } else if (null == houseVo.getContinentId()) {
+                houseVo.setContinentId(999);
+            }
+            if (!checkFlag) {
+                restPojo.setCode(ResponseCode.GET_PARAM_ERROR.value);
+                restPojo.setMsg(msg);
+                return restPojo;
+            }
         }
 
         try {
@@ -266,6 +269,7 @@ public class HouseController {
             house.setCityId(houseVo.getCityId()); // 所在城市
             house.setRegionId(houseVo.getRegionId()); // 所在区
             house.setDetailArea(houseVo.getDetailAddress()); // 详细地址
+            house.setHouseId(houseVo.getHouseId()); // 房源id
             Integer houseId = server.addHouse(house, files);
             log.info("add-houseId:" + houseId);
             restPojo.setMsg(ResponseMsg.MSG_SUCCESS);
@@ -274,6 +278,7 @@ public class HouseController {
             restPojo.setCode(bse.getRestCd());
             restPojo.setMsg(bse.getMsg());
         } catch (Exception e) {
+            e.printStackTrace();
             restPojo.setMsg(ResponseMsg.MSG_SYSTEM_ERROR);
             restPojo.setCode(ResponseCode.ERROR.value);
             log.error("errorMsg-uploadHouse:" + e.getMessage());

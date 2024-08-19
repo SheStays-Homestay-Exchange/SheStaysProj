@@ -113,7 +113,7 @@ public class UserController {
             user.setBdDay(userData.getBdDay());
             user.setNationId(userData.getNationId());
             user.setCityId(userData.getCityId());
-            user.setRegion_id(userData.getRegionId());
+            user.setRegionId(userData.getRegionId());
             user.setPhone(userData.getPhone());
             user.setWechatId(userData.getWechatId());
             user.setPersonalProfile(userData.getPersonalProfile());
@@ -131,6 +131,41 @@ public class UserController {
             log.error("errorMsg-editUserData:" + e.getMessage());
             return responsePojo;
         }
+    }
+
+    @PostMapping("uploadAvatar")
+    @ResponseJSONP
+    public ResponsePojo uploadAvatarImg(MultipartFile avatar, Integer userId) {
+        ResponsePojo responsePojo = new ResponsePojo();
+        try {
+            if (null == userId || userId == 0) {
+                responsePojo.setMsg(ResponseMsg.MSG_DEL_ERROR);
+                responsePojo.setCode(ResponseCode.GET_PARAM_ERROR.value);
+                log.error("userId  is null");
+                return responsePojo;
+            }
+            User user = new User();
+            // 上传头像
+            if (null != avatar) {
+                String avatarUrl = uploadAvatar(avatar, userId);
+                user.setAvatarUrl(avatarUrl);
+                user.setUserId(userId);
+                int rest = userService.editUserData(user);
+                log.info("getRest-editUserData:" + rest);
+                if (rest == 1) {
+                    responsePojo.setMsg(ResponseMsg.MSG_SUCCESS);
+                    responsePojo.setCode(ResponseCode.SUCCESS.value);
+                    log.info("user edit is successful");
+                }
+            }
+
+        } catch (Exception e) {
+            responsePojo.setMsg(ResponseMsg.MSG_SYSTEM_ERROR);
+            responsePojo.setCode(ResponseCode.ERROR.value);
+            log.error("errorMsg-editUserData:" + e.getMessage());
+            return responsePojo;
+        }
+        return responsePojo;
     }
 
     /**

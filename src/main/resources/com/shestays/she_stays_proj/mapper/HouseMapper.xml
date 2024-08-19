@@ -111,6 +111,60 @@
         #{continentName},#{countryName},#{regionName},#{cityName},#{continentId})
         
     </insert>
+    <!-- 修改房源信息 -->
+    <update id = "editHouse">
+        update `SheStays`.`ss_house`
+        <set>
+            <if test="houseTitle != null">
+                `house_title` = #{houseTitle},
+            </if>
+            <if test="describle != null">
+                `describe` = #{describle},
+            </if>
+            <if test="houseAmount != null">
+                `house_amount` = #{houseAmount},
+            </if>
+            <if test="statusCode != null">
+                `status_code` =#{statusCode},
+            </if>
+            <if test="startTime != null">
+                `start_time` = #{startTime},
+            </if>
+            <if test="endTime != null">
+                `end_time` = #{endTime},
+            </if>
+            <if test="countryId != null">
+                `country_id` = #{countryId},
+            </if>
+            <if test="regionId != null">
+                `region_id` = #{regionId},
+            </if>
+            <if test="cityId != null">
+                `city_id` = #{cityId},
+            </if>
+            <if test="detailArea != null">
+                `detail_address` = #{detailArea},
+            </if>
+            <if test="continentName != null">
+                `continent_name` = #{continentName},
+            </if>
+            <if test="countryName != null ">
+                `country_name` = #{countryName},
+            </if>
+            <if test="regionName != null">
+                `region_name` = #{regionName},
+            </if>
+            <if test="cityName != null">,
+                `city_name` = #{cityName}
+            </if>
+            <if test="continentId != null">
+                `continent_id` = #{continentId},
+            </if>
+            `update_time` = now()
+            where house_id =#{houseId}
+        </set>
+    </update>
+
 
     <select id="getHouseId" parameterType="java.lang.Integer">
         select Max(house_id) from `SheStays`.`ss_house` where user_id = #{userId}

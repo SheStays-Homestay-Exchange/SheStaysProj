@@ -100,13 +100,20 @@ public class HouseServiceImpl implements HouseService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Integer addHouse(House house, MultipartFile[] files) throws Exception {
-        Integer houseId = dao.addHouse(house);
+
         try {
-            houseId = dao.getHouseId(house.getUserId());
-            if (null != files) {
-                uploadImgs(houseId, files);
+            if (null == house.getHouseId()) {
+                Integer houseId = dao.addHouse(house);
+                houseId = dao.getHouseId(house.getUserId());
+                if (null != files) {
+                    uploadImgs(houseId, files);
+                }
+                return houseId;
+            } else {
+                dao.editHouse(house);
+                return house.getHouseId();
             }
-            return houseId;
+
         } catch (BusinessException e) {
             throw e;
         } catch (Exception e2) {

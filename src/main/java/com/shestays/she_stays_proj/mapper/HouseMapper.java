@@ -92,6 +92,14 @@ public interface HouseMapper {
     Integer addHouse(House house);
 
     /**
+     * 编辑房源信息
+     * 
+     * @param house 房源信息
+     * @return 房源id
+     */
+    Integer editHouse(House house);
+
+    /**
      * 获取房源id
      * 
      * @param userId

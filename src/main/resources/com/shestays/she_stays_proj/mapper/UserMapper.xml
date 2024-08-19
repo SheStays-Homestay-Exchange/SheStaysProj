@@ -96,6 +96,9 @@
             <if test="personalProfile != null">
                 `personal_profile` = #{personalProfile},
             </if>
+            <if test="avatarUrl != null">
+                `avatar_url` = #{avatarUrl}
+            </if>
              `update_time` = now()
               WHERE `user_id` = #{userId}
         </set>
