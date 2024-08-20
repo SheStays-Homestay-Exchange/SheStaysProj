@@ -20,7 +20,7 @@ public interface NationService {
      * @param nationId 国家主键
      * @return 区域集合
      */
-    List<RegionVo> getRegion(Integer nationId);
+    List<RegionVo> getRegion(String countryCode);
 
     /**
      * 查询城市
@@ -28,5 +28,5 @@ public interface NationService {
      * @param regionId 区域id
      * @return 城市集合
      */
-    List<CityVo> getCity(Integer regionId);
+    List<CityVo> getCity(String regionCode);
 }

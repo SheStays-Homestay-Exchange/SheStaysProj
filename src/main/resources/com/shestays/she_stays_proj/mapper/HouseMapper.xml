@@ -11,17 +11,16 @@
         <result column="statusValue" property="statusValue"/>
         <result column="start_time" property="startTime"/>
         <result column="end_time" property="endTime"/>
-        <result column="country_id" property="countryId"/>
+        <result column="country_code" property="countryCode"/>
         <result column="country_name" property="countryName"/>
-        <result column="city_id" property="cityId"/>
+        <result column="city_code" property="cityCode"/>
         <result column="city_name" property="cityName"/>
-        <result column="region_id" property="regionId"/>
+        <result column="region_code" property="regionCode"/>
         <result column="region_name" property="regionName"/>
         <result column="detail_address" property="detailAddress"/>
         <result column="unpass_reason" property="unpassReason"/>
         <result column="user_id" property="userId"/>
         <result column="continent_id" property="continentId"/>
-        <result column="continent_name" property ="continentName"/>
         <result column="create_time" property="createTime"/>
         <result column="update_time" property="updateTime"/>
         <result column="is_delete" property="isDelete"/>
@@ -102,13 +101,13 @@
     <!-- 新增房源 -->
     <insert id="addHouse" parameterType="com.shestays.she_stays_proj.entity.House">
         INSERT INTO `SheStays`.`ss_house`(`user_id`,`house_title`,`describe`,`house_amount`,
-        `status_code`,`start_time`,`end_time`,`country_id`,`region_id`,`city_id`,`detail_address`,
-        `is_visible`,`create_time`,`update_time`,`is_delete`,`continent_name`,`country_name`,`region_name`,`city_name`,`continent_id`)
+        `status_code`,`start_time`,`end_time`,`country_code`,`region_code`,`city_code`,`detail_address`,
+        `is_visible`,`create_time`,`update_time`,`is_delete`,`continent_name`,`country_name`,`region_name`,`city_name`)
         VALUES
         (#{userId},#{houseTitle},#{describle},#{houseAmount},
-        #{statusCode},#{startTime},#{endTime},#{countryId},#{regionId},#{cityId},#{detailArea},
+        #{statusCode},#{startTime},#{endTime},#{countryCode},#{regionCode},#{cityCode},#{detailArea},
         0,now(),now(),0,
-        #{continentName},#{countryName},#{regionName},#{cityName},#{continentId})
+        #{continentName},#{countryName},#{regionName},#{cityName})
         
     </insert>
     <!-- 修改房源信息 -->
@@ -133,21 +132,19 @@
             <if test="endTime != null">
                 `end_time` = #{endTime},
             </if>
-            <if test="countryId != null">
-                `country_id` = #{countryId},
+            <if test="countryCode != null">
+                `country_code` = #{countryCode},
             </if>
-            <if test="regionId != null">
-                `region_id` = #{regionId},
+            <if test="regionCode != null">
+                `region_code` = #{regionCode},
             </if>
-            <if test="cityId != null">
-                `city_id` = #{cityId},
+            <if test="cityCode != null">
+                `city_code` = #{cityCode},
             </if>
             <if test="detailArea != null">
                 `detail_address` = #{detailArea},
             </if>
-            <if test="continentName != null">
-                `continent_name` = #{continentName},
-            </if>
+           
             <if test="countryName != null ">
                 `country_name` = #{countryName},
             </if>
@@ -157,9 +154,7 @@
             <if test="cityName != null">,
                 `city_name` = #{cityName}
             </if>
-            <if test="continentId != null">
-                `continent_id` = #{continentId},
-            </if>
+            
             `update_time` = now()
             where house_id =#{houseId}
         </set>

@@ -55,20 +55,20 @@ public class UserVo extends BaseEntity {
     private String wechatId;
 
     /**
-     * 所在国家id
+     * 所在国家code
      */
-    @JsonProperty("nationId")
-    private Integer nationId;
+    @JsonProperty("countryCode")
+    private String countryCode;
+    /**
+     * 所在城市code
+     */
+    @JsonProperty("cityCode")
+    private String cityCode;
     /**
      * 国家名称
      */
     @JsonProperty("nationName")
     private String nationName;
-    /**
-     * 所在城市
-     */
-    @JsonProperty("cityId")
-    private Integer cityId;
     /**
      * 城市名称
      */
@@ -125,13 +125,13 @@ public class UserVo extends BaseEntity {
     /**
      * 国家编号
      */
-    @JsonProperty("countryCode")
-    private String countryCode;
+    @JsonProperty("countryNum")
+    private String countryNum;
     /**
      * 区域id
      */
-    @JsonProperty("regionId")
-    private Integer regionId;
+    @JsonProperty("regionCode")
+    private String regionCode;
     /**
      * 区域名
      */

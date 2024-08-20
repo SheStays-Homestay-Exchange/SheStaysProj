@@ -67,7 +67,7 @@ public class HouseUploadVo {
      * 所在国家
      */
     @JsonProperty("countryId")
-    private Integer countryId;
+    private String countryCode;
     /**
      * 国家名称
      */
@@ -77,7 +77,7 @@ public class HouseUploadVo {
      * 所在城市
      */
     @JsonProperty("cityId")
-    private Integer cityId;
+    private String cityCode;
     /**
      * 城市名称
      */
@@ -87,7 +87,7 @@ public class HouseUploadVo {
      * 所在区
      */
     @JsonProperty("regionId")
-    private Integer regionId;
+    private String regionCode;
     /**
      * 所在区名称
      */

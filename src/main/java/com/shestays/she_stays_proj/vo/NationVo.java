@@ -7,7 +7,7 @@ import lombok.Data;
  */
 @Data
 public class NationVo {
-    private Integer nationId;
-    private String nationName;
-    private Integer continentId;
+    private String countryCode;
+    private String countryName;
+    private String countryNameEng;
 }

@@ -25,7 +25,7 @@ public interface NationMapper extends BaseMapper<Nation> {
      * @param nationId 国家id
      * @return 区域实体
      */
-    List<RegionVo> getRegion(Integer nationId);
+    List<RegionVo> getRegion(String countryCode);
 
     /**
      * 查询城市
@@ -33,5 +33,5 @@ public interface NationMapper extends BaseMapper<Nation> {
      * @param regionId 区域id
      * @return 城市实体
      */
-    List<CityVo> getCity(Integer regionId);
+    List<CityVo> getCity(String regionCode);
 }

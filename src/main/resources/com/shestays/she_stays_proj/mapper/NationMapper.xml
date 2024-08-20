@@ -2,32 +2,36 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.shestays.she_stays_proj.mapper.NationMapper">
     <resultMap id="nationMap" type="com.shestays.she_stays_proj.vo.NationVo">
-        <result column="nation_id" property="nationId"/>
-        <result column="nation_name" property="nationName"/>
-        <result column="continent_id" property="continentId"/>
+        <result column="country_code" property="countryCode"/>
+        <result column="country_name" property="countryName"/>
+        <result column="country_name_eng" property="countryNameEng"/>
     </resultMap>
     <!-- 国家信息查询  -->
     <select id="getNation" resultMap="nationMap">
-        select * from ss_nation 
+        select * from ss_nation where country_code != '999' order by country_code 
     </select>
+
+  <!-- 区域信息查询  -->
     <resultMap id="regionMap" type="com.shestays.she_stays_proj.vo.RegionVo">
-        <result column="region_id" property="regionId"/>
+        <result column="region_code" property="regionCode"/>
         <result column="region_name" property="regionName"/>
-        <result column="nation_id" property="nationId"/>
+        <result column="region_name_eng" property="regionNameEng"/>
+        <result column="country_code" property ="countryCode"/>
     </resultMap>
-    <!-- 区域信息查询  -->
-    <select id="getRegion" resultMap="regionMap" parameterType="java.lang.Integer">
-        select * from ss_region where nation_id = #{nationId}
+  
+    <select id="getRegion" resultMap="regionMap" parameterType="java.lang.String">
+        select * from ss_region where country_code = #{countryCode}
     </select>
 
     <!-- 城市查询 -->
     <resultMap id="cityMap" type="com.shestays.she_stays_proj.vo.CityVo">
-        <result column="city_id" property="cityId"/>
+        <result column="city_code" property="cityCode"/>
         <result column="city_name" property="cityName"/>
-        <result column="region_id" property="regionId"/>
+        <result column="city_name_eng" property="cityNameEng"/>
+        <result column="region_code" property="regionCode"/>
     </resultMap>
 
-    <select id="getCity" resultMap="cityMap" parameterType="java.lang.Integer">
-        select * from ss_city where region_id = #{regionId}
+    <select id="getCity" resultMap="cityMap" parameterType="java.lang.String">
+        select * from ss_city where region_code = #{regionCode}
     </select>
 </mapper>

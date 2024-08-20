@@ -117,7 +117,7 @@ public class WeixinServiceImpl implements WeixinService {
             User user = new User();
             user.setOpenId(openId);
             user.setPhone(purePhoneNumber);
-            user.setCountryCode(countryCode);
+            user.setCountryNum(countryCode);
             return user;
         } catch (Exception e) {
             log.error(e.getMessage());

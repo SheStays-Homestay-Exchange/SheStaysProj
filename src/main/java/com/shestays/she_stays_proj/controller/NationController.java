@@ -58,11 +58,11 @@ public class NationController {
      */
     @GetMapping("getRegion")
     @ResponseJSONP
-    public ResponsePojo getRegion(Integer nationId) {
+    public ResponsePojo getRegion(String countryCode) {
         ResponsePojo restPojo = new ResponsePojo();
         try {
-            log.debug("param-getRegion:" + nationId);
-            List<RegionVo> rest = service.getRegion(nationId);
+            log.debug("param-getRegion:" + countryCode);
+            List<RegionVo> rest = service.getRegion(countryCode);
             restPojo.setMsg(ResponseMsg.MSG_SUCCESS);
             restPojo.setCode(ResponseCode.SUCCESS.value);
             restPojo.setData(rest);
@@ -72,17 +72,18 @@ public class NationController {
             restPojo.setMsg(ResponseMsg.MSG_SYSTEM_ERROR);
             restPojo.setCode(ResponseCode.ERROR.value);
             log.error("errorMsg-getRegion:" + e.getMessage());
+
             return restPojo;
         }
     }
 
     @GetMapping("getCity")
     @ResponseJSONP
-    public ResponsePojo getCity(Integer regionId) {
+    public ResponsePojo getCity(String regionCode) {
         ResponsePojo restPojo = new ResponsePojo();
         try {
-            log.info("param-getCity:" + regionId);
-            List<CityVo> rest = service.getCity(regionId);
+            log.info("param-getCity:" + regionCode);
+            List<CityVo> rest = service.getCity(regionCode);
             restPojo.setMsg(ResponseMsg.MSG_SUCCESS);
             restPojo.setCode(ResponseCode.SUCCESS.value);
             restPojo.setData(rest);

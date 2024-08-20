@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 @TableName("ss_nation")
 public class Nation {
-    private Integer nationId;
-    private String nationName;
-    private Integer continentId;
+    private String countryCode;
+    private String countryName;
+    private String countryNameEng;
 }

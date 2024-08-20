@@ -52,6 +52,7 @@ public class HouseController {
             restPojo.setMsg(ResponseMsg.MSG_SYSTEM_ERROR);
             restPojo.setCode(ResponseCode.ERROR.value);
             log.error("errorMsg-getHouseList:" + e.getMessage());
+            e.printStackTrace();
         }
         return restPojo;
     }
@@ -236,16 +237,14 @@ public class HouseController {
                 // 结束时间为空判断
                 msg = ResponseMsg.MSG_END_TIME_NULL;
                 checkFlag = false;
-            } else if (null == houseVo.getCountryId()) {
+            } else if (null == houseVo.getCityCode()) {
                 // 国家id为空判断
                 msg = ResponseMsg.MSG_NATION_NULL;
                 checkFlag = false;
-            } else if (null == houseVo.getCityId()) {
+            } else if (null == houseVo.getCityCode()) {
                 // 城市id为空判断
                 msg = ResponseMsg.MSG_CITY_NULL;
                 checkFlag = false;
-            } else if (null == houseVo.getContinentId()) {
-                houseVo.setContinentId(999);
             }
             if (!checkFlag) {
                 restPojo.setCode(ResponseCode.GET_PARAM_ERROR.value);
@@ -264,10 +263,9 @@ public class HouseController {
             house.setStatusCode(Constants.STATUS_UPLOADING); // 上传状态
             house.setStartTime(houseVo.getStartTime()); // 开放开始时间
             house.setEndTime(houseVo.getEndTime()); // 开放结束时间
-            house.setContinentId(houseVo.getContinentId()); // 所在州
-            house.setCountryId(houseVo.getCountryId()); // 所在国家
-            house.setCityId(houseVo.getCityId()); // 所在城市
-            house.setRegionId(houseVo.getRegionId()); // 所在区
+            house.setCountryCode(houseVo.getCountryCode()); // 所在国家
+            house.setCityCode(houseVo.getCityCode()); // 所在城市
+            house.setRegionCode(houseVo.getRegionCode()); // 所在区
             house.setDetailArea(houseVo.getDetailAddress()); // 详细地址
             house.setHouseId(houseVo.getHouseId()); // 房源id
             Integer houseId = server.addHouse(house, files);

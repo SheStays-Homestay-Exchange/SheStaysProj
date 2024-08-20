@@ -49,9 +49,9 @@ public class HouseVo extends BaseEntity {
      */
     private Date endTime;
     /**
-     * 所在国家
+     * 所在国家code
      */
-    private Integer countryId;
+    private String countryCode;
     /**
      * 国家名称
      */
@@ -59,7 +59,7 @@ public class HouseVo extends BaseEntity {
     /**
      * 所在城市
      */
-    private Integer cityId;
+    private String cityCode;
     /**
      * 城市名称
      */
@@ -67,7 +67,7 @@ public class HouseVo extends BaseEntity {
     /**
      * 所在区
      */
-    private Integer regionId;
+    private String regionCode;
     /**
      * 所在区名称
      */
@@ -84,19 +84,12 @@ public class HouseVo extends BaseEntity {
      * 用户id
      */
     private Integer userId;
-    /**
-     * 大洲id
-     */
-    private Integer continentId;
+
     /**
      * 房源图片url
      */
     private List<HouseImgVo> houseImgs;
 
-    /**
-     * 洲名
-     */
-    private String continentName;
     /**
      * 房主小红书id
      */

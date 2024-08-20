@@ -22,12 +22,12 @@ public class NationServiceImpl implements NationService {
     }
 
     @Override
-    public List<RegionVo> getRegion(Integer nationId) {
-        return dao.getRegion(nationId);
+    public List<RegionVo> getRegion(String countryCode) {
+        return dao.getRegion(countryCode);
     }
 
     @Override
-    public List<CityVo> getCity(Integer regionId) {
-        return dao.getCity(regionId);
+    public List<CityVo> getCity(String regionCode) {
+        return dao.getCity(regionCode);
     }
 }

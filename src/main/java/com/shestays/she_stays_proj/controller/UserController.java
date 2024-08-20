@@ -111,9 +111,9 @@ public class UserController {
             user.setBdYear(userData.getBdYear());
             user.setBdMonth(userData.getBdMonth());
             user.setBdDay(userData.getBdDay());
-            user.setNationId(userData.getNationId());
-            user.setCityId(userData.getCityId());
-            user.setRegionId(userData.getRegionId());
+            user.setCountryCode(userData.getCountryCode());
+            user.setCityCode(userData.getCityCode());
+            user.setRegionCode(userData.getRegionCode());
             user.setPhone(userData.getPhone());
             user.setWechatId(userData.getWechatId());
             user.setPersonalProfile(userData.getPersonalProfile());

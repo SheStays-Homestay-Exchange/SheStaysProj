@@ -48,13 +48,13 @@ public class User extends BaseEntity {
     private String wechatId;
 
     /**
-     * 所在国家id
+     * 所在国家code
      */
-    private Integer nationId;
+    private String countryCode;
     /**
-     * 所在城市
+     * 所在城市code
      */
-    private Integer cityId;
+    private String cityCode;
     /**
      * 出生年
      */
@@ -82,7 +82,7 @@ public class User extends BaseEntity {
     /**
      * 国家编号
      */
-    private String countryCode;
+    private String countryNum;
     /**
      * 小红书名
      */
@@ -94,6 +94,6 @@ public class User extends BaseEntity {
     /**
      * 区域id
      */
-    private Integer regionId;
+    private String regionCode;
 
 }

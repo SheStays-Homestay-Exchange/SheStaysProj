@@ -45,23 +45,19 @@ public class House extends BaseEntity {
      * 开放结束时间
      */
     private Date endTime;
-    /**
-     * 大洲id
-     */
-    private Integer continentId;
 
     /**
      * 所在国家
      */
-    private Integer countryId;
+    private String countryCode;
     /**
      * 所在城市
      */
-    private Integer cityId;
+    private String cityCode;
     /**
      * 所在区
      */
-    private Integer regionId;
+    private String regionCode;
     /**
      * 详细地址
      */
