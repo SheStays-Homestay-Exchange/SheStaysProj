@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.stereotype.Repository;
 
 import com.shestays.she_stays_proj.entity.House;
+import com.shestays.she_stays_proj.vo.HouseUploadVo;
 import com.shestays.she_stays_proj.vo.HouseVo;
 
 @Repository
@@ -114,4 +115,11 @@ public interface HouseMapper {
      */
     List<Map<String, String>> getRecommendCountryName();
 
+    /**
+     * 下架房源
+     * 
+     * @param house
+     * @return
+     */
+    Integer houseOffline(House house);
 }

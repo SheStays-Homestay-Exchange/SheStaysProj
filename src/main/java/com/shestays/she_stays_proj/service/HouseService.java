@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.shestays.she_stays_proj.entity.House;
+import com.shestays.she_stays_proj.vo.HouseUploadVo;
 import com.shestays.she_stays_proj.vo.HouseVo;
 import com.shestays.she_stays_proj.vo.PageVo;
 
@@ -79,5 +80,13 @@ public interface HouseService {
      * @return
      */
     List<Map<String, String>> getRecommendCountryName();
+
+    /**
+     * 下架房源
+     * 
+     * @param houseVo
+     * @return
+     */
+    Integer houseOffline(House house);
 
 }

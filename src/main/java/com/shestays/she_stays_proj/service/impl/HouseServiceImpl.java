@@ -25,6 +25,7 @@ import com.shestays.she_stays_proj.entity.HouseImg;
 import com.shestays.she_stays_proj.mapper.HouseMapper;
 import com.shestays.she_stays_proj.service.HouseImgService;
 import com.shestays.she_stays_proj.service.HouseService;
+import com.shestays.she_stays_proj.vo.HouseUploadVo;
 import com.shestays.she_stays_proj.vo.HouseVo;
 import com.shestays.she_stays_proj.vo.PageVo;
 
@@ -175,4 +176,8 @@ public class HouseServiceImpl implements HouseService {
         return dao.getRecommendCountryName();
     }
 
+    @Override
+    public Integer houseOffline(House house) {
+        return dao.houseOffline(house);
+    }
 }

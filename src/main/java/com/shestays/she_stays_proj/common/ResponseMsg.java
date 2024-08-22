@@ -19,5 +19,6 @@ public class ResponseMsg {
     public static final String MSG_USER_AUTHOR_ERROR = "授权失败，请联系管理员。";
     public static final String MSG_BURIED_ID_IS_NULL = "埋点id不能为空";
     public static final String MSG_BURIED_KEY_IS_NULL = "埋点key不能为空";
+    public static final String MSG_HOUSE_ID_NULL = "房源id不能为空";
 
 }

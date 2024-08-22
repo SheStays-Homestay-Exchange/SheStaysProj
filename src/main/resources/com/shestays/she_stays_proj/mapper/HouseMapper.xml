@@ -170,4 +170,8 @@
         select country_name as countryName,count(1) as num from  ss_house group by country_name having country_name != ''
         )temp order by num desc,countryName asc limit 3
     </select>
+
+    <update id="houseOffline" parameterType="com.shestays.she_stays_proj.entity.House">
+         update ss_house set status_code = #{statusCode} where house_id = #{houseId}
+    </update>
 </mapper>   

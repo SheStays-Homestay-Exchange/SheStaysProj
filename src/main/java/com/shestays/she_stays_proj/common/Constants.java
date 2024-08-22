@@ -18,6 +18,11 @@ public class Constants {
      */
     public static final String STATUS_NOPASS = "not_approved";
     /**
+     * 已下线
+     */
+    public static final String STATUS_OFFLINE = "offline";
+
+    /**
      * 最大条数
      */
     public final static Integer pageSize = 50;

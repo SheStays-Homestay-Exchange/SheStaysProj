@@ -1,5 +1,11 @@
 package com.shestays.she_stays_proj;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Base64;
+
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,7 +33,27 @@ public class WeixinServiceTest {
 
         log.info(code);
 
+    }
 
+    @Test
+    void getFile() {
+        File file = new File("/Users/lienna/Downloads/01.jpeg");
+        /**
+         * try {
+         * FileInputStream infile = new FileInputStream(file);
+         * 
+         * byte data[] = new byte[(int) file.length()];
+         * infile.read(data);
+         * 
+         * String base64 = Base64.getEncoder().encodeToString(data);
+         * log.info("base64----------------------");
+         * 
+         * log.info(base64);
+         * infile.close();
+         * } catch (IOException e) {
+         * e.printStackTrace();
+         * }
+         */
     }
 
 }

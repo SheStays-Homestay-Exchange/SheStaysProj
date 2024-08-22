@@ -1,8 +1,10 @@
 package com.shestays.she_stays_proj.controller;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.UUID;
 
@@ -73,7 +75,7 @@ public class UserController {
         } catch (Exception e) {
             responseBody.setMsg(ResponseMsg.MSG_SYSTEM_ERROR);
             responseBody.setCode(ResponseCode.ERROR.value);
-            log.error("errorMsg-getUserInfoByWechatId:" + e.getMessage());
+            log.error("errorMsg-getUserInfoByWechatId:" + e.toString());
             return responseBody;
         }
 
@@ -128,18 +130,19 @@ public class UserController {
         } catch (Exception e) {
             responsePojo.setMsg(ResponseMsg.MSG_SYSTEM_ERROR);
             responsePojo.setCode(ResponseCode.ERROR.value);
-            log.error("errorMsg-editUserData:" + e.getMessage());
+            log.error("errorMsg-editUserData:" + e.toString());
             return responsePojo;
         }
     }
 
     @PostMapping("uploadAvatar")
     @ResponseJSONP
-    public ResponsePojo uploadAvatarImg(MultipartFile avatar, Integer userId) {
+    public ResponsePojo uploadAvatarImg(UserReqVo userReqVo,
+            @RequestParam("avatar") MultipartFile avatar) {
         ResponsePojo responsePojo = new ResponsePojo();
         try {
-            if (null == userId || userId == 0) {
-                responsePojo.setMsg(ResponseMsg.MSG_DEL_ERROR);
+            if (null == userReqVo.getUserId() || userReqVo.getUserId() == 0) {
+                responsePojo.setMsg(ResponseMsg.MSG_USER_ID_NULL);
                 responsePojo.setCode(ResponseCode.GET_PARAM_ERROR.value);
                 log.error("userId  is null");
                 return responsePojo;
@@ -147,11 +150,11 @@ public class UserController {
             User user = new User();
             // 上传头像
             if (null != avatar) {
-                String avatarUrl = uploadAvatar(avatar, userId);
+                String avatarUrl = uploadAvatar(avatar, userReqVo.getUserId());
                 user.setAvatarUrl(avatarUrl);
-                user.setUserId(userId);
+                user.setUserId(userReqVo.getUserId());
                 int rest = userService.editUserData(user);
-                log.info("getRest-editUserData:" + rest);
+                log.info("getRest-uploadAvatarImg:" + rest);
                 if (rest == 1) {
                     responsePojo.setMsg(ResponseMsg.MSG_SUCCESS);
                     responsePojo.setCode(ResponseCode.SUCCESS.value);
@@ -162,7 +165,7 @@ public class UserController {
         } catch (Exception e) {
             responsePojo.setMsg(ResponseMsg.MSG_SYSTEM_ERROR);
             responsePojo.setCode(ResponseCode.ERROR.value);
-            log.error("errorMsg-editUserData:" + e.getMessage());
+            log.error("errorMsg-uploadAvatarImg:" + e.toString());
             return responsePojo;
         }
         return responsePojo;
@@ -238,12 +241,12 @@ public class UserController {
         } catch (BusinessException be) {
             responsePojo.setMsg(ResponseMsg.MSG_SYSTEM_ERROR);
             responsePojo.setCode(ResponseCode.ERROR.value);
-            log.error("userAuthor-editUserData:" + be.getMessage());
+            log.error("userAuthor-userAuthor-error:" + be.toString());
             return responsePojo;
         } catch (Exception e) {
             responsePojo.setMsg(ResponseMsg.MSG_SYSTEM_ERROR);
             responsePojo.setCode(ResponseCode.ERROR.value);
-            log.error("userAuthor-editUserData:" + e.getMessage());
+            log.error("userAuthor-userAuthor-erroe:" + e.toString());
             return responsePojo;
         }
         return responsePojo;

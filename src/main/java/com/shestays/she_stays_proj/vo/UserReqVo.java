@@ -9,5 +9,6 @@ public class UserReqVo {
     private String encryptedData;
     private String iv;
     private String xhsId;
+    private Integer userId;
 
 }

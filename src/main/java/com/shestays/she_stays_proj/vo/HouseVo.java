@@ -3,6 +3,7 @@ package com.shestays.she_stays_proj.vo;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.shestays.she_stays_proj.common.BaseEntity;
 
 import lombok.Data;
@@ -15,6 +16,7 @@ public class HouseVo extends BaseEntity {
     /**
      * 房源id
      */
+    @JsonProperty("houseId")
     private Integer houseId;
     /**
      * 房源title

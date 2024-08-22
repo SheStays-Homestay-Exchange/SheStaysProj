@@ -17,7 +17,6 @@
         <result column="nationName" property="nationName"/>
         <result column="city_code" property="cityCode"/>
         <result column="cityName" property="cityName"/>
-         <result column="region_code" property="regionCode"/>
         <result column="regionName" property="regionName"/>
         <result column="bd_year" property="bdYear"/>
         <result column="bd_month" property="bdMonth"/>
@@ -97,7 +96,7 @@
                 `personal_profile` = #{personalProfile},
             </if>
             <if test="avatarUrl != null">
-                `avatar_url` = #{avatarUrl}
+                `avatar_url` = #{avatarUrl},
             </if>
              `update_time` = now()
               WHERE `user_id` = #{userId}
