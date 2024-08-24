@@ -3,6 +3,7 @@ package com.shestays.she_stays_proj.vo;
 import java.util.Date;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Data;
@@ -56,17 +57,20 @@ public class HouseUploadVo {
      * 开放开始时间
      */
     @JsonProperty("startTime")
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+    @JSONField(format = "yyyy/MM/dd")
+    @JsonFormat(pattern = "yyyy/M/d")
     private Date startTime;
     /**
      * 开放结束时间
      */
     @JsonProperty("endTime")
+    @JSONField(format = "yyyy/MM/dd")
+    @JsonFormat(pattern = "yyyy/M/d")
     private Date endTime;
     /**
      * 所在国家
      */
-    @JsonProperty("countryId")
+    @JsonProperty("countryCode")
     private String countryCode;
     /**
      * 国家名称
@@ -76,7 +80,7 @@ public class HouseUploadVo {
     /**
      * 所在城市
      */
-    @JsonProperty("cityId")
+    @JsonProperty("cityCode")
     private String cityCode;
     /**
      * 城市名称
@@ -86,7 +90,7 @@ public class HouseUploadVo {
     /**
      * 所在区
      */
-    @JsonProperty("regionId")
+    @JsonProperty("regionCode")
     private String regionCode;
     /**
      * 所在区名称

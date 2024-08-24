@@ -2,7 +2,7 @@ package com.shestays.she_stays_proj.common;
 
 public class Constants {
     /**
-     * 待审核
+     * 待审核(房源待发布)
      */
     public static final String STATUS_UPLOADING = "pending_view";
     /**

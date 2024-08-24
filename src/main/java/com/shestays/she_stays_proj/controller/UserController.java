@@ -1,8 +1,12 @@
 package com.shestays.she_stays_proj.controller;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
@@ -17,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.support.StandardMultipartHttpServletRequest;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
@@ -30,6 +35,9 @@ import com.shestays.she_stays_proj.service.UserService;
 import com.shestays.she_stays_proj.service.WeixinService;
 import com.shestays.she_stays_proj.vo.UserReqVo;
 import com.shestays.she_stays_proj.vo.UserVo;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 @RestController
 public class UserController {
@@ -131,6 +139,56 @@ public class UserController {
             log.error("errorMsg-editUserData:" + e.toString());
             return responsePojo;
         }
+    }
+
+    // @PostMapping("uploadAvatar")
+    @ResponseJSONP
+    public ResponsePojo uploadAvatar(HttpServletRequest request, HttpServletResponse response) {
+        ResponsePojo responsePojo = new ResponsePojo();
+
+        try {
+            request.setCharacterEncoding("utf-8"); // 设置编码
+
+            String filePath = "";
+            String realPath = request.getSession().getServletContext().getRealPath("/Users/lienna/Downloads/");
+            File dir = new File(realPath);
+            // 文件目录不存在，就创建一个
+            if (!dir.isDirectory()) {
+                dir.mkdirs();
+            }
+
+            StandardMultipartHttpServletRequest req = (StandardMultipartHttpServletRequest) request;
+            // 获取formdata的值
+            Iterator<String> iterator = req.getFileNames();
+            String username = request.getParameter("username");
+            String password = request.getParameter("password");
+            String timedata = request.getParameter("timedata");
+
+            while (iterator.hasNext()) {
+                MultipartFile file = req.getFile(iterator.next());
+                String fileName = file.getOriginalFilename();
+                // 真正写到磁盘上
+                String uuid = UUID.randomUUID().toString().replace("-", "");
+
+                String kzm = fileName.substring(fileName.lastIndexOf("."));
+                String filename = uuid + kzm;
+                File file1 = new File(realPath + filename);
+                OutputStream out = new FileOutputStream(file1);
+                out.write(file.getBytes());
+                out.close();
+                filePath = request.getScheme() + "://" +
+                        request.getServerName() + ":"
+                        + request.getServerPort()
+                        + "/uploadFile/" + filename;
+                System.out.println("访问图片路径:" + filePath + "====username:" + username);
+            }
+        } catch (UnsupportedEncodingException e) {
+            responsePojo.setMsg(ResponseMsg.MSG_SYSTEM_ERROR);
+            responsePojo.setCode(ResponseCode.ERROR.value);
+            log.error("errorMsg-uploadAvatarImg:" + e.toString());
+            return responsePojo;
+        }
+        return responsePojo;
     }
 
     @PostMapping("uploadAvatar")

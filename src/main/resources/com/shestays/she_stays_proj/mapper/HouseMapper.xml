@@ -43,7 +43,7 @@
         FROM SheStays.ss_house house
         left join ss_status ss on ss.status_code = house.status_code
         left join ss_user  user on house.user_id = user.user_id
-        where house.is_delete = 0  and ss.status_code = 'online' order by house.create_time desc
+        where house.is_delete = 0  and ss.status_code = 'online' and country_name != '' order by  start_time desc
         limit #{pageIndex},50
     </select>
 
@@ -95,7 +95,7 @@
     <select id= "getHouseByUserId" resultMap="houseMap" parameterType = "java.lang.Integer">
         SELECT house.*,ss.status_value as statusValue FROM SheStays.ss_house house
         left join ss_status ss on ss.status_code = house.status_code
-        where is_delete = 0  and ss.status_code = 'online' and house.user_id = #{userId}
+        where is_delete = 0  and house.user_id = #{userId}
     </select>
 
     <!-- 新增房源 -->

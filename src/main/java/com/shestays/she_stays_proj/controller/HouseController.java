@@ -238,11 +238,11 @@ public class HouseController {
                 // 结束时间为空判断
                 msg = ResponseMsg.MSG_END_TIME_NULL;
                 checkFlag = false;
-            } else if (null == houseVo.getCityCode()) {
+            } else if (null == houseVo.getCountryCode() || null == houseVo.getCountryName()) {
                 // 国家id为空判断
                 msg = ResponseMsg.MSG_NATION_NULL;
                 checkFlag = false;
-            } else if (null == houseVo.getCityCode()) {
+            } else if (null == houseVo.getCityCode() || null == houseVo.getCityName()) {
                 // 城市id为空判断
                 msg = ResponseMsg.MSG_CITY_NULL;
                 checkFlag = false;
@@ -261,7 +261,7 @@ public class HouseController {
             house.setHouseTitle(houseVo.getHouseTitle()); // 房源title
             house.setHouseAmount(houseVo.getHouseAmount());// 可接待客房数
             house.setDescrible(houseVo.getDescrible()); // 对房客说的话
-            house.setStatusCode(Constants.STATUS_UPLOADING); // 上传状态
+            house.setStatusCode(houseVo.getStatusCode()); // 上传状态
             house.setStartTime(houseVo.getStartTime()); // 开放开始时间
             house.setEndTime(houseVo.getEndTime()); // 开放结束时间
             house.setCountryCode(houseVo.getCountryCode()); // 所在国家
