@@ -15,9 +15,9 @@ import lombok.extern.slf4j.Slf4j;
 public class SheStaysProjApplication {
 
 	public static void main(String[] args) {
-		ApplicationContext context =  SpringApplication.run(SheStaysProjApplication.class, args);
+		ApplicationContext context = SpringApplication.run(SheStaysProjApplication.class, args);
 		String serverPort = context.getEnvironment().getProperty("server.port");
-        log.info("SENS started at http://localhost:" + serverPort);
+		log.info("SENS started at http://localhost:" + serverPort);
 	}
 
 }

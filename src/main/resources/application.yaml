@@ -33,6 +33,7 @@ spring:
     multipart:
       max-file-size: 2000MB
       max-request-size: 2000MB
+      enabled: true
   devtools:
     restart:
       enabled: true

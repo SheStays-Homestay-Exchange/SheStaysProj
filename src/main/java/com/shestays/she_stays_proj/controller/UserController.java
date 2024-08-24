@@ -125,6 +125,7 @@ public class UserController {
             user.setPhone(userData.getPhone());
             user.setWechatId(userData.getWechatId());
             user.setPersonalProfile(userData.getPersonalProfile());
+            user.setAvatarUrl(userData.getAvatarUrl());
             int rest = userService.editUserData(user);
             log.info("getRest-editUserData:" + rest);
             if (rest == 1) {
@@ -139,56 +140,6 @@ public class UserController {
             log.error("errorMsg-editUserData:" + e.toString());
             return responsePojo;
         }
-    }
-
-    // @PostMapping("uploadAvatar")
-    @ResponseJSONP
-    public ResponsePojo uploadAvatar(HttpServletRequest request, HttpServletResponse response) {
-        ResponsePojo responsePojo = new ResponsePojo();
-
-        try {
-            request.setCharacterEncoding("utf-8"); // 设置编码
-
-            String filePath = "";
-            String realPath = request.getSession().getServletContext().getRealPath("/Users/lienna/Downloads/");
-            File dir = new File(realPath);
-            // 文件目录不存在，就创建一个
-            if (!dir.isDirectory()) {
-                dir.mkdirs();
-            }
-
-            StandardMultipartHttpServletRequest req = (StandardMultipartHttpServletRequest) request;
-            // 获取formdata的值
-            Iterator<String> iterator = req.getFileNames();
-            String username = request.getParameter("username");
-            String password = request.getParameter("password");
-            String timedata = request.getParameter("timedata");
-
-            while (iterator.hasNext()) {
-                MultipartFile file = req.getFile(iterator.next());
-                String fileName = file.getOriginalFilename();
-                // 真正写到磁盘上
-                String uuid = UUID.randomUUID().toString().replace("-", "");
-
-                String kzm = fileName.substring(fileName.lastIndexOf("."));
-                String filename = uuid + kzm;
-                File file1 = new File(realPath + filename);
-                OutputStream out = new FileOutputStream(file1);
-                out.write(file.getBytes());
-                out.close();
-                filePath = request.getScheme() + "://" +
-                        request.getServerName() + ":"
-                        + request.getServerPort()
-                        + "/uploadFile/" + filename;
-                System.out.println("访问图片路径:" + filePath + "====username:" + username);
-            }
-        } catch (UnsupportedEncodingException e) {
-            responsePojo.setMsg(ResponseMsg.MSG_SYSTEM_ERROR);
-            responsePojo.setCode(ResponseCode.ERROR.value);
-            log.error("errorMsg-uploadAvatarImg:" + e.toString());
-            return responsePojo;
-        }
-        return responsePojo;
     }
 
     @PostMapping("uploadAvatar")
@@ -207,15 +158,14 @@ public class UserController {
             // 上传头像
             if (null != avatar) {
                 String avatarUrl = uploadAvatar(avatar, userReqVo.getUserId());
-                user.setAvatarUrl(avatarUrl);
-                user.setUserId(userReqVo.getUserId());
-                int rest = userService.editUserData(user);
-                log.info("getRest-uploadAvatarImg:" + rest);
-                if (rest == 1) {
-                    responsePojo.setMsg(ResponseMsg.MSG_SUCCESS);
-                    responsePojo.setCode(ResponseCode.SUCCESS.value);
-                    log.info("user edit is successful");
-                }
+                // user.setAvatarUrl(avatarUrl);
+                // user.setUserId(userReqVo.getUserId());
+                // int rest = userService.editUserData(user);
+                // log.info("getRest-uploadAvatarImg:" + rest);
+                responsePojo.setMsg(ResponseMsg.MSG_SUCCESS);
+                responsePojo.setCode(ResponseCode.SUCCESS.value);
+                responsePojo.setData(avatarUrl);
+                log.info("uploadAvatarImg is successful");
             }
 
         } catch (Exception e) {
