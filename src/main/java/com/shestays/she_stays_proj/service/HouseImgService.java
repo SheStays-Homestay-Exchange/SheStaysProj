@@ -18,4 +18,12 @@ public interface HouseImgService {
      * @return
      */
     int houseImgDel(Integer imgId);
+
+    /**
+     * 根据房源id删除房源图片信息
+     * 
+     * @param houseId
+     * @return
+     */
+    int houseImgDelByHouseId(Integer houseId);
 }

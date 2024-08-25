@@ -27,6 +27,7 @@ import com.shestays.she_stays_proj.service.HouseService;
 import com.shestays.she_stays_proj.vo.HouseUploadVo;
 import com.shestays.she_stays_proj.vo.HouseVo;
 import com.shestays.she_stays_proj.vo.PageVo;
+import com.shestays.she_stays_proj.vo.UserReqVo;
 
 @RestController
 public class HouseController {
@@ -214,7 +215,7 @@ public class HouseController {
      * @return
      */
     @PostMapping("uploadHouse")
-    public ResponsePojo uploadHouse(@RequestBody HouseUploadVo houseVo, MultipartFile[] files) {
+    public ResponsePojo uploadHouse(@RequestBody HouseUploadVo houseVo) {
         ResponsePojo restPojo = new ResponsePojo();
         log.info("param-uploadHouse-house:"
                 + JSONObject.toJSONString(houseVo, SerializerFeature.WriteMapNullValue));
@@ -246,6 +247,10 @@ public class HouseController {
                 // 城市id为空判断
                 msg = ResponseMsg.MSG_CITY_NULL;
                 checkFlag = false;
+            }else if(null == houseVo.getStatusCode() || houseVo.getStatusCode().isBlank()){
+                //房源状态为空判断
+                msg = ResponseMsg.MSG_HOUSE_STATUS;
+                checkFlag = false;
             }
             if (!checkFlag) {
                 restPojo.setCode(ResponseCode.GET_PARAM_ERROR.value);
@@ -269,7 +274,7 @@ public class HouseController {
             house.setRegionCode(houseVo.getRegionCode()); // 所在区
             house.setDetailArea(houseVo.getDetailAddress()); // 详细地址
             house.setHouseId(houseVo.getHouseId()); // 房源id
-            Integer houseId = server.addHouse(house, files);
+            Integer houseId = server.addHouse(house, houseVo.getHouseImgPath());
             log.info("add-houseId:" + houseId);
             restPojo.setMsg(ResponseMsg.MSG_SUCCESS);
             restPojo.setCode(ResponseCode.SUCCESS.value);
@@ -280,6 +285,41 @@ public class HouseController {
             restPojo.setMsg(ResponseMsg.MSG_SYSTEM_ERROR);
             restPojo.setCode(ResponseCode.ERROR.value);
             log.error("errorMsg-uploadHouse:" + e.getMessage());
+        }
+        return restPojo;
+    }
+
+    /**
+     * 上传房源图片接口
+     * 
+     * @param userReqVo
+     * @param houseImgs
+     * @return
+     */
+    @PostMapping("uploadHouseImg")
+    @ResponseJSONP
+    public ResponsePojo uploadHouseImg(UserReqVo userReqVo,
+            @RequestParam("houseImgs") MultipartFile[] houseImgs) {
+        ResponsePojo restPojo = new ResponsePojo();
+        try {
+            if (null == userReqVo.getUserId()) {
+                restPojo.setCode(ResponseCode.GET_PARAM_ERROR.value);
+                restPojo.setMsg(ResponseMsg.MSG_USER_ID_NULL);
+                return restPojo;
+            }
+            if (null != houseImgs) {
+                List<String> rest = server.uploadImgs(userReqVo.getUserId(), houseImgs);
+                restPojo.setMsg(ResponseMsg.MSG_SUCCESS);
+                restPojo.setCode(ResponseCode.SUCCESS.value);
+                restPojo.setData(rest);
+
+            }
+            log.info("getRest-getHouseByUserId:"
+                    + JSONObject.toJSONString(restPojo, SerializerFeature.WriteMapNullValue));
+        } catch (Exception e) {
+            restPojo.setMsg(ResponseMsg.MSG_SYSTEM_ERROR);
+            restPojo.setCode(ResponseCode.ERROR.value);
+            log.error("errorMsg-uploadHouseImg:" + e.getMessage());
         }
         return restPojo;
     }

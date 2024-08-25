@@ -25,7 +25,6 @@ import com.shestays.she_stays_proj.entity.HouseImg;
 import com.shestays.she_stays_proj.mapper.HouseMapper;
 import com.shestays.she_stays_proj.service.HouseImgService;
 import com.shestays.she_stays_proj.service.HouseService;
-import com.shestays.she_stays_proj.vo.HouseUploadVo;
 import com.shestays.she_stays_proj.vo.HouseVo;
 import com.shestays.she_stays_proj.vo.PageVo;
 
@@ -37,8 +36,9 @@ public class HouseServiceImpl implements HouseService {
 
     @Autowired
     private HouseImgService houseImgService;
-    // @Value("${file-path}")
-    private String userFilePath = "/Users/lienna/Downloads/";
+
+    @Value("${file-path}")
+    private String userFilePath;
     @Value("${file-access-path}")
     private String fileAccessPath;
 
@@ -100,21 +100,21 @@ public class HouseServiceImpl implements HouseService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Integer addHouse(House house, MultipartFile[] files) throws Exception {
+    public Integer addHouse(House house, List<String> houseImgs) throws Exception {
 
         try {
             if (null == house.getHouseId()) {
                 Integer houseId = dao.addHouse(house);
                 houseId = dao.getHouseId(house.getUserId());
-                if (null != files) {
-                    uploadImgs(houseId, files);
-                }
-                return houseId;
+                house.setHouseId(houseId);
+
             } else {
                 dao.editHouse(house);
-                return house.getHouseId();
+                // 删除图片
+                houseImgService.houseImgDelByHouseId(house.getHouseId());
             }
-
+            saveHouseImg(house.getHouseId(), houseImgs);
+            return house.getHouseId();
         } catch (BusinessException e) {
             throw e;
         } catch (Exception e2) {
@@ -122,9 +122,28 @@ public class HouseServiceImpl implements HouseService {
         }
     }
 
-    private void uploadImgs(Integer houseId, MultipartFile[] files) throws Exception {
-        String filePath = userFilePath + houseId + "/";
+    // 保存图片
+    @Transactional(rollbackFor = Exception.class)
+    public void saveHouseImg(Integer houseId, List<String> houseImgs) {
+        try {
+            if (null != houseImgs) {
+                for (String imgPath : houseImgs) {
+                    // 新增房源图片信息
+                    HouseImg houseImg = new HouseImg();
+                    houseImg.setHouseId(houseId);
+                    houseImg.setImgUrl(imgPath);
+                    Integer imgId = houseImgService.addHouseImg(houseImg);
+                }
+            }
+        } catch (Exception e) {
+            throw e;
+        }
 
+    }
+
+    public List<String> uploadImgs(Integer userId, MultipartFile[] files) throws Exception {
+        String filePath = userFilePath + userId + "/";
+        List<String> restList = new ArrayList<>();
         // 判断文件是否存在
         File dest = new File(filePath);
         if (!dest.exists()) {
@@ -149,21 +168,20 @@ public class HouseServiceImpl implements HouseService {
                         String filePathNew = filePath + fileName;
                         file.transferTo(new File(filePathNew));
                         // 设置访问路径
-                        String accessPath = fileAccessPath + houseId + "/" + fileName;
-                        // 新增房源图片信息
-                        HouseImg houseImg = new HouseImg();
-                        houseImg.setHouseId(houseId);
-                        houseImg.setImgUrl(accessPath);
-                        Integer imgId = houseImgService.addHouseImg(houseImg);
+                        String accessPath = fileAccessPath + userId + "/" + fileName;
+                        restList.add(accessPath);
+
                     } else {
                         throw new BusinessException(ResponseCode.GET_PARAM_ERROR.value,
                                 ResponseMsg.MSG_FILE_TYPE_ERROR);
                     }
                 }
             }
+            return restList;
         } catch (IOException e) {
             throw e;
         }
+
     }
 
     @Override

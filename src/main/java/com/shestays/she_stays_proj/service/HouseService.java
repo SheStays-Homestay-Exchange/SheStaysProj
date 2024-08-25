@@ -72,7 +72,7 @@ public interface HouseService {
      * @param house 房源信息
      * @return 房源id
      */
-    Integer addHouse(House house, MultipartFile[] files) throws Exception;
+    Integer addHouse(House house, List<String> houseImgs) throws Exception;
 
     /**
      * 搜索目的地
@@ -84,9 +84,17 @@ public interface HouseService {
     /**
      * 下架房源
      * 
-     * @param houseVo
+     * @param house
      * @return
      */
     Integer houseOffline(House house);
+
+    /**
+     * 上传图片
+     * 
+     * @param userId
+     * @param files
+     */
+    List<String> uploadImgs(Integer userId, MultipartFile[] files) throws Exception;
 
 }

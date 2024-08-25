@@ -1,6 +1,7 @@
 package com.shestays.she_stays_proj.entity;
 
 import java.util.Date;
+import java.util.List;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.shestays.she_stays_proj.common.BaseEntity;

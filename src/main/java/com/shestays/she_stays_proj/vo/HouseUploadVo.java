@@ -1,6 +1,7 @@
 package com.shestays.she_stays_proj.vo;
 
 import java.util.Date;
+import java.util.List;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -117,5 +118,11 @@ public class HouseUploadVo {
      */
     @JsonProperty("continentId")
     private Integer continentId;
+
+    /**
+     * 图片地址集合
+     */
+    @JsonProperty("houseImgPath")
+    private List<String> houseImgPath;
 
 }

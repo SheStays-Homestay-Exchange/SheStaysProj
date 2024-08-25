@@ -8,7 +8,7 @@
     </resultMap>
     <!-- 国家信息查询  -->
     <select id="getNation" resultMap="nationMap">
-        select * from ss_nation where country_code != '999' order by country_code 
+        select * from ss_nation where country_code != '999' order by sort desc 
     </select>
 
   <!-- 区域信息查询  -->

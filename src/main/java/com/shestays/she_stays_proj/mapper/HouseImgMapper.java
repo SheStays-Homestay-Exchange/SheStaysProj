@@ -29,4 +29,12 @@ public interface HouseImgMapper {
      * @return
      */
     int deleteHouseImg(Integer imgId);
+
+    /**
+     * 根据房源id删除图片信息
+     * 
+     * @param houseId
+     * @return
+     */
+    int houseImgDelByHouseId(Integer houseId);
 }

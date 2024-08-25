@@ -20,4 +20,9 @@
     <delete id = "deleteHouseImg" parameterType = "java.lang.Integer" >
        delete  from ss_house_img where house_img_id = #{imgId};
     </delete>
+
+    <!-- 根据房源id删除图片信息 -->
+    <delete id = "houseImgDelByHouseId" parameterType = "java.lang.Integer" >
+       delete  from ss_house_img where house_id = #{houseId};
+    </delete>
 </mapper>

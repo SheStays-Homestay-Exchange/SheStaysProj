@@ -48,7 +48,7 @@
     </select>
 
     <select id="getCount">
-        SELECT count(*) FROM SheStays.ss_house where is_delete = 0 and status_code = 'online' 
+        SELECT count(*) FROM SheStays.ss_house where house.is_delete = 0  and ss.status_code = 'online' and country_name != ''
     </select>
 
     <select id="getHouseByRegion" resultMap="houseMap" parameterType="java.lang.String">
