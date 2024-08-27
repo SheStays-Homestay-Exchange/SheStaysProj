@@ -112,4 +112,12 @@ public class HouseVo extends BaseEntity {
      * 房主头像url
      */
     private String avatarUrl;
+    /**
+     * 区code
+     */
+    private String districtCode;
+    /**
+     * 区名
+     */
+    private String districtName;
 }

@@ -14,6 +14,7 @@ import com.alibaba.fastjson.support.spring.annotation.ResponseJSONP;
 import com.shestays.she_stays_proj.common.ResponseCode;
 import com.shestays.she_stays_proj.common.ResponseMsg;
 import com.shestays.she_stays_proj.common.ResponsePojo;
+import com.shestays.she_stays_proj.entity.District;
 import com.shestays.she_stays_proj.service.NationService;
 import com.shestays.she_stays_proj.vo.CityVo;
 import com.shestays.she_stays_proj.vo.NationVo;
@@ -84,6 +85,27 @@ public class NationController {
         try {
             log.info("param-getCity:" + regionCode);
             List<CityVo> rest = service.getCity(regionCode);
+            restPojo.setMsg(ResponseMsg.MSG_SUCCESS);
+            restPojo.setCode(ResponseCode.SUCCESS.value);
+            restPojo.setData(rest);
+            log.info("getRest-getCity:" + JSONObject.toJSONString(restPojo, SerializerFeature.WriteMapNullValue));
+            return restPojo;
+        } catch (Exception e) {
+            restPojo.setMsg(ResponseMsg.MSG_SYSTEM_ERROR);
+            restPojo.setCode(ResponseCode.ERROR.value);
+            log.error("errorMsg-getCity:" + e.getMessage());
+            return restPojo;
+        }
+    }
+
+    @GetMapping("getDistrict")
+    @ResponseJSONP
+    public ResponsePojo getDistrict(String cityCode) {
+        ResponsePojo restPojo = new ResponsePojo();
+
+        try {
+            log.info("param-getDistrict:" + cityCode);
+            List<District> rest = service.getDistrict(cityCode);
             restPojo.setMsg(ResponseMsg.MSG_SUCCESS);
             restPojo.setCode(ResponseCode.SUCCESS.value);
             restPojo.setData(rest);

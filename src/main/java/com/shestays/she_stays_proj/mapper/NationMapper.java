@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.shestays.she_stays_proj.entity.District;
 import com.shestays.she_stays_proj.entity.Nation;
 import com.shestays.she_stays_proj.vo.CityVo;
 import com.shestays.she_stays_proj.vo.NationVo;
@@ -34,4 +35,12 @@ public interface NationMapper extends BaseMapper<Nation> {
      * @return 城市实体
      */
     List<CityVo> getCity(String regionCode);
+
+    /**
+     * 查询区
+     * 
+     * @param cityCode 城市id
+     * @return 区实体
+     */
+    List<District> getDistrict(String cityCode);
 }

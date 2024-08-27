@@ -24,6 +24,8 @@
         <result column="create_time" property="createTime"/>
         <result column="update_time" property="updateTime"/>
         <result column="is_delete" property="isDelete"/>
+        <result column="district_code" property ="districtCode"/>
+        <result column="district_name" property="districtName"/>
         <association property = "houseImgs" column="house_id" select="getHouseImgs" autoMapping="true">
 
         </association>
@@ -48,7 +50,7 @@
     </select>
 
     <select id="getCount">
-        SELECT count(*) FROM SheStays.ss_house where house.is_delete = 0  and ss.status_code = 'online' and country_name != ''
+        SELECT count(*) FROM SheStays.ss_house house where house.is_delete = 0  and status_code = 'online' and country_name != ''
     </select>
 
     <select id="getHouseByRegion" resultMap="houseMap" parameterType="java.lang.String">
@@ -102,12 +104,12 @@
     <insert id="addHouse" parameterType="com.shestays.she_stays_proj.entity.House">
         INSERT INTO `SheStays`.`ss_house`(`user_id`,`house_title`,`describe`,`house_amount`,
         `status_code`,`start_time`,`end_time`,`country_code`,`region_code`,`city_code`,`detail_address`,
-        `is_visible`,`create_time`,`update_time`,`is_delete`,`continent_name`,`country_name`,`region_name`,`city_name`)
+        `is_visible`,`create_time`,`update_time`,`is_delete`,`continent_name`,`country_name`,`region_name`,`city_name`,`district_code`,`district_name`)
         VALUES
         (#{userId},#{houseTitle},#{describle},#{houseAmount},
         #{statusCode},#{startTime},#{endTime},#{countryCode},#{regionCode},#{cityCode},#{detailArea},
         0,now(),now(),0,
-        #{continentName},#{countryName},#{regionName},#{cityName})
+        #{continentName},#{countryName},#{regionName},#{cityName},#{districtCode},#{districtName})
         
     </insert>
     <!-- 修改房源信息 -->
@@ -153,6 +155,12 @@
             </if>
             <if test="cityName != null">,
                 `city_name` = #{cityName}
+            </if>
+            <if test="districtCode != null">
+                `district_code` = #{districtCode}
+            </if>
+            <if test = "districtName != null">
+                `district_name` = #{districtName}
             </if>
             
             `update_time` = now()

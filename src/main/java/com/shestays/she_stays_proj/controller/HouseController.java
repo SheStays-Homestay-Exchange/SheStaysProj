@@ -239,16 +239,18 @@ public class HouseController {
                 // 结束时间为空判断
                 msg = ResponseMsg.MSG_END_TIME_NULL;
                 checkFlag = false;
-            } else if (null == houseVo.getCountryCode() || null == houseVo.getCountryName()) {
+            } else if (null == houseVo.getCountryCode() || houseVo.getCountryCode().isEmpty()
+                    || null == houseVo.getCountryName() || houseVo.getCountryName().isEmpty()) {
                 // 国家id为空判断
                 msg = ResponseMsg.MSG_NATION_NULL;
                 checkFlag = false;
-            } else if (null == houseVo.getCityCode() || null == houseVo.getCityName()) {
+            } else if (null == houseVo.getCityCode() || houseVo.getCityCode().isEmpty()
+                    || null == houseVo.getCityName() || houseVo.getCityName().isEmpty()) {
                 // 城市id为空判断
                 msg = ResponseMsg.MSG_CITY_NULL;
                 checkFlag = false;
-            }else if(null == houseVo.getStatusCode() || houseVo.getStatusCode().isBlank()){
-                //房源状态为空判断
+            } else if (null == houseVo.getStatusCode() || houseVo.getStatusCode().isEmpty()) {
+                // 房源状态为空判断
                 msg = ResponseMsg.MSG_HOUSE_STATUS;
                 checkFlag = false;
             }
@@ -274,6 +276,8 @@ public class HouseController {
             house.setRegionCode(houseVo.getRegionCode()); // 所在区
             house.setDetailArea(houseVo.getDetailAddress()); // 详细地址
             house.setHouseId(houseVo.getHouseId()); // 房源id
+            house.setDistrictCode(houseVo.getDistrictCode()); // 区code
+            house.setDistrictName(houseVo.getDistrictName()); // 区名
             Integer houseId = server.addHouse(house, houseVo.getHouseImgPath());
             log.info("add-houseId:" + houseId);
             restPojo.setMsg(ResponseMsg.MSG_SUCCESS);

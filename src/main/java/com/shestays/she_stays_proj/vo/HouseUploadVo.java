@@ -125,4 +125,15 @@ public class HouseUploadVo {
     @JsonProperty("houseImgPath")
     private List<String> houseImgPath;
 
+    /**
+     * 区code
+     */
+    @JsonProperty("districtCode")
+    private String districtCode;
+    /**
+     * 区名
+     */
+    @JsonProperty("districtName")
+    private String districtName;
+
 }

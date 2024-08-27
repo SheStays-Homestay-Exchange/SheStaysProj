@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.shestays.she_stays_proj.entity.District;
 import com.shestays.she_stays_proj.mapper.NationMapper;
 import com.shestays.she_stays_proj.service.NationService;
 import com.shestays.she_stays_proj.vo.CityVo;
@@ -29,5 +30,10 @@ public class NationServiceImpl implements NationService {
     @Override
     public List<CityVo> getCity(String regionCode) {
         return dao.getCity(regionCode);
+    }
+
+    @Override
+    public List<District> getDistrict(String cityCode) {
+        return dao.getDistrict(cityCode);
     }
 }

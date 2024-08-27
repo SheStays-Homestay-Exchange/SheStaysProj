@@ -158,10 +158,7 @@ public class UserController {
             // 上传头像
             if (null != avatar) {
                 String avatarUrl = uploadAvatar(avatar, userReqVo.getUserId());
-                // user.setAvatarUrl(avatarUrl);
-                // user.setUserId(userReqVo.getUserId());
-                // int rest = userService.editUserData(user);
-                // log.info("getRest-uploadAvatarImg:" + rest);
+
                 responsePojo.setMsg(ResponseMsg.MSG_SUCCESS);
                 responsePojo.setCode(ResponseCode.SUCCESS.value);
                 responsePojo.setData(avatarUrl);
@@ -185,7 +182,7 @@ public class UserController {
         String filePath = userFilePath + urlPath + "/";
         // 判断文件是否存在
         File dest = new File(filePath);
-        FileUtils.deleteDirectory(dest);
+        // FileUtils.deleteDirectory(dest);
         if (!dest.exists()) {
             dest.mkdirs();
         }

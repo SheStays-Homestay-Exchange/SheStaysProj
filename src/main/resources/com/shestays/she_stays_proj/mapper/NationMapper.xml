@@ -34,4 +34,16 @@
     <select id="getCity" resultMap="cityMap" parameterType="java.lang.String">
         select * from ss_city where region_code = #{regionCode}
     </select>
+
+    <!-- 查询区 -->
+    <resultMap id="districtMap"  type="com.shestays.she_stays_proj.entity.District">
+        <result column="district_code" property="districtCode"/>
+        <result column="district_name" property="districtName"/>
+        <result column="district_lon" property="districtLon"/>
+        <result column="district_lat" property="districtLat"/>
+         <result column="city_code" property="cityCode"/>
+    </resultMap>
+    <select id="getDistrict" resultMap = "districtMap" parameterType="java.lang.String">
+        select * from  ss_district where city_code = #{cityCode}
+    </select>
 </mapper>

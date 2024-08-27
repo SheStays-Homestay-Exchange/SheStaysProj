@@ -2,6 +2,7 @@ package com.shestays.she_stays_proj.service;
 
 import java.util.List;
 
+import com.shestays.she_stays_proj.entity.District;
 import com.shestays.she_stays_proj.vo.CityVo;
 import com.shestays.she_stays_proj.vo.NationVo;
 import com.shestays.she_stays_proj.vo.RegionVo;
@@ -29,4 +30,12 @@ public interface NationService {
      * @return 城市集合
      */
     List<CityVo> getCity(String regionCode);
+
+    /**
+     * 查询区
+     * 
+     * @param cityCode
+     * @return 区集合
+     */
+    List<District> getDistrict(String cityCode);
 }

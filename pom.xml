@@ -29,15 +29,15 @@
 		<url/>
 	</scm>
 	<properties>
-		
+
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <java.version>17</java.version>
-        <druid.version>1.1.10</druid.version>
-        <lombok.version>1.18.20</lombok.version>
-        <commons-lang3.version>3.8</commons-lang3.version>
-        <hutool-all.version>4.1.13</hutool-all.version>
-		
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<java.version>17</java.version>
+		<druid.version>1.1.10</druid.version>
+		<lombok.version>1.18.20</lombok.version>
+		<commons-lang3.version>3.8</commons-lang3.version>
+		<hutool-all.version>4.1.13</hutool-all.version>
+
 	</properties>
 	<dependencies>
 		<dependency>
@@ -149,6 +149,7 @@
 					</excludes>
 				</configuration>
 			</plugin>
+			
 		</plugins>
 		<resources>
 			<resource>
