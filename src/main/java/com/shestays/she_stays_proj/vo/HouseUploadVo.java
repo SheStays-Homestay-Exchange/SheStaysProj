@@ -59,14 +59,14 @@ public class HouseUploadVo {
      */
     @JsonProperty("startTime")
     @JSONField(format = "yyyy/MM/dd")
-    @JsonFormat(pattern = "yyyy/M/d")
+    @JsonFormat(pattern = "yyyy/M/dd")
     private Date startTime;
     /**
      * 开放结束时间
      */
     @JsonProperty("endTime")
     @JSONField(format = "yyyy/MM/dd")
-    @JsonFormat(pattern = "yyyy/M/d")
+    @JsonFormat(pattern = "yyyy/M/dd")
     private Date endTime;
     /**
      * 所在国家

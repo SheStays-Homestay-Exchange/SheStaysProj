@@ -6,7 +6,7 @@
         <result column="house_title" property="houseTitle"/>
         <result column="home_page_img_url" property="homePageImgUrl"/>
         <result column="house_amount" property="houseAmount"/>
-        <result column="describle" property="describle"/>
+        <result column="describe" property="describle"/>
         <result column="status_code" property="statusCode"/>
         <result column="statusValue" property="statusValue"/>
         <result column="start_time" property="startTime"/>
@@ -68,7 +68,7 @@
         FROM SheStays.ss_house house
         left join ss_status ss on ss.status_code = house.status_code
         left join ss_user user on house.user_id = user.user_id
-        where house.is_delete = 0  and ss.status_code = 'online' and house.house_id = #{houseId}
+        where house.is_delete = 0   and house.house_id = #{houseId}
     </select>
 
     <!-- 查询待审核房源 -->

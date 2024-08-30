@@ -139,13 +139,22 @@ public class HouseController {
      * @return
      */
     @PostMapping("review")
-    public ResponsePojo review(HouseVo houseVo) {
+    public ResponsePojo review(@RequestBody HouseUploadVo hVo) {
+        log.info("param-review:" + JSONObject.toJSONString(hVo));
         ResponsePojo restPojo = new ResponsePojo();
         try {
-            log.info("param-review:" + JSONObject.toJSONString(houseVo));
+            if (null == hVo.getHouseId() || null == hVo.getStatusCode()) {
+                restPojo.setMsg(ResponseMsg.MSG_GET_PARAM_NULL_ERROR);
+                restPojo.setCode(ResponseCode.ERROR.value);
+                return restPojo;
+            }
+            HouseVo houseVo = new HouseVo();
+            houseVo.setHouseId(hVo.getHouseId());
+            houseVo.setStatusCode(hVo.getStatusCode());
             Integer rest = server.review(houseVo);
             restPojo.setMsg(ResponseMsg.MSG_SUCCESS);
             restPojo.setCode(ResponseCode.SUCCESS.value);
+            restPojo.setData(houseVo);
             log.info("getRest-getUnderViewHouse:"
                     + JSONObject.toJSONString(restPojo, SerializerFeature.WriteMapNullValue));
         } catch (Exception e) {
@@ -164,10 +173,11 @@ public class HouseController {
      */
     @DeleteMapping("houseDel")
     public ResponsePojo houseDel(Integer houseId) {
+        // Integer houseId = houseVo.getHouseId();
         ResponsePojo restPojo = new ResponsePojo();
         try {
             if (houseId == null) {
-                restPojo.setMsg(ResponseMsg.MSG_DEL_ERROR);
+                restPojo.setMsg(ResponseMsg.MSG_HOUSE_ID_NULL);
                 restPojo.setCode(ResponseCode.GET_PARAM_ERROR.value);
                 log.error("houseId  is null");
                 return restPojo;
@@ -272,12 +282,16 @@ public class HouseController {
             house.setStartTime(houseVo.getStartTime()); // 开放开始时间
             house.setEndTime(houseVo.getEndTime()); // 开放结束时间
             house.setCountryCode(houseVo.getCountryCode()); // 所在国家
+            house.setCountryName(houseVo.getCountryName()); // 国家名
             house.setCityCode(houseVo.getCityCode()); // 所在城市
+            house.setCityName(houseVo.getCityName());// 城市名
             house.setRegionCode(houseVo.getRegionCode()); // 所在区
+            house.setRegionName(houseVo.getRegionName()); // 区名
             house.setDetailArea(houseVo.getDetailAddress()); // 详细地址
             house.setHouseId(houseVo.getHouseId()); // 房源id
             house.setDistrictCode(houseVo.getDistrictCode()); // 区code
             house.setDistrictName(houseVo.getDistrictName()); // 区名
+
             Integer houseId = server.addHouse(house, houseVo.getHouseImgPath());
             log.info("add-houseId:" + houseId);
             restPojo.setMsg(ResponseMsg.MSG_SUCCESS);

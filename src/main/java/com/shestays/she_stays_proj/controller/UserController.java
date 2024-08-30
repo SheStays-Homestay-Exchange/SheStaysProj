@@ -107,12 +107,6 @@ public class UserController {
             }
 
             User user = new User();
-            // 上传头像
-            if (null != avatar) {
-                String avatarUrl = uploadAvatar(avatar, userData.getUserId());
-                user.setAvatarUrl(avatarUrl);
-            }
-
             user.setUserId(userData.getUserId());
             user.setUserName(userData.getUserName());
             user.setGenderDictCode(userData.getGenderDictCode());
@@ -131,6 +125,7 @@ public class UserController {
             if (rest == 1) {
                 responsePojo.setMsg(ResponseMsg.MSG_SUCCESS);
                 responsePojo.setCode(ResponseCode.SUCCESS.value);
+                responsePojo.setData(user);
                 log.info("user edit is successful");
             }
             return responsePojo;
@@ -162,7 +157,8 @@ public class UserController {
                 responsePojo.setMsg(ResponseMsg.MSG_SUCCESS);
                 responsePojo.setCode(ResponseCode.SUCCESS.value);
                 responsePojo.setData(avatarUrl);
-                log.info("uploadAvatarImg is successful");
+                log.info("uploadAvatarImg is successful:"
+                        + JSONObject.toJSONString(responsePojo, SerializerFeature.WriteMapNullValue));
             }
 
         } catch (Exception e) {

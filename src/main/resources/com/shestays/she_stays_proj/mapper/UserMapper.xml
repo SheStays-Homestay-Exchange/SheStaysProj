@@ -41,7 +41,7 @@
         <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
         <result column="is_delete" property="isDelete"/>
     </resultMap>
-
+    <!-- 我的房源 -->
     <select id="getUserInfoByWechatId" resultMap="UserInfoMap" parameterType="java.lang.String">
      SELECT user.*,(select dict_nm from ss_dict_data where dict_type='dict_gender' and dict_code=user.gender_dict_code) as genderDictVal,
     nation.`country_name` as nationName,region.region_name as regionName,city.city_name as cityName
@@ -50,6 +50,7 @@
     left join ss_region region on user.region_code = region.region_code
     left join ss_city city on user.city_code = city.city_code
     where open_id= #{openId}
+    order by create_time desc
     </select>
 
     <select id="getRoles" resultMap="getRoles">
