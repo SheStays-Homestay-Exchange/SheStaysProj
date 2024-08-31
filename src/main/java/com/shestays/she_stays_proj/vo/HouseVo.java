@@ -3,6 +3,8 @@ package com.shestays.she_stays_proj.vo;
 import java.util.Date;
 import java.util.List;
 
+import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.shestays.she_stays_proj.common.BaseEntity;
 
@@ -45,10 +47,14 @@ public class HouseVo extends BaseEntity {
     /**
      * 开放开始时间
      */
+    @JSONField(format = "yyyy/MM/dd")
+    @JsonFormat(pattern = "yyyy/M/dd")
     private Date startTime;
     /**
      * 开放结束时间
      */
+    @JSONField(format = "yyyy/MM/dd")
+    @JsonFormat(pattern = "yyyy/M/dd")
     private Date endTime;
     /**
      * 所在国家code
@@ -103,6 +109,7 @@ public class HouseVo extends BaseEntity {
     /**
      * 用户微信唯一标识
      */
+    @JsonProperty("openId")
     private String openId;
     /**
      * 房主手机号
@@ -120,4 +127,14 @@ public class HouseVo extends BaseEntity {
      * 区名
      */
     private String districtName;
+
+    /**
+     * 房主用户名
+     */
+    private String userName;
+
+    /**
+     * 房主联系方式
+     */
+    private String contactInfo;
 }

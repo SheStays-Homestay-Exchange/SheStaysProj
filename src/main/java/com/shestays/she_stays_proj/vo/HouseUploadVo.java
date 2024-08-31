@@ -136,4 +136,10 @@ public class HouseUploadVo {
     @JsonProperty("districtName")
     private String districtName;
 
+    /**
+     * 房主联系方式
+     */
+    @JsonProperty("contactInfo")
+    private String contactInfo;
+
 }

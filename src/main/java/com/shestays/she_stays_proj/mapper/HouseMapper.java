@@ -74,7 +74,7 @@ public interface HouseMapper {
      * @param houseId 房源id
      * @return
      */
-    Integer houseDel(Integer houseId);
+    Integer houseDel(HouseVo houseVo);
 
     /**
      * 根据用户id查询房源
@@ -122,4 +122,12 @@ public interface HouseMapper {
      * @return
      */
     Integer houseOffline(House house);
+
+    /**
+     * 查询已上线的个人房源信息
+     * 
+     * @param house 用户id,房源状态
+     * @return
+     */
+    List<HouseVo> getOnlineHouseInfoByUserId(House house);
 }

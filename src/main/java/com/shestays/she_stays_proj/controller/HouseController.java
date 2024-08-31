@@ -151,6 +151,7 @@ public class HouseController {
             HouseVo houseVo = new HouseVo();
             houseVo.setHouseId(hVo.getHouseId());
             houseVo.setStatusCode(hVo.getStatusCode());
+            houseVo.setUnpassReason(hVo.getUnpassReason());
             Integer rest = server.review(houseVo);
             restPojo.setMsg(ResponseMsg.MSG_SUCCESS);
             restPojo.setCode(ResponseCode.SUCCESS.value);
@@ -172,8 +173,9 @@ public class HouseController {
      * @return
      */
     @DeleteMapping("houseDel")
-    public ResponsePojo houseDel(Integer houseId) {
-        // Integer houseId = houseVo.getHouseId();
+    public ResponsePojo houseDel(@RequestBody HouseVo houseVo) {
+        log.info("param-houseDel:" + JSONObject.toJSONString(houseVo));
+        Integer houseId = houseVo.getHouseId();
         ResponsePojo restPojo = new ResponsePojo();
         try {
             if (houseId == null) {
@@ -182,7 +184,7 @@ public class HouseController {
                 log.error("houseId  is null");
                 return restPojo;
             }
-            server.houseDel(houseId);
+            server.houseDel(houseVo);
             restPojo.setMsg(ResponseMsg.MSG_SUCCESS);
             restPojo.setCode(ResponseCode.SUCCESS.value);
             log.info("getRest-houseDel:"
@@ -291,6 +293,7 @@ public class HouseController {
             house.setHouseId(houseVo.getHouseId()); // 房源id
             house.setDistrictCode(houseVo.getDistrictCode()); // 区code
             house.setDistrictName(houseVo.getDistrictName()); // 区名
+            house.setContactInfo(houseVo.getContactInfo());
 
             Integer houseId = server.addHouse(house, houseVo.getHouseImgPath());
             log.info("add-houseId:" + houseId);
@@ -393,6 +396,37 @@ public class HouseController {
             restPojo.setMsg(ResponseMsg.MSG_SYSTEM_ERROR);
             restPojo.setCode(ResponseCode.ERROR.value);
             log.error("errorMsg-houseOffline:" + e.getMessage());
+        }
+        return restPojo;
+    }
+
+    /**
+     * 查询已上线的个人房源信息
+     */
+    @GetMapping("getOnlineHouseInfoByUserId")
+    @ResponseJSONP
+    public ResponsePojo getOnlineHouseInfoByUserId(Integer userId) {
+        ResponsePojo restPojo = new ResponsePojo();
+        try {
+            if (null == userId) {
+                restPojo.setCode(ResponseCode.GET_PARAM_ERROR.value);
+                restPojo.setMsg(ResponseMsg.MSG_HOUSE_ID_NULL);
+                return restPojo;
+            }
+            House house = new House();
+            house.setUserId(userId);
+            house.setStatusCode(Constants.STATUS_ONLINE);
+            List<HouseVo> rest = server.getOnlineHouseInfoByUserId(house);
+            restPojo.setMsg(ResponseMsg.MSG_SUCCESS);
+            restPojo.setCode(ResponseCode.SUCCESS.value);
+            restPojo.setData(rest);
+            log.info("getRest-getOnlineHouseInfoByUserId:"
+                    + JSONObject.toJSONString(restPojo, SerializerFeature.WriteMapNullValue));
+            return restPojo;
+        } catch (Exception e) {
+            restPojo.setMsg(ResponseMsg.MSG_SYSTEM_ERROR);
+            restPojo.setCode(ResponseCode.ERROR.value);
+            log.error("errorMsg-getOnlineHouseInfoByUserId:" + e.getMessage());
         }
         return restPojo;
     }

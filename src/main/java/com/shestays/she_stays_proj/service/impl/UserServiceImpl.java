@@ -77,4 +77,15 @@ public class UserServiceImpl implements UserService {
         }
         throw new BusinessException(ResponseCode.PERMISSION_ERROR.value, ResponseMsg.MSG_USER_AUTHOR_ERROR);
     }
+
+    @Override
+    public UserVo getUserInfoByUserId(Integer userId) {
+        try {
+            return dao.getUserInfoByUserId(userId);
+        } catch (Exception e) {
+            log.error("getUserInfoByWechatId-error", e.getMessage());
+            log.error("getUserInfoByWechatId-error", e.toString());
+            throw e;
+        }
+    }
 }

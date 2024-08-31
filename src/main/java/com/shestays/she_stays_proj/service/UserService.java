@@ -14,6 +14,14 @@ public interface UserService {
     UserVo getUserInfoByWechatId(String openId);
 
     /**
+     * 根据用户id查询用户信息
+     * 
+     * @param userId 用户id
+     * @return
+     */
+    UserVo getUserInfoByUserId(Integer userId);
+
+    /**
      * 编辑用户信息
      */
     int editUserData(User user);

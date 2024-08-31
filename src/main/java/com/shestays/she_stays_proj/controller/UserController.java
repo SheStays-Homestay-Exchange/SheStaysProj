@@ -87,6 +87,32 @@ public class UserController {
 
     }
 
+    @GetMapping("getUserInfoByUserId")
+    @ResponseJSONP
+    public ResponsePojo getUserInfoByUserId(Integer userId) {
+        ResponsePojo responseBody = new ResponsePojo();
+        try {
+            if (null == userId) {
+                responseBody.setMsg(ResponseMsg.MSG_GET_PARAM_NULL_ERROR);
+                responseBody.setCode(ResponseCode.GET_PARAM_ERROR.value);
+                return responseBody;
+            }
+            UserVo user = userService.getUserInfoByUserId(userId);
+            responseBody.setMsg(ResponseMsg.MSG_SUCCESS);
+            responseBody.setCode(ResponseCode.SUCCESS.value);
+            responseBody.setData(user);
+            log.info("getRest-getUserInfoByUserId:"
+                    + JSONObject.toJSONString(responseBody, SerializerFeature.WriteMapNullValue));
+            return responseBody;
+        } catch (Exception e) {
+            responseBody.setMsg(ResponseMsg.MSG_SYSTEM_ERROR);
+            responseBody.setCode(ResponseCode.ERROR.value);
+            log.error("errorMsg-getUserInfoByUserId:" + e.toString());
+            return responseBody;
+        }
+
+    }
+
     /**
      * 编辑个人信息
      * 

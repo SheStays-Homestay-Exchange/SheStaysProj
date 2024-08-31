@@ -85,12 +85,12 @@ public class HouseServiceImpl implements HouseService {
     }
 
     @Override
-    public Integer houseDel(Integer houseId) {
+    public Integer houseDel(HouseVo houseVo) {
         // 删除图片信息
-        String filePath = userFilePath + houseId + "/";
-        File dest = new File(filePath);
-        FileUtils.deleteDirectory(dest);
-        return dao.houseDel(houseId);
+        // String filePath = userFilePath + houseVo.getHouseId() + "/";
+        // File dest = new File(filePath);
+        // FileUtils.deleteDirectory(dest);
+        return dao.houseDel(houseVo);
     }
 
     @Override
@@ -197,5 +197,10 @@ public class HouseServiceImpl implements HouseService {
     @Override
     public Integer houseOffline(House house) {
         return dao.houseOffline(house);
+    }
+
+    @Override
+    public List<HouseVo> getOnlineHouseInfoByUserId(House house) {
+        return dao.getOnlineHouseInfoByUserId(house);
     }
 }

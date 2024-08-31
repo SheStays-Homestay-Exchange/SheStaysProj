@@ -17,6 +17,7 @@
         <result column="nationName" property="nationName"/>
         <result column="city_code" property="cityCode"/>
         <result column="cityName" property="cityName"/>
+        <result column="region_code" property="regionCode"/>
         <result column="regionName" property="regionName"/>
         <result column="bd_year" property="bdYear"/>
         <result column="bd_month" property="bdMonth"/>
@@ -28,6 +29,7 @@
         <result column="xiaohongshu_id" property="xiaohongshuId"/>
         <result column="country_code" property ="countryCode"/>
         <result column="open_id" property ="openId"/>
+
         <association property="roles" column="role_id" select="getRoles" autoMapping="true">
 
         </association>
@@ -41,7 +43,7 @@
         <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
         <result column="is_delete" property="isDelete"/>
     </resultMap>
-    <!-- 我的房源 -->
+    <!-- 根据openid获取用户详细信息 -->
     <select id="getUserInfoByWechatId" resultMap="UserInfoMap" parameterType="java.lang.String">
      SELECT user.*,(select dict_nm from ss_dict_data where dict_type='dict_gender' and dict_code=user.gender_dict_code) as genderDictVal,
     nation.`country_name` as nationName,region.region_name as regionName,city.city_name as cityName
@@ -50,7 +52,6 @@
     left join ss_region region on user.region_code = region.region_code
     left join ss_city city on user.city_code = city.city_code
     where open_id= #{openId}
-    order by create_time desc
     </select>
 
     <select id="getRoles" resultMap="getRoles">
@@ -114,6 +115,7 @@
     <select id="getUserByXhsId" parameterType="java.lang.String" resultMap="UserInfoMap">
         select * from ss_user where xiaohongshu_id = #{xhsId}
     </select>
+    <!-- 根据openid获取用户信息 -->
     <select id= "getUserByopenId" parameterType="java.lang.String" resultMap="UserInfoMap">
         select * from ss_user where open_id = #{openId}
     </select>
@@ -123,4 +125,16 @@
         insert into ss_user(user_no,role_id,phone,country_num,open_id,create_time,update_time,is_delete) 
         values(concat('U',user_id),(select role_id from  ss_role where role_dict_code = 'user'),#{phone},#{countryNum},#{openId},now(),now(),'0');
     </insert>
+    <!-- 根据用户id查询用户信息 -->
+    <select id="getUserInfoByUserId" parameterType="java.lang.Integer" resultMap="UserInfoMap">
+     
+      SELECT user.*,(select dict_nm from ss_dict_data where dict_type='dict_gender' and dict_code=user.gender_dict_code) as genderDictVal,
+    nation.`country_name` as nationName,region.region_name as regionName,city.city_name as cityName
+    FROM SheStays.ss_user user 
+    left join ss_nation nation on user.country_code = nation.country_code
+    left join ss_region region on user.region_code = region.region_code
+    left join ss_city city on user.city_code = city.city_code
+    where user_id=  #{userId}
+  
+    </select>
 </mapper>

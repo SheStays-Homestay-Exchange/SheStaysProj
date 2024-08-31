@@ -18,6 +18,14 @@ public interface UserMapper extends BaseMapper<User> {
     UserVo getUserInfoByWechatId(String openId);
 
     /**
+     * 根据用户id查询用户信息
+     * 
+     * @param userId
+     * @return
+     */
+    UserVo getUserInfoByUserId(Integer userId);
+
+    /**
      * 修改用户信息
      * 
      * @param user 用户信息实体

@@ -26,6 +26,7 @@
         <result column="is_delete" property="isDelete"/>
         <result column="district_code" property ="districtCode"/>
         <result column="district_name" property="districtName"/>
+        <result column="contact_info" property="contactInfo"/>
         <association property = "houseImgs" column="house_id" select="getHouseImgs" autoMapping="true">
 
         </association>
@@ -52,7 +53,7 @@
     <select id="getCount">
         SELECT count(*) FROM SheStays.ss_house house where house.is_delete = 0  and status_code = 'online' and country_name != ''
     </select>
-
+    <!-- 搜索房源 -->
     <select id="getHouseByRegion" resultMap="houseMap" parameterType="java.lang.String">
         SELECT house.*,ss.status_value as statusValue FROM SheStays.ss_house house
             left join ss_status ss on ss.status_code = house.status_code
@@ -64,7 +65,7 @@
     <!-- 根据房源id查询房源详情 -->
     <select id = "getHouseById" resultMap="houseMap" parameterType = "java.lang.Integer">
          SELECT house.*,ss.status_value as statusValue,user.`open_id` as openId,user.`phone` as phone,user.`avatar_url` as avatarUrl,
-        user.`xiaohongshu_username` as xiaohongshuUsername,user.`xiaohongshu_id` as xiaohongshuId
+        user.`xiaohongshu_username` as xiaohongshuUsername,user.`xiaohongshu_id` as xiaohongshuId,user.`user_name` as userName
         FROM SheStays.ss_house house
         left join ss_status ss on ss.status_code = house.status_code
         left join ss_user user on house.user_id = user.user_id
@@ -90,30 +91,30 @@
     </update>
 
     <!-- 删除房源 -->
-    <update id="houseDel">
-        update ss_house set is_delete = 1,is_visible = 0 where house_id = #{houseId}
+    <update id="houseDel" parameterType="com.shestays.she_stays_proj.vo.HouseVo">
+        update ss_house set is_delete = 1,is_visible = 0 where house_id = #{houseId} and user_id = (select user_id from ss_user where open_id = #{openId})
     </update>
     <!-- 根据用户id查询房源信息 -->
     <select id= "getHouseByUserId" resultMap="houseMap" parameterType = "java.lang.Integer">
         SELECT house.*,ss.status_value as statusValue FROM SheStays.ss_house house
         left join ss_status ss on ss.status_code = house.status_code
-        where is_delete = 0  and house.user_id = #{userId}
+        where is_delete = 0  and house.user_id = #{userId} order by  create_time desc
     </select>
 
     <!-- 新增房源 -->
     <insert id="addHouse" parameterType="com.shestays.she_stays_proj.entity.House">
         INSERT INTO `SheStays`.`ss_house`(`user_id`,`house_title`,`describe`,`house_amount`,
         `status_code`,`start_time`,`end_time`,`country_code`,`region_code`,`city_code`,`detail_address`,
-        `is_visible`,`create_time`,`update_time`,`is_delete`,`continent_name`,`country_name`,`region_name`,`city_name`,`district_code`,`district_name`)
+        `is_visible`,`create_time`,`update_time`,`is_delete`,`continent_name`,`country_name`,`region_name`,`city_name`,`district_code`,`district_name`,`contact_info`)
         VALUES
         (#{userId},#{houseTitle},#{describle},#{houseAmount},
         #{statusCode},#{startTime},#{endTime},#{countryCode},#{regionCode},#{cityCode},#{detailArea},
         0,now(),now(),0,
-        #{continentName},#{countryName},#{regionName},#{cityName},#{districtCode},#{districtName})
+        #{continentName},#{countryName},#{regionName},#{cityName},#{districtCode},#{districtName},#{contactInfo})
         
     </insert>
     <!-- 修改房源信息 -->
-    <update id = "editHouse">
+    <update id = "editHouse" parameterType="com.shestays.she_stays_proj.entity.House">
         update `SheStays`.`ss_house`
         <set>
             <if test="houseTitle != null">
@@ -153,14 +154,17 @@
             <if test="regionName != null">
                 `region_name` = #{regionName},
             </if>
-            <if test="cityName != null">,
-                `city_name` = #{cityName}
+            <if test="cityName != null">
+                `city_name` = #{cityName},
             </if>
             <if test="districtCode != null">
-                `district_code` = #{districtCode}
+                `district_code` = #{districtCode},
             </if>
             <if test = "districtName != null">
-                `district_name` = #{districtName}
+                `district_name` = #{districtName},
+            </if>
+            <if test ="contactInfo != null">
+                `contact_info` = #{contactInfo},
             </if>
             
             `update_time` = now()
@@ -182,4 +186,14 @@
     <update id="houseOffline" parameterType="com.shestays.she_stays_proj.entity.House">
          update ss_house set status_code = #{statusCode} where house_id = #{houseId}
     </update>
+
+    <!-- 查询已上线的个人房源信息 -->
+     <select id = "getOnlineHouseInfoByUserId" resultMap="houseMap" parameterType = "com.shestays.she_stays_proj.entity.House">
+         SELECT house.*,ss.status_value as statusValue,user.`open_id` as openId,user.`phone` as phone,user.`avatar_url` as avatarUrl,
+        user.`xiaohongshu_username` as xiaohongshuUsername,user.`xiaohongshu_id` as xiaohongshuId,user.`user_name` as userName
+        FROM SheStays.ss_house house
+        left join ss_status ss on ss.status_code = house.status_code
+        left join ss_user user on house.user_id = user.user_id
+        where house.is_delete = 0   and house.user_id = #{userId} and house.status_code = #{statusCode}
+    </select>
 </mapper>   

@@ -94,5 +94,8 @@ public class House extends BaseEntity {
      * 区名
      */
     private String districtName;
-
+    /**
+     * 房主联系方式
+     */
+    private String contactInfo;
 }

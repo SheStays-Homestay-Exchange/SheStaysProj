@@ -53,10 +53,10 @@ public interface HouseService {
     /**
      * 删除房源
      * 
-     * @param houseId 房源id
+     * @param houseVo
      * @return
      */
-    Integer houseDel(Integer houseId);
+    Integer houseDel(HouseVo houseVo);
 
     /**
      * 根据用户id查询房源
@@ -97,4 +97,11 @@ public interface HouseService {
      */
     List<String> uploadImgs(Integer userId, MultipartFile[] files) throws Exception;
 
+    /**
+     * 查询已上线的个人房源信息
+     * 
+     * @param house 用户id,房源状态
+     * @return
+     */
+    List<HouseVo> getOnlineHouseInfoByUserId(House house);
 }
