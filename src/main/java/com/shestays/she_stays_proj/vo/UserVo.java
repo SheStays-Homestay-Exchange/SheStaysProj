@@ -137,4 +137,9 @@ public class UserVo extends BaseEntity {
      */
     @JsonProperty("regionName")
     private String regionName;
+    /**
+     * 联系方式
+     */
+    @JsonProperty("contactInfo")
+    private String contactInfo;
 }

@@ -95,5 +95,9 @@ public class User extends BaseEntity {
      * 区域id
      */
     private String regionCode;
+    /**
+     * 联系方式
+     */
+    private String contactInfo;
 
 }

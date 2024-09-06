@@ -43,10 +43,11 @@
     <!-- 查询房源 -->
     <select id="getHouse" resultMap="houseMap" parameterType="java.lang.Integer">
         SELECT house.*,ss.status_value as statusValue,user.xiaohongshu_id as xiaohongshuId,user.xiaohongshu_username as xiaohongshuUsername
+        ,user.`user_name` as userName
         FROM SheStays.ss_house house
         left join ss_status ss on ss.status_code = house.status_code
         left join ss_user  user on house.user_id = user.user_id
-        where house.is_delete = 0  and ss.status_code = 'online' and country_name != '' order by  start_time desc
+        where house.is_delete = 0  and house.status_code = 'online' and country_name != '' order by  start_time desc
         limit #{pageIndex},50
     </select>
 
@@ -55,9 +56,12 @@
     </select>
     <!-- 搜索房源 -->
     <select id="getHouseByRegion" resultMap="houseMap" parameterType="java.lang.String">
-        SELECT house.*,ss.status_value as statusValue FROM SheStays.ss_house house
-            left join ss_status ss on ss.status_code = house.status_code
-        where is_delete = 0  and ss.status_code = 'online' 
+        SELECT house.*,ss.status_value as statusValue,user.xiaohongshu_id as xiaohongshuId,user.xiaohongshu_username as xiaohongshuUsername
+        ,user.`user_name` as userName
+        FROM SheStays.ss_house house
+        left join ss_status ss on ss.status_code = house.status_code
+        left join ss_user  user on house.user_id = user.user_id
+        where house.is_delete = 0  and house.status_code = 'online' 
         <if test="region != null and region!=''">
         and house.country_name like CONCAT('%',#{region},'%') OR  house.city_name  like CONCAT('%',#{region},'%')
         </if>

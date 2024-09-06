@@ -29,6 +29,7 @@
         <result column="xiaohongshu_id" property="xiaohongshuId"/>
         <result column="country_code" property ="countryCode"/>
         <result column="open_id" property ="openId"/>
+        <result column="contact_info" property="contactInfo"/>
 
         <association property="roles" column="role_id" select="getRoles" autoMapping="true">
 
@@ -48,14 +49,14 @@
      SELECT user.*,(select dict_nm from ss_dict_data where dict_type='dict_gender' and dict_code=user.gender_dict_code) as genderDictVal,
     nation.`country_name` as nationName,region.region_name as regionName,city.city_name as cityName
     FROM SheStays.ss_user user 
-    left join ss_nation nation on user.country_code = nation.country_code
-    left join ss_region region on user.region_code = region.region_code
-    left join ss_city city on user.city_code = city.city_code
-    where open_id= #{openId}
+    left join SheStays.ss_nation nation on user.country_code = nation.country_code
+    left join SheStays.ss_region region on user.region_code = region.region_code
+    left join SheStays.ss_city city on user.city_code = city.city_code
+    where open_id= #{openId} and user.is_delete=0
     </select>
 
     <select id="getRoles" resultMap="getRoles">
-        select * from SheStays.ss_role where role_id = #{role_id}
+        select * from SheStays.ss_role where role_id = #{role_id} and is_delete=0
     </select>
 
     <update id="editUserData" parameterType="com.shestays.she_stays_proj.entity.User">
@@ -100,6 +101,9 @@
             <if test="avatarUrl != null">
                 `avatar_url` = #{avatarUrl},
             </if>
+            <if test='contactInfo != null'>
+                `contact_info` = #{contactInfo},
+            </if>
              `update_time` = now()
               WHERE `user_id` = #{userId}
         </set>
@@ -108,22 +112,38 @@
     
     <update id="editUserDataByxhsId" parameterType="com.shestays.she_stays_proj.entity.User">
         UPDATE `SheStays`.`ss_user`
-        SET `wechat_id` = #{wechatId},`open_id` = #{openId},`phone` = #{phone},`country_num` = #{countryNum}
+        SET 
+        <if test="wechatId != null">
+            `wechat_id` = #{wechatId},
+        </if>
+        <if test="openId != null">
+            `open_id` = #{openId},
+        </if>
+         <if test="phone != null">
+            `phone` = #{phone},
+         </if>
+        <if test="countryNum != null">
+            `country_num` = #{countryNum},
+        </if>
+        <if test="userName != null">
+            `user_name` = #{userName},
+        </if>
+        `update_time` = now()
          WHERE `user_id` = #{userId}
     </update>
     <!-- 根据小红书id查询用户信息 -->
     <select id="getUserByXhsId" parameterType="java.lang.String" resultMap="UserInfoMap">
-        select * from ss_user where xiaohongshu_id = #{xhsId}
+        select * from ss_user where xiaohongshu_id = #{xhsId} and is_delete=0
     </select>
     <!-- 根据openid获取用户信息 -->
     <select id= "getUserByopenId" parameterType="java.lang.String" resultMap="UserInfoMap">
-        select * from ss_user where open_id = #{openId}
+        select * from ss_user where open_id = #{openId} and is_delete=0
     </select>
 
     <!-- 新增用户信息 -->
     <insert id="addUserInfo" parameterType="com.shestays.she_stays_proj.entity.User">
-        insert into ss_user(user_no,role_id,phone,country_num,open_id,create_time,update_time,is_delete) 
-        values(concat('U',user_id),(select role_id from  ss_role where role_dict_code = 'user'),#{phone},#{countryNum},#{openId},now(),now(),'0');
+        insert into ss_user(user_no,role_id,phone,country_num,open_id,create_time,update_time,is_delete,user_name,contact_info) 
+        values(concat('U',user_id),(select role_id from  ss_role where role_dict_code = 'user'),#{phone},#{countryNum},#{openId},now(),now(),'0',#{contactInfo})
     </insert>
     <!-- 根据用户id查询用户信息 -->
     <select id="getUserInfoByUserId" parameterType="java.lang.Integer" resultMap="UserInfoMap">
@@ -131,10 +151,15 @@
       SELECT user.*,(select dict_nm from ss_dict_data where dict_type='dict_gender' and dict_code=user.gender_dict_code) as genderDictVal,
     nation.`country_name` as nationName,region.region_name as regionName,city.city_name as cityName
     FROM SheStays.ss_user user 
-    left join ss_nation nation on user.country_code = nation.country_code
-    left join ss_region region on user.region_code = region.region_code
-    left join ss_city city on user.city_code = city.city_code
-    where user_id=  #{userId}
+    left join SheStays.ss_nation nation on user.country_code = nation.country_code
+    left join SheStays.ss_region region on user.region_code = region.region_code
+    left join SheStays.ss_city city on user.city_code = city.city_code
+    where user_id=  #{userId} and user.is_delete=0
   
     </select>
+
+    <!-- 注销用户 -->
+    <delete id='delUserById' parameterType="com.shestays.she_stays_proj.vo.UserVo">
+        update SheStays.ss_user set is_delete=1 where user_id = #{userId} and open_id = #{openId}
+    </delete>
 </mapper>

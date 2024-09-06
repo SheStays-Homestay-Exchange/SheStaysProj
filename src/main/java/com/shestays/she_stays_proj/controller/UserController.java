@@ -1,16 +1,11 @@
 package com.shestays.she_stays_proj.controller;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
-import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.support.StandardMultipartHttpServletRequest;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
@@ -35,9 +29,6 @@ import com.shestays.she_stays_proj.service.UserService;
 import com.shestays.she_stays_proj.service.WeixinService;
 import com.shestays.she_stays_proj.vo.UserReqVo;
 import com.shestays.she_stays_proj.vo.UserVo;
-
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 
 @RestController
 public class UserController {
@@ -81,7 +72,7 @@ public class UserController {
         } catch (Exception e) {
             responseBody.setMsg(ResponseMsg.MSG_SYSTEM_ERROR);
             responseBody.setCode(ResponseCode.ERROR.value);
-            log.error("errorMsg-getUserInfoByWechatId:" + e.toString());
+            log.error("errorMsg-getUserInfoByWechatId:" + e.getCause().getMessage());
             return responseBody;
         }
 
@@ -107,7 +98,7 @@ public class UserController {
         } catch (Exception e) {
             responseBody.setMsg(ResponseMsg.MSG_SYSTEM_ERROR);
             responseBody.setCode(ResponseCode.ERROR.value);
-            log.error("errorMsg-getUserInfoByUserId:" + e.toString());
+            log.error("errorMsg-getUserInfoByUserId:" + e.getCause().getMessage());
             return responseBody;
         }
 
@@ -158,7 +149,7 @@ public class UserController {
         } catch (Exception e) {
             responsePojo.setMsg(ResponseMsg.MSG_SYSTEM_ERROR);
             responsePojo.setCode(ResponseCode.ERROR.value);
-            log.error("errorMsg-editUserData:" + e.toString());
+            log.error("errorMsg-editUserData:" + e.getCause().getMessage());
             return responsePojo;
         }
     }
@@ -190,7 +181,7 @@ public class UserController {
         } catch (Exception e) {
             responsePojo.setMsg(ResponseMsg.MSG_SYSTEM_ERROR);
             responsePojo.setCode(ResponseCode.ERROR.value);
-            log.error("errorMsg-uploadAvatarImg:" + e.toString());
+            log.error("errorMsg-uploadAvatarImg:" + e.getCause().getMessage());
             return responsePojo;
         }
         return responsePojo;
@@ -256,6 +247,7 @@ public class UserController {
         try {
             User user = weixinService.getWXUserInfo(encryptedData, code, iv);
             user.setXiaohongshuId(xhsId);
+            log.info("userAuthor-getWXUserInfo:" + JSONObject.toJSONString(user, SerializerFeature.WriteMapNullValue));
             String openId = userService.addorEditUserInfo(user);
             UserVo getUserVo = userService.getUserInfoByWechatId(openId);
             responsePojo.setMsg(ResponseMsg.MSG_SUCCESS);
@@ -266,15 +258,40 @@ public class UserController {
         } catch (BusinessException be) {
             responsePojo.setMsg(ResponseMsg.MSG_SYSTEM_ERROR);
             responsePojo.setCode(ResponseCode.ERROR.value);
-            log.error("userAuthor-userAuthor-error:" + be.toString());
+            log.error("userAuthor-userAuthor-error:" + be.getCause().getMessage());
             return responsePojo;
         } catch (Exception e) {
             responsePojo.setMsg(ResponseMsg.MSG_SYSTEM_ERROR);
             responsePojo.setCode(ResponseCode.ERROR.value);
-            log.error("userAuthor-userAuthor-erroe:" + e.toString());
+            log.error("userAuthor-userAuthor-erroe:" + e.getCause().getMessage());
             return responsePojo;
         }
         return responsePojo;
+    }
+
+    /**
+     * 用户注销
+     * 
+     * @param userVo
+     * @return
+     */
+    @PostMapping("delUserById")
+    @ResponseJSONP
+    public ResponsePojo delUserById(@RequestBody UserVo userVo) {
+        ResponsePojo responsePojo = new ResponsePojo();
+        try {
+            log.info("userAuthor-delUserById:" + JSONObject.toJSONString(userVo, SerializerFeature.WriteMapNullValue));
+            userService.delUserById(userVo);
+            responsePojo.setMsg(ResponseMsg.MSG_SUCCESS);
+            responsePojo.setCode(ResponseCode.SUCCESS.value);
+            return responsePojo;
+        } catch (Exception e) {
+            responsePojo.setMsg(ResponseMsg.MSG_SYSTEM_ERROR);
+            responsePojo.setCode(ResponseCode.ERROR.value);
+            log.error("userAuthor-userAuthor-erroe:" + e.getCause().getMessage());
+            return responsePojo;
+        }
+
     }
 
 }

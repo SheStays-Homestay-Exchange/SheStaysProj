@@ -53,7 +53,7 @@ public class HouseController {
         } catch (Exception e) {
             restPojo.setMsg(ResponseMsg.MSG_SYSTEM_ERROR);
             restPojo.setCode(ResponseCode.ERROR.value);
-            log.error("errorMsg-getHouseList:" + e.getMessage());
+            log.error("errorMsg-getHouseList:" + e.getCause().getMessage());
             e.printStackTrace();
         }
         return restPojo;
@@ -79,7 +79,7 @@ public class HouseController {
         } catch (Exception e) {
             restPojo.setMsg(ResponseMsg.MSG_SYSTEM_ERROR);
             restPojo.setCode(ResponseCode.ERROR.value);
-            log.error("errorMsg-getHouseByRegion:" + e.getMessage());
+            log.error("errorMsg-getHouseByRegion:" + e.getCause().getMessage());
         }
         return restPojo;
     }
@@ -104,7 +104,7 @@ public class HouseController {
         } catch (Exception e) {
             restPojo.setMsg(ResponseMsg.MSG_SYSTEM_ERROR);
             restPojo.setCode(ResponseCode.ERROR.value);
-            log.error("errorMsg-getHouseById:" + e.getMessage());
+            log.error("errorMsg-getHouseById:" + e.getCause().getMessage());
         }
         return restPojo;
     }
@@ -127,7 +127,7 @@ public class HouseController {
         } catch (Exception e) {
             restPojo.setMsg(ResponseMsg.MSG_SYSTEM_ERROR);
             restPojo.setCode(ResponseCode.ERROR.value);
-            log.error("errorMsg-getUnderViewHouse:" + e.getMessage());
+            log.error("errorMsg-getUnderViewHouse:" + e.getCause().getMessage());
         }
         return restPojo;
     }
@@ -156,12 +156,12 @@ public class HouseController {
             restPojo.setMsg(ResponseMsg.MSG_SUCCESS);
             restPojo.setCode(ResponseCode.SUCCESS.value);
             restPojo.setData(houseVo);
-            log.info("getRest-getUnderViewHouse:"
+            log.info("getRest-review:"
                     + JSONObject.toJSONString(restPojo, SerializerFeature.WriteMapNullValue));
         } catch (Exception e) {
             restPojo.setMsg(ResponseMsg.MSG_SYSTEM_ERROR);
             restPojo.setCode(ResponseCode.ERROR.value);
-            log.error("errorMsg-review:" + e.getMessage());
+            log.error("errorMsg-review:" + e.getCause().getMessage());
         }
         return restPojo;
     }
@@ -192,7 +192,7 @@ public class HouseController {
         } catch (Exception e) {
             restPojo.setMsg(ResponseMsg.MSG_SYSTEM_ERROR);
             restPojo.setCode(ResponseCode.ERROR.value);
-            log.error("errorMsg-houseDel:" + e.getMessage());
+            log.error("errorMsg-houseDel:" + e.getCause().getMessage());
         }
         return restPojo;
     }
@@ -214,7 +214,7 @@ public class HouseController {
         } catch (Exception e) {
             restPojo.setMsg(ResponseMsg.MSG_SYSTEM_ERROR);
             restPojo.setCode(ResponseCode.ERROR.value);
-            log.error("errorMsg-getHouseByUserId:" + e.getMessage());
+            log.error("errorMsg-getHouseByUserId:" + e.getCause().getMessage());
         }
         return restPojo;
     }
@@ -305,7 +305,7 @@ public class HouseController {
         } catch (Exception e) {
             restPojo.setMsg(ResponseMsg.MSG_SYSTEM_ERROR);
             restPojo.setCode(ResponseCode.ERROR.value);
-            log.error("errorMsg-uploadHouse:" + e.getMessage());
+            log.error("errorMsg-uploadHouse:" + e.getCause().getMessage());
         }
         return restPojo;
     }
@@ -335,12 +335,12 @@ public class HouseController {
                 restPojo.setData(rest);
 
             }
-            log.info("getRest-getHouseByUserId:"
+            log.info("getRest-uploadHouseImg:"
                     + JSONObject.toJSONString(restPojo, SerializerFeature.WriteMapNullValue));
         } catch (Exception e) {
             restPojo.setMsg(ResponseMsg.MSG_SYSTEM_ERROR);
             restPojo.setCode(ResponseCode.ERROR.value);
-            log.error("errorMsg-uploadHouseImg:" + e.getMessage());
+            log.error("errorMsg-uploadHouseImg:" + e.getCause().getMessage());
         }
         return restPojo;
     }
@@ -395,7 +395,7 @@ public class HouseController {
         } catch (Exception e) {
             restPojo.setMsg(ResponseMsg.MSG_SYSTEM_ERROR);
             restPojo.setCode(ResponseCode.ERROR.value);
-            log.error("errorMsg-houseOffline:" + e.getMessage());
+            log.error("errorMsg-houseOffline:" + e.getCause().getMessage());
         }
         return restPojo;
     }
@@ -426,7 +426,7 @@ public class HouseController {
         } catch (Exception e) {
             restPojo.setMsg(ResponseMsg.MSG_SYSTEM_ERROR);
             restPojo.setCode(ResponseCode.ERROR.value);
-            log.error("errorMsg-getOnlineHouseInfoByUserId:" + e.getMessage());
+            log.error("errorMsg-getOnlineHouseInfoByUserId:" + e.getCause().getMessage());
         }
         return restPojo;
     }

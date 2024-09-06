@@ -33,4 +33,12 @@ public interface UserService {
      * @return openid
      */
     String addorEditUserInfo(User user);
+
+    /**
+     * 注销用户
+     * 
+     * @param userId
+     * @return
+     */
+    int delUserById(UserVo userVo);
 }

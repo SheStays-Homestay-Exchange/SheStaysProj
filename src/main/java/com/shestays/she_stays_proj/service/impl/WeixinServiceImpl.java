@@ -37,19 +37,26 @@ public class WeixinServiceImpl implements WeixinService {
     private static final String OPEN_ID = "openId";
 
     public Map<String, String> getsessionKeyByCode(String code) throws Exception {
-        String url = "https://api.weixin.qq.com/sns/jscode2session?appid={0}&secret={1}&js_code={2}&grant_type=authorization_code";
-        String replaceUrl = url.replace("{0}", appid).replace("{1}",
-                secret).replace("{2}", code);
-        String restStr = httpRequest(replaceUrl, "GET", null);
-        log.info("get-session-restStr:::::::" + restStr);
-        JSONObject restJson = JSONObject.parseObject(restStr);
-        String session_key = restJson.getString("session_key");
-        String openId = restJson.getString("openid");
+        try {
 
-        Map<String, String> restMap = new HashMap<>();
-        restMap.put(SESSION_KEY, session_key);
-        restMap.put(OPEN_ID, openId);
-        return restMap;
+            String url = "https://api.weixin.qq.com/sns/jscode2session?appid={0}&secret={1}&js_code={2}&grant_type=authorization_code";
+            String replaceUrl = url.replace("{0}", appid).replace("{1}",
+                    secret).replace("{2}", code);
+            String restStr = httpRequest(replaceUrl, "GET", null);
+            log.info("get-session-restStr:::::::" + restStr);
+            JSONObject restJson = JSONObject.parseObject(restStr);
+            log.info("get-session-restJson" + restJson.toJSONString());
+            String session_key = restJson.getString("session_key");
+            String openId = restJson.getString("openid");
+
+            Map<String, String> restMap = new HashMap<>();
+            restMap.put(SESSION_KEY, session_key);
+            restMap.put(OPEN_ID, openId);
+            return restMap;
+        } catch (Exception e) {
+            log.error(e.getCause().getMessage());
+            throw e;
+        }
     }
 
     public String httpRequest(String requestUrl, String requestMethod, String output) throws Exception {
@@ -120,7 +127,7 @@ public class WeixinServiceImpl implements WeixinService {
             user.setCountryNum(countryCode);
             return user;
         } catch (Exception e) {
-            log.error(e.getMessage());
+            log.error(e.getCause().getMessage());
             throw e;
         }
 

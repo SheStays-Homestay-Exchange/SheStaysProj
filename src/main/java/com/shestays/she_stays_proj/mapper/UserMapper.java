@@ -70,4 +70,12 @@ public interface UserMapper extends BaseMapper<User> {
      */
     int addUserInfo(User user);
 
+    /**
+     * 注销用户
+     * 
+     * @param userId
+     * @return
+     */
+    int delUserById(UserVo userVo);
+
 }
