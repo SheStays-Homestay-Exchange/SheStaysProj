@@ -137,6 +137,7 @@ public class UserController {
             user.setWechatId(userData.getWechatId());
             user.setPersonalProfile(userData.getPersonalProfile());
             user.setAvatarUrl(userData.getAvatarUrl());
+            user.setContactInfo(userData.getContactInfo());
             int rest = userService.editUserData(user);
             log.info("getRest-editUserData:" + rest);
             if (rest == 1) {

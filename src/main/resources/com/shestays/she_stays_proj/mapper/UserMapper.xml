@@ -143,7 +143,7 @@
     <!-- 新增用户信息 -->
     <insert id="addUserInfo" parameterType="com.shestays.she_stays_proj.entity.User">
         insert into ss_user(user_no,role_id,phone,country_num,open_id,create_time,update_time,is_delete,user_name,contact_info) 
-        values(concat('U',user_id),(select role_id from  ss_role where role_dict_code = 'user'),#{phone},#{countryNum},#{openId},now(),now(),'0',#{contactInfo})
+        values(concat('U',user_id),(select role_id from  ss_role where role_dict_code = 'user'),#{phone},#{countryNum},#{openId},now(),now(),'0',#{userName},#{contactInfo})
     </insert>
     <!-- 根据用户id查询用户信息 -->
     <select id="getUserInfoByUserId" parameterType="java.lang.Integer" resultMap="UserInfoMap">
