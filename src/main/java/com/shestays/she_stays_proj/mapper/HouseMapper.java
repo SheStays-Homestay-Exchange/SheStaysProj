@@ -77,6 +77,14 @@ public interface HouseMapper {
     Integer houseDel(HouseVo houseVo);
 
     /**
+     * 根据用户id删除房源
+     * 
+     * @param userId
+     * @return
+     */
+    Integer houseDelByUserId(Integer userId);
+
+    /**
      * 根据用户id查询房源
      * 
      * @param userId

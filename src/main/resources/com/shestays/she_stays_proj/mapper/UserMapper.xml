@@ -160,6 +160,6 @@
 
     <!-- 注销用户 -->
     <delete id='delUserById' parameterType="com.shestays.she_stays_proj.vo.UserVo">
-        update SheStays.ss_user set is_delete=1 where user_id = #{userId} and open_id = #{openId}
+        delete from SheStays.ss_user set is_delete=1 where user_id = #{userId} and open_id = #{openId}
     </delete>
 </mapper>

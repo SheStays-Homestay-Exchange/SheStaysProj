@@ -96,8 +96,13 @@
 
     <!-- 删除房源 -->
     <update id="houseDel" parameterType="com.shestays.she_stays_proj.vo.HouseVo">
-        update ss_house set is_delete = 1,is_visible = 0 where house_id = #{houseId} and user_id = (select user_id from ss_user where open_id = #{openId})
+        update ss_house set is_delete = 1,is_visible = 0 where house_id = #{houseId} and user_id = (select user_id from ss_user where open_id = #{openId} and is_delete = 0)
     </update>
+    <!-- 根据用户id删除房源信息 -->
+    <delete id="houseDelByUserId" parameterType = "java.lang.Integer">
+        delete  from ss_house  where user_id = #{userId}
+    </delete>
+
     <!-- 根据用户id查询房源信息 -->
     <select id= "getHouseByUserId" resultMap="houseMap" parameterType = "java.lang.Integer">
         SELECT house.*,ss.status_value as statusValue FROM SheStays.ss_house house

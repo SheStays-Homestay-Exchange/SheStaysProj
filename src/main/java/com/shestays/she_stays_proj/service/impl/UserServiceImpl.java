@@ -4,9 +4,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.shestays.she_stays_proj.entity.User;
 import com.shestays.she_stays_proj.mapper.UserMapper;
+import com.shestays.she_stays_proj.service.HouseService;
 import com.shestays.she_stays_proj.service.UserService;
 import com.shestays.she_stays_proj.vo.UserVo;
 
@@ -15,6 +17,8 @@ public class UserServiceImpl implements UserService {
     Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
     @Autowired
     private UserMapper dao;
+    @Autowired
+    private HouseService houseService;
 
     @Override
     public UserVo getUserInfoByWechatId(String openId) {
@@ -95,7 +99,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public int delUserById(UserVo userVo) {
-        return dao.delUserById(userVo);
+        dao.delUserById(userVo);
+        houseService.houseDelByUserId(userVo.getUserId());
+        return 1;
     }
 }

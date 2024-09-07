@@ -17,7 +17,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.shestays.she_stays_proj.common.BusinessException;
 import com.shestays.she_stays_proj.common.Constants;
-import com.shestays.she_stays_proj.common.FileUtils;
 import com.shestays.she_stays_proj.common.ResponseCode;
 import com.shestays.she_stays_proj.common.ResponseMsg;
 import com.shestays.she_stays_proj.entity.House;
@@ -202,5 +201,11 @@ public class HouseServiceImpl implements HouseService {
     @Override
     public List<HouseVo> getOnlineHouseInfoByUserId(House house) {
         return dao.getOnlineHouseInfoByUserId(house);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Integer houseDelByUserId(Integer userId) {
+        return dao.houseDelByUserId(userId);
     }
 }
