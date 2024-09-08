@@ -19,7 +19,9 @@ spring:
     type: com.alibaba.druid.pool.DruidDataSource
     #MySql配置
     driver-class-name: com.mysql.cj.jdbc.Driver
-   # url: jdbc:mysql://124.222.107.129:3306/SheStays
+    #===== 生产
+    #url: jdbc:mysql://124.222.107.129:3306/SheStays
+    #===== 开发
     url: jdbc:mysql://122.51.248.243:3306/SheStays
     username: root
     password: NewRoot!23$
@@ -60,7 +62,10 @@ logging:
 
 
 file-path:  /root/housePictures/  
-file-access-path: http://shestays.life/
+#=====生产
+#file-access-path: https://shestays.life/
+#=====开发
+file-access-path: http://122.51.248.243:8000/
 
 
 weixin:
