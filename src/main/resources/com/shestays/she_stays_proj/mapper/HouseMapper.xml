@@ -63,7 +63,7 @@
         left join ss_user  user on house.user_id = user.user_id
         where house.is_delete = 0 and  user.is_delete = 0  and house.status_code = 'online' 
         <if test="region != null and region!=''">
-        and house.country_name like CONCAT('%',#{region},'%') OR  house.city_name  like CONCAT('%',#{region},'%')
+        and (house.country_name like CONCAT('%',#{region},'%') OR  house.city_name  like CONCAT('%',#{region},'%'))
         </if>
     </select>
     <!-- 根据房源id查询房源详情 -->
@@ -203,6 +203,6 @@
         FROM SheStays.ss_house house
         left join ss_status ss on ss.status_code = house.status_code
         left join ss_user user on house.user_id = user.user_id
-        where house.is_delete = 0 and user.is_delete = 0  and house.user_id = #{userId} and house.status_code = #{statusCode}
+        where house.is_delete = 0  and house.user_id = #{userId} and house.status_code = #{statusCode}
     </select>
 </mapper>   
